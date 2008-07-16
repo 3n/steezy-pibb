@@ -4,12 +4,12 @@ DONE SO FAR
 
   - Growl alert for a given string (see todo)
   - # of new messages on dock, for currently focused tab.
+  - Clicking in message window clears unread messages.
 
 
 TODO
 
   - clicking message window focuses on input
-  - clicking on message window erases unread class
   - insert input for what string(s) to search for
   - if you type message make it unread right away 
   - highligth matched name (in message window and growl alert)
