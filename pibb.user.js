@@ -20,6 +20,7 @@ var Pibb = function(spec) {
 	var self = {
 		doc  						: function() { return window.frames[0].document },
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
+		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		
 		mutex  		: false,
 		period 		: 3000,
@@ -83,6 +84,7 @@ var Pibb = function(spec) {
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
 		message_window_clicked : function(){
+			self.message_input().focus()
 			if (!self.mutex){
 				self.mutex = true
 				self.new_messages.forEach(function(nm){
