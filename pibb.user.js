@@ -43,8 +43,6 @@ var Pibb = function(spec) {
 					if (elems[i]) self.handle_new_message(elems[i])
 
 				self.mutex = false
-			}else{
-				window.console.log('MUTEX LOCKED 1')
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
@@ -93,10 +91,8 @@ var Pibb = function(spec) {
 				self.new_messages = []
 				self.set_dock_alert('')
 				self.mutex = false
-			}else{
-				window.console.log('MUTEX LOCKED 2')
+			}else
 				window.setTimeout(self.message_window_clicked, self.period)
-			}
 		}
 	};
 	
