@@ -21,8 +21,9 @@ var Pibb = function(spec) {
 		doc  						: function() { return window.frames[0].document },
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		
-		mutex  : false,
-		period : 3000,
+		mutex  		: false,
+		period 		: 3000,
+		new_class : 'NewEntry',
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
@@ -33,24 +34,28 @@ var Pibb = function(spec) {
 		check_for_new_messages : function(){
 			if (self.message_window() && !self.mutex){
 				self.mutex = true
-				var elems = self.message_window().getElementsByClassName('NewEntry')
+				var elems = self.get_new_message_elems()
 				
-				if (elems.length < self.new_messages.length){
-					window.console.log('clearing')
+				if (elems.length < self.new_messages.length)
 					self.new_messages = []
-				}
-									
-				// window.console.log('length: ' + self.new_messages.length)
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
-					
-				// window.console.log('length after push: ' + self.new_messages.length)
+
 				self.mutex = false
 			}else{
 				window.console.log('MUTEX LOCKED 1')
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
+		},
+		get_new_message_elems : function(){
+			var elems = self.message_window().getElementsByClassName(self.new_class)
+			var lame = []
+			
+			for (var i=0; i < elems.length; i++)
+				if (elems[i] && elems[i].className && elems[i].className.match(self.new_class)) lame.push(elems[i])
+				
+			return lame
 		},
 		handle_new_message: function(elem) {
 			var message = new Message(elem)
@@ -85,9 +90,7 @@ var Pibb = function(spec) {
 				self.new_messages.forEach(function(nm){
 					nm.elem.className = nm.elem.className.replace('NewEntry','')
 				})
-				// self.new_messages.slice(0,0)
 				self.new_messages = []
-				// window.console.log('length after clearing: ' + self.new_messages.length)
 				self.set_dock_alert('')
 				self.mutex = false
 			}else{
