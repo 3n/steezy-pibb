@@ -21,6 +21,7 @@ var Pibb = function(spec) {
 		doc  						: function() { return window.frames[0].document },
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		
+		mutex  : false,
 		period : 5000,
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
@@ -30,13 +31,15 @@ var Pibb = function(spec) {
 		
 		new_messages : [],
 		check_for_new_messages : function(){
-			if (self.message_window()){
+			if (self.message_window() && !self.mutex){
+				self.mutex = true
 				var elems = self.message_window().getElementsByClassName('NewEntry')
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					self.handle_new_message(elems[i])
 					
 				window.console.log('length after push: ' + self.new_messages.length)
+				self.mutex = false
 			}			
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
@@ -54,7 +57,7 @@ var Pibb = function(spec) {
 			    title				: message.author + " said",
 			    description	: message.body, 
 			    priority		: 1,
-			    sticky			: false
+			    sticky			: true
 				})
 			}
 		},
@@ -68,13 +71,19 @@ var Pibb = function(spec) {
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
 		message_window_clicked : function(){
-			self.new_messages.forEach(function(nm){
-				nm.elem.className = nm.elem.className.replace('NewEntry','')
-			})
-			// self.new_messages.slice(0,0)
-			self.new_messages = []
-			window.console.log('length after clearing: ' + self.new_messages.length)
-			self.set_dock_alert('')
+			if (!self.mutex){
+				self.mutex = true
+				self.new_messages.forEach(function(nm){
+					nm.elem.className = nm.elem.className.replace('NewEntry','')
+				})
+				// self.new_messages.slice(0,0)
+				self.new_messages = []
+				window.console.log('length after clearing: ' + self.new_messages.length)
+				self.set_dock_alert('')
+				self.mutex = false
+			}else{
+				window.setTimeout(self.message_window_clicked, self.period)
+			}
 		}
 	};
 	
