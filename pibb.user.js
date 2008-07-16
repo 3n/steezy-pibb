@@ -23,7 +23,7 @@ var Pibb = function(spec) {
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		
 		mutex  		: false,
-		period 		: 3000,
+		period 		: 1000,
 		new_class : 'NewEntry',
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
@@ -88,7 +88,7 @@ var Pibb = function(spec) {
 			if (!self.mutex){
 				self.mutex = true
 				self.new_messages.forEach(function(nm){
-					nm.elem.className = nm.elem.className.replace('NewEntry','')
+					nm.elem.className = nm.elem.className.replace(self.new_class,'')
 				})
 				self.new_messages = []
 				self.set_dock_alert('')
