@@ -22,7 +22,7 @@ var Pibb = function(spec) {
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		
 		mutex  : false,
-		period : 5000,
+		period : 3000,
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
@@ -35,17 +35,26 @@ var Pibb = function(spec) {
 				self.mutex = true
 				var elems = self.message_window().getElementsByClassName('NewEntry')
 				
+				if (elems.length < self.new_messages.length){
+					window.console.log('clearing')
+					self.new_messages = []
+				}
+									
+				// window.console.log('length: ' + self.new_messages.length)
+				
 				for (var i = self.new_messages.length; i < elems.length; i++)
-					self.handle_new_message(elems[i])
+					if (elems[i]) self.handle_new_message(elems[i])
 					
-				window.console.log('length after push: ' + self.new_messages.length)
+				// window.console.log('length after push: ' + self.new_messages.length)
 				self.mutex = false
-			}			
+			}else{
+				window.console.log('MUTEX LOCKED 1')
+			}
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
 		handle_new_message: function(elem) {
 			var message = new Message(elem)
-
+			
 			self.new_message_growl_alert(message)
 
 			self.new_messages.push(message)
@@ -78,10 +87,11 @@ var Pibb = function(spec) {
 				})
 				// self.new_messages.slice(0,0)
 				self.new_messages = []
-				window.console.log('length after clearing: ' + self.new_messages.length)
+				// window.console.log('length after clearing: ' + self.new_messages.length)
 				self.set_dock_alert('')
 				self.mutex = false
 			}else{
+				window.console.log('MUTEX LOCKED 2')
 				window.setTimeout(self.message_window_clicked, self.period)
 			}
 		}

@@ -17,3 +17,4 @@ TODO
     - tab switching
     - mark all as read
     - focus input bar
+  - handle tab switching (detect if tab is switched and do the right thing)
