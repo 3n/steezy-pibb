@@ -2,10 +2,17 @@
 
 DONE SO FAR
 
+  Fluid Specific
   - # of new messages on dock, for currently focused tab.
+  - Inserts input on page for comma-delineated list of strings to growl alert on.  
+  
+  Usability
   - Clicking in message window clears unread messages and focuses message input.
-  - Inserts input on page for comma-delineated list of strings to growl alert on.
   - If you type message it is marked as unread.
+  
+  Message Styling
+  - Messages with one of your alert strings in it.
+  - Messages you wrote.
 
 
 TODO
