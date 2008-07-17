@@ -9,7 +9,6 @@ DONE SO FAR
 
 TODO
 
-  - insert input for what string(s) to search for
   - if you type message make it unread right away 
   - highligth matched name (in message window and growl alert)
   - Hawt-keys:
@@ -17,6 +16,7 @@ TODO
     - mark all as read
     - focus input bar
   - handle tab switching (detect if tab is switched and do the right thing)
+  - restructure classes: everything specific to pibb and fluid should be extracted into a class.
   
   
 NOTES

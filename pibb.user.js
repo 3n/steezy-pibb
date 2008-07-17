@@ -60,6 +60,11 @@ var Pibb = function(spec) {
 		handle_new_message: function(elem) {
 			var message = new Message(elem)
 			
+			if (self.get_aliases().some(function(a){ return message.author == a })){
+				message.mark_read(self.new_class)
+				return
+			}
+			
 			self.new_message_growl_alert(message)
 
 			self.new_messages.push(message)
@@ -67,7 +72,7 @@ var Pibb = function(spec) {
 		},
 		
 		new_message_growl_alert : function(message){
-			if (self.get_aliases().some(function(a){ return message.body.match(a) })) {
+			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(a)) })) {
 				window.fluid.showGrowlNotification({
 			    title				: message.author + " said",
 			    description	: message.body, 
@@ -124,11 +129,13 @@ var Pibb = function(spec) {
 };
 
 var Message = function(elem){
-	return {
-		body 		: elem.childNodes[0].innerHTML,
-		author 	: elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML,
-		elem		: elem
-	}
+		this.elem				= elem
+		this.body 			= this.elem.childNodes[0].innerHTML
+		this.author 		= this.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
+		this.mark_read 	= function(class_name){
+												this.remove_class(class_name)
+											}
+	return this
 }
 
 // only create pibb instance for second frame (they all run this script)
@@ -137,3 +144,13 @@ if (window.loaded_once){
 	window.loaded_once = false
 }else
 	window.loaded_once = true
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////
+// Native Extensions
+
+Element.prototype.remove_class = function(class_name) {
+	this.className = this.className.replace(class_name,'')
+	return this
+}
