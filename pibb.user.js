@@ -23,9 +23,11 @@ var Pibb = function(spec) {
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		
-		mutex  		: false,
-		period 		: 1000,
-		new_class : 'NewEntry',
+		mutex  							: false,
+		period 							: 1000,
+		new_class 					: 'NewEntry',
+		my_bg_color 				: '#eee',
+		important_bg_color 	: '#FFC670',
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
@@ -60,27 +62,32 @@ var Pibb = function(spec) {
 		handle_new_message: function(elem) {
 			var message = new Message(elem)
 			
+			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				message.mark_read(self.new_class)
+				message.by_current_user = true
+				message.elem.style['background-color'] = self.my_bg_color
 				return
 			}
 			
-			self.new_message_growl_alert(message)
+			// if message has one of the words from the alias input in it
+			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
+				self.new_message_growl_alert(message)
+				message.elem.style['background-color'] = self.important_bg_color
+			}
 
 			self.new_messages.push(message)
 			self.set_dock_alert(self.new_messages.length)
 		},
 		
 		new_message_growl_alert : function(message){
-			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {	
-				window.fluid.showGrowlNotification({
-			    title				: message.author + " said",
-			    description	: message.body, 
-			    priority		: 1,
-			    sticky			: true,
-					icon				: message.icon
-				})
-			}
+			window.fluid.showGrowlNotification({
+		    title				: message.author + " said",
+		    description	: message.body, 
+		    priority		: 1,
+		    sticky			: true,
+				icon				: message.icon
+			})
 		},		
 		set_dock_alert : function(to){
 			window.fluid.dockBadge = to
@@ -134,6 +141,7 @@ var Message = function(elem){
 		this.body 			= this.elem.childNodes[0].innerHTML
 		this.author 		= this.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
 		this.icon				= this.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
+		this.by_current_user = false
 		this.mark_read 	= function(class_name) {
 													this.elem.className = this.elem.className.replace(class_name,'')
 													// elem.remove_class(class_name)
