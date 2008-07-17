@@ -2,9 +2,9 @@
 
 DONE SO FAR
 
-  - Growl alert for a given string (see todo)
   - # of new messages on dock, for currently focused tab.
   - Clicking in message window clears unread messages and focuses message input.
+  - Inserts input on page for comma-delineated list of strings to growl alert on.
 
 
 TODO
