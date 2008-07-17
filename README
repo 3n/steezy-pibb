@@ -17,3 +17,9 @@ TODO
     - mark all as read
     - focus input bar
   - handle tab switching (detect if tab is switched and do the right thing)
+  
+  
+NOTES
+  
+  Yeah I know the mutexes aren't necessary - but some JS implementation at some point 
+  will have threading, and it'll probably be webkit first.

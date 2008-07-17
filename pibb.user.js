@@ -21,6 +21,7 @@ var Pibb = function(spec) {
 		doc  						: function() { return window.frames[0].document },
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
+		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		
 		mutex  		: false,
 		period 		: 1000,
@@ -64,8 +65,9 @@ var Pibb = function(spec) {
 			self.new_messages.push(message)
 			self.set_dock_alert(self.new_messages.length)
 		},
+		
 		new_message_growl_alert : function(message){
-			if (message.body.match('3n')){
+			if (self.get_aliases().some(function(a){ return message.body.match(a) })) {
 				window.fluid.showGrowlNotification({
 			    title				: message.author + " said",
 			    description	: message.body, 
@@ -73,8 +75,7 @@ var Pibb = function(spec) {
 			    sticky			: true
 				})
 			}
-		},
-		
+		},		
 		set_dock_alert : function(to){
 			window.fluid.dockBadge = to
 		},
@@ -95,12 +96,29 @@ var Pibb = function(spec) {
 				self.mutex = false
 			}else
 				window.setTimeout(self.message_window_clicked, self.period)
+		}, 
+		
+		insert_aliases_input: function(){
+			if (!self.doc().getElementsByClassName('steezy-input')[0]){
+				self.aliases_input = document.createElement("input")
+				self.aliases_input.className = "steezy-input"
+				self.aliases_input.style.float = "left"
+				
+				self.footer().appendChild(self.aliases_input)
+			}
+			self.get_aliases()
+			window.setTimeout(self.insert_aliases_input, self.period)
+		},
+		get_aliases: function(){
+			if (self.aliases_input)
+				return self.aliases_input.value.split(',')
 		}
 	};
 	
 	// initialize
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
+	self.insert_aliases_input()
 	
 	return that
 };
