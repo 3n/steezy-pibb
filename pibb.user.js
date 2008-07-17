@@ -77,7 +77,8 @@ var Pibb = function(spec) {
 			    title				: message.author + " said",
 			    description	: message.body, 
 			    priority		: 1,
-			    sticky			: true
+			    sticky			: true,
+					icon				: message.icon
 				})
 			}
 		},		
@@ -132,6 +133,7 @@ var Message = function(elem){
 		this.elem				= elem
 		this.body 			= this.elem.childNodes[0].innerHTML
 		this.author 		= this.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
+		this.icon				= this.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
 		this.mark_read 	= function(class_name) {
 													this.elem.className = this.elem.className.replace(class_name,'')
 													// elem.remove_class(class_name)
