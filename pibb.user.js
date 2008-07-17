@@ -60,7 +60,7 @@ var Pibb = function(spec) {
 		handle_new_message: function(elem) {
 			var message = new Message(elem)
 			
-			if (self.get_aliases().some(function(a){ return message.author == a })){
+			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				message.mark_read(self.new_class)
 				return
 			}
@@ -72,7 +72,7 @@ var Pibb = function(spec) {
 		},
 		
 		new_message_growl_alert : function(message){
-			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(a)) })) {
+			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {	
 				window.fluid.showGrowlNotification({
 			    title				: message.author + " said",
 			    description	: message.body, 
