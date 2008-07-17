@@ -61,7 +61,7 @@ var Pibb = function(spec) {
 		},
 		handle_new_message: function(elem) {
 			var message = new Message(elem)
-			
+
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				message.mark_read(self.new_class)
@@ -137,15 +137,15 @@ var Pibb = function(spec) {
 };
 
 var Message = function(elem){
-		this.elem				= elem
-		this.body 			= this.elem.childNodes[0].innerHTML
-		this.author 		= this.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
-		this.icon				= this.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
-		this.by_current_user = false
-		this.mark_read 	= function(class_name) {
-													this.elem.className = this.elem.className.replace(class_name,'')
-													// elem.remove_class(class_name)
-											}
+	this.elem				= elem
+	this.body 			= this.elem.childNodes[0].innerHTML
+	this.author 		= this.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
+	this.icon				= this.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
+	this.by_current_user = false
+	this.mark_read 	= function(class_name) {
+											this.elem.className = this.elem.className.replace(class_name,'')
+											// elem.remove_class(class_name)
+										}
 	return this
 }
 

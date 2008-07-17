@@ -18,12 +18,18 @@ DONE SO FAR
 TODO
 
   - highligth matched name (in message window and growl alert)
-  - Hawt-keys:
+  
+  Hawt-keys
     - tab switching
     - mark all as read
     - focus input bar
+    
   - handle tab switching (detect if tab is switched and do the right thing)
-  - restructure classes: everything specific to pibb and fluid should be extracted into their own classes.
+  
+  Restructure classes 
+    - everything specific to pibb and fluid should be extracted into their own classes.
+    - if fluid isn't there just create duplicate alert/badge methods that are empty.
+  
   
   
 NOTES
