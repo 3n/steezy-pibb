@@ -5,11 +5,11 @@ DONE SO FAR
   - # of new messages on dock, for currently focused tab.
   - Clicking in message window clears unread messages and focuses message input.
   - Inserts input on page for comma-delineated list of strings to growl alert on.
+  - If you type message it is marked as unread.
 
 
 TODO
 
-  - if you type message make it unread right away 
   - highligth matched name (in message window and growl alert)
   - Hawt-keys:
     - tab switching
