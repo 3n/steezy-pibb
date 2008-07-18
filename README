@@ -17,6 +17,10 @@ DONE SO FAR
 
 TODO
 
+  - Somehow the script makes highlighting impossible...
+
+  - Remember alias input's value w/ a cooooookie.
+
   - highligth matched name (in message window and growl alert)
   
   - setting away message: any message with one of your aliases in it will be replied to 
