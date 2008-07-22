@@ -9,6 +9,7 @@ DONE SO FAR
   Usability
   - Clicking in message window clears unread messages and focuses message input.
   - If you type message it is marked as unread.
+  - When you enter a message, all previous messages are marked as read.
   
   Message Styling
   - Messages with one of your alert strings in it.
@@ -41,10 +42,3 @@ TODO
   - to growl or not to growl
   - growl stickiness
   - colors for messages
-   
-  
-  
-NOTES
-  
-  Yeah I know the mutexes aren't necessary - but some JS implementation at some point 
-  will have threading, and it'll probably be webkit first.

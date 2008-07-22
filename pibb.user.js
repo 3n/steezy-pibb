@@ -23,7 +23,6 @@ var Pibb = function(spec) {
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		
-		mutex  							: false,
 		period 							: 1000,
 		new_class 					: 'NewEntry',
 		my_bg_color 				: '#eee',
@@ -36,8 +35,7 @@ var Pibb = function(spec) {
 		
 		new_messages : [],
 		check_for_new_messages : function(){
-			if (self.message_window() && !self.mutex){
-				self.mutex = true
+			if (self.message_window()){
 				var elems = self.get_new_message_elems()
 				
 				if (elems.length < self.new_messages.length)
@@ -45,8 +43,6 @@ var Pibb = function(spec) {
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
-
-				self.mutex = false
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
@@ -64,6 +60,7 @@ var Pibb = function(spec) {
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
+				self.mark_all_read()
 				message.mark_read(self.new_class)
 				message.by_current_user = true
 				message.elem.style['background-color'] = self.my_bg_color
@@ -99,17 +96,13 @@ var Pibb = function(spec) {
 		},
 		message_window_clicked : function(){
 			self.message_input().focus()
-			if (!self.mutex){
-				self.mutex = true
-				self.new_messages.forEach(function(nm){
-					nm.elem.className = nm.elem.className.replace(self.new_class,'')
-				})
-				self.new_messages = []
-				self.set_dock_alert('')
-				self.mutex = false
-			}else
-				window.setTimeout(self.message_window_clicked, self.period)
+			self.mark_all_read()
 		}, 
+		mark_all_read : function() {
+			self.new_messages.forEach(function(nm){ nm.mark_read(self.new_class) })
+			self.new_messages = []
+			self.set_dock_alert('')
+		},
 		
 		insert_aliases_input: function(){
 			if (!self.doc().getElementsByClassName('steezy-input')[0]){
