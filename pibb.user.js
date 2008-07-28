@@ -26,7 +26,9 @@ var Pibb = function(spec) {
 		period 							: 1000,
 		new_class 					: 'NewEntry',
 		my_bg_color 				: '#eee',
-		important_bg_color 	: '#FFC670',
+		important_bg_color 	: '#FFC670',		
+		
+		// input_cookie 				: new Cookie('test'),
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
@@ -109,12 +111,12 @@ var Pibb = function(spec) {
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.className = "steezy-input"
 				self.aliases_input.style.float = "left"
-				// self.aliases_input.value = 'shit'
+				
+ 				self.aliases_input_cookie = new Cookie('aliases_input_value', 'good')
+				self.aliases_input.value = self.aliases_input_cookie.get_value()
 				
 				self.footer().appendChild(self.aliases_input)
-			}
-			// self.get_aliases()
-			
+			}			
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
 		},
@@ -145,15 +147,6 @@ var Message = function(elem){
 	return this
 }
 
-// only create pibb instance for second frame(set) (they all run this script)
-if (window.loaded_once){
-	var the_pibb = Pibb()
-	window.loaded_once = false
-}else
-	window.loaded_once = true
-	
-	
-
 var Cookie = function(key, value) {
 	this.key = key
 	
@@ -174,6 +167,16 @@ var Cookie = function(key, value) {
 	
 	return this
 }
+
+// only create pibb instance for second frame(set) (they all run this script)
+if (window.loaded_once){
+	var the_pibb = Pibb()
+	window.loaded_once = false
+}else
+	window.loaded_once = true
+	
+
+
 	
 	
 ///////////////////////////////////////////////////////////////////////////////
