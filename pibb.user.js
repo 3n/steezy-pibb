@@ -28,7 +28,7 @@ var Pibb = function(spec) {
 		my_bg_color 				: '#eee',
 		important_bg_color 	: '#FFC670',		
 		
-		aliases_input_cookie : new Cookie('aliases_input_value'),
+		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
@@ -147,11 +147,17 @@ var Message = function(elem){
 	return this
 }
 
-var Cookie = function(key, value) {
+var Cookie = function(key, value, max_days) {
 	this.key = key
 	
+	if (max_days) {
+		var tmp_date = new Date();
+		tmp_date.setTime(tmp_date.getTime() + (max_days * 24 * 60 * 60 * 1000));
+		this.expiry = '; expires=' + tmp_date.toGMTString()
+	}	
+	
 	this.set_value = function(val) {
-		document.cookie = this.key + '=' + val
+		document.cookie = this.key + '=' + val + (this.expiry || '')
 		return this
 	}
 	this.get_value = function() {
