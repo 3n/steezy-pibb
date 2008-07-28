@@ -18,9 +18,7 @@ DONE SO FAR
 
 TODO
 
-  - Somehow the script makes highlighting impossible...
-
-  - Remember alias input's value w/ a cooooookie.
+  - Somehow the script makes highlighting message-internals impossible...
 
   - highligth matched name (in message window and growl alert)
   
