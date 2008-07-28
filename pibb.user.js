@@ -142,12 +142,32 @@ var Message = function(elem){
 	return this
 }
 
-// only create pibb instance for second frame (they all run this script)
+// only create pibb instance for second frame(set) (they all run this script)
 if (window.loaded_once){
 	var the_pibb = Pibb()
 	window.loaded_once = false
 }else
 	window.loaded_once = true
+	
+	
+
+var Cookie = function(key, value) {
+	this.key   = key
+	this.value = value || ''
+	
+	this.set_value = function(val) {
+		document.cookie = this.key + '=' + val
+		return this
+	}
+	this.get_value = function() {
+		return document.cookie.match(this.key + "=([^;]+)")[1]
+	}
+	this.delete = function(){
+		return this.set_value('')
+	}
+	
+	return this.set_value(this.value)
+}
 	
 	
 	
