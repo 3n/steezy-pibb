@@ -109,10 +109,13 @@ var Pibb = function(spec) {
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.className = "steezy-input"
 				self.aliases_input.style.float = "left"
+				// self.aliases_input.value = 'shit'
 				
 				self.footer().appendChild(self.aliases_input)
 			}
-			self.get_aliases()
+			// self.get_aliases()
+			
+			
 			window.setTimeout(self.insert_aliases_input, self.period)
 		},
 		get_aliases: function(){
@@ -152,7 +155,7 @@ if (window.loaded_once){
 	
 
 var Cookie = function(key, value) {
-	this.key   = key
+	this.key = key
 	
 	this.set_value = function(val) {
 		document.cookie = this.key + '=' + val
@@ -163,7 +166,7 @@ var Cookie = function(key, value) {
 		if (the_match && the_match.length > 1) return the_match[1]
 		else return null
 	}
-	this.delete = function(){
+	this.clear = function(){
 		return this.set_value('')
 	}
 	
