@@ -28,7 +28,7 @@ var Pibb = function(spec) {
 		my_bg_color 				: '#eee',
 		important_bg_color 	: '#FFC670',		
 		
-		// input_cookie 				: new Cookie('test'),
+		aliases_input_cookie : new Cookie('aliases_input_value'),
 		
 		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
@@ -112,7 +112,6 @@ var Pibb = function(spec) {
 				self.aliases_input.className = "steezy-input"
 				self.aliases_input.style.float = "left"
 				
- 				self.aliases_input_cookie = new Cookie('aliases_input_value', 'good')
 				self.aliases_input.value = self.aliases_input_cookie.get_value()
 				
 				self.footer().appendChild(self.aliases_input)
