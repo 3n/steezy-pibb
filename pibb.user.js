@@ -106,13 +106,14 @@ var Pibb = function(spec) {
 			self.set_dock_alert('')
 		},
 		
-		insert_aliases_input: function(){
-			if (!self.doc().getElementsByClassName('steezy-input')[0]){
+		insert_aliases_input: function(){			
+			if (!self.doc().getElementById('steezy-input')){
 				self.aliases_input = document.createElement("input")
-				self.aliases_input.className = "steezy-input"
+				self.aliases_input.id = "steezy-input"			
 				self.aliases_input.style.float = "left"
 				
-				self.aliases_input.value = self.aliases_input_cookie.get_value()
+				self.aliases_input.value = self.aliases_input_cookie.get_value()				
+				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))				
 				
 				self.footer().appendChild(self.aliases_input)
 			}			
@@ -180,6 +181,11 @@ if (window.loaded_once){
 	
 ///////////////////////////////////////////////////////////////////////////////
 // Native Extensions
+
+Function.prototype.bind = function(bind, arg) {
+	var fun = this
+	return function(){ return fun.call(bind, arg) }
+}
 
 // Element.prototype.remove_class = function(class_name) {
 // 	window.console.log('this: '+this)
