@@ -153,22 +153,24 @@ if (window.loaded_once){
 
 var Cookie = function(key, value) {
 	this.key   = key
-	this.value = value || ''
 	
 	this.set_value = function(val) {
 		document.cookie = this.key + '=' + val
 		return this
 	}
 	this.get_value = function() {
-		return document.cookie.match(this.key + "=([^;]+)")[1]
+		var the_match = document.cookie.match(this.key + "=([^;]+)")
+		if (the_match && the_match.length > 1) return the_match[1]
+		else return null
 	}
 	this.delete = function(){
 		return this.set_value('')
 	}
 	
-	return this.set_value(this.value)
-}
+	if (value) this.set_value(value)
 	
+	return this
+}
 	
 	
 ///////////////////////////////////////////////////////////////////////////////
