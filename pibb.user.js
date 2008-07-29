@@ -50,14 +50,14 @@ var ChatRoom = function(client, browser) {
 				self.mark_all_read()
 				message.mark_read(self.client.new_class)
 				message.by_current_user = true
-				message.elem.style['background-color'] = self.my_bg_color
+				message.elem.style['background'] = self.my_bg_color
 				return
 			}
 			
 			// if message has one of the words from the alias input in it
 			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
-				message.elem.style['background-color'] = self.important_bg_color
+				message.elem.style['background'] = self.important_bg_color
 			}
 
 			self.new_messages.push(message)
@@ -65,7 +65,7 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		setup_message_window_events: function(){
-			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked)
+			// if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked)
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
 		message_window_clicked : function(){
@@ -86,8 +86,8 @@ var ChatRoom = function(client, browser) {
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
 				self.aliases_input.style.float = "left"
-				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))
-			}			
+				// self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))
+			}
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
 		},
