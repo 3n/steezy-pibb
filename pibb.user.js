@@ -65,7 +65,7 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		setup_message_window_events: function(){
-			// if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked)
+			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked, true)
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
 		message_window_clicked : function(){
@@ -86,7 +86,7 @@ var ChatRoom = function(client, browser) {
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
 				self.aliases_input.style.float = "left"
-				// self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))
+				// self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
 			}
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
