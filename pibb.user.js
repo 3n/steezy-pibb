@@ -170,7 +170,6 @@ var Pibb = function(){
 												}
 			return self
 		}
-		
 	}
 	return self
 }
