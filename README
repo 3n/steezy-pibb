@@ -1,10 +1,11 @@
-!!! FYI: this thing it just getting started, so it barely works (at best). Have fun.
-
 DONE SO FAR
 
   Fluid Specific
   - # of new messages on dock, for currently focused tab.
   - Inserts input on page for comma-delineated list of strings to growl alert on.  
+  
+  Firefox + Callout plugin https://addons.mozilla.org/en-US/firefox/addon/7458
+  - Inserts input on page for comma-delineated list of strings to growl alert on.
   
   Usability
   - Clicking in message window clears unread messages and focuses message input.
@@ -18,9 +19,9 @@ DONE SO FAR
 
 TODO
 
-  - Somehow the script makes highlighting message-internals impossible...
+  - Somehow the script makes highlighting message-internals impossible in fluid...
 
-  - highligth matched name (in message window and growl alert)
+  - highlight matched name (in message window and growl alert)
   
   - setting away message: any message with one of your aliases in it will be replied to 
     automatically with a message. 

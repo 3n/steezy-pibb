@@ -93,7 +93,7 @@ var ChatRoom = function(client, browser) {
 
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
-				self.aliases_input.style.float = "left"
+				self.aliases_input.style['float'] = "left"
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
 			}
 			
@@ -194,6 +194,15 @@ var Fluid = function(){
 	}
 }
 
+var Callout = function(){
+	return {
+		alert : function(title, description, icon) {
+			callout.notify(title, description, { icon : icon });
+		},
+		set_counter : function(){}
+	}
+}
+
 var Other = function(){
 	return {
 		alert : function(){},
@@ -208,6 +217,8 @@ function init(){
 	var client = Pibb
 	if (window.fluid)
 		var browser = Fluid
+	else if (callout)
+		var browser = Callout
 	else
 		var browser = Other
 	
