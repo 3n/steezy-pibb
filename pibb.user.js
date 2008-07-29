@@ -95,7 +95,6 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
 				self.aliases_input.style.float = "left"
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
-				// self.aliases_input.addEventListener('keyup', function(){alert('keyup')}, true)				
 			}
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
