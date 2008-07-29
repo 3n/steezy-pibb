@@ -215,6 +215,7 @@ var Other = function(){
 // only create pibb instance for second frame(set) (they all run this script)
 function init(){
 	var client = Pibb
+	
 	if (window.fluid)
 		var browser = Fluid
 	else if (callout)
