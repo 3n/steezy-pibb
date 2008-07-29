@@ -7,6 +7,14 @@
 // @include       *pibb.com*
 // ==/UserScript==
 
+///////////////////////////////////////////////////////////////////////////////
+// Native Extensions
+
+Function.prototype.bind = function(bind, arg) {
+	var fun = this
+	return function(){ return fun.call(bind, arg) }
+}
+
 var ChatRoom = function(client, browser) {
 
 	// private	
@@ -86,7 +94,8 @@ var ChatRoom = function(client, browser) {
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
 				self.aliases_input.style.float = "left"
-				// self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
+				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
+				// self.aliases_input.addEventListener('keyup', function(){alert('keyup')}, true)				
 			}
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
@@ -137,14 +146,6 @@ var Cookie = function(key, value, max_days) {
 	if (value) this.set_value(value)
 	
 	return this
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Native Extensions
-
-Function.prototype.bind = function(bind, arg) {
-	var fun = this
-	return function(){ return fun.call(bind, arg) }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
