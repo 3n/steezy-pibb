@@ -77,7 +77,7 @@ var ChatRoom = function(client) {
 		},
 		
 		setup_message_window_events: function(){
-			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.client.message_window_clicked)
+			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked)
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
 		message_window_clicked : function(){
