@@ -7,37 +7,26 @@
 // @include       *pibb.com*
 // ==/UserScript==
 
-var Pibb = function(spec) {
-	var spec = spec || {}
-	var that = {}
-	
-	// public
-	that.blah = function() {
-		window.console.log(spec['hello'])
-	}
+var ChatRoom = function(client) {
 	
 	// private	
 	var self = {
-		doc  						: function() { return window.frames[0].document },
-		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
-		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
-		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
+		client							: client,
 		
-		period 							: 1000,
-		new_class 					: 'NewEntry',
+		period 							: 1000,		
 		my_bg_color 				: '#eee',
 		important_bg_color 	: '#FFC670',		
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		
-		// tabz : self.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
+		// tabz : self.client.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
 		// tab : function(num) {
 		// 	return self.tabz[num]
 		// },
 		
 		new_messages : [],
 		check_for_new_messages : function(){
-			if (self.message_window()){
+			if (self.client.message_window()){
 				var elems = self.get_new_message_elems()
 				
 				if (elems.length < self.new_messages.length)
@@ -49,11 +38,11 @@ var Pibb = function(spec) {
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
 		get_new_message_elems : function(){
-			var elems = self.message_window().getElementsByClassName(self.new_class)
+			var elems = self.client.message_window().getElementsByClassName(self.client.new_class)
 			var lame = []
 			
 			for (var i=0; i < elems.length; i++)
-				if (elems[i] && elems[i].className && elems[i].className.match(self.new_class)) lame.push(elems[i])
+				if (elems[i] && elems[i].className && elems[i].className.match(self.client.new_class)) lame.push(elems[i])
 				
 			return lame
 		},
@@ -63,7 +52,7 @@ var Pibb = function(spec) {
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				self.mark_all_read()
-				message.mark_read(self.new_class)
+				message.mark_read(self.client.new_class)
 				message.by_current_user = true
 				message.elem.style['background-color'] = self.my_bg_color
 				return
@@ -97,17 +86,17 @@ var Pibb = function(spec) {
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
 		message_window_clicked : function(){
-			self.message_input().focus()
+			self.client.message_input().focus()
 			self.mark_all_read()
 		}, 
 		mark_all_read : function() {
-			self.new_messages.forEach(function(nm){ nm.mark_read(self.new_class) })
+			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class) })
 			self.new_messages = []
 			self.set_dock_alert('')
 		},
 		
 		insert_aliases_input: function(){			
-			if (!self.doc().getElementById('steezy-input')){
+			if (!self.client.doc().getElementById('steezy-input')){
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.id = "steezy-input"			
 				self.aliases_input.style.float = "left"
@@ -115,7 +104,7 @@ var Pibb = function(spec) {
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))				
 				
-				self.footer().appendChild(self.aliases_input)
+				self.client.footer().appendChild(self.aliases_input)
 			}			
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
@@ -126,6 +115,9 @@ var Pibb = function(spec) {
 		}
 	};
 	
+	// public
+	var that = {}
+	
 	// initialize
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
@@ -133,6 +125,10 @@ var Pibb = function(spec) {
 	
 	return that
 };
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Models
 
 var Message = function(elem){
 	this.elem				= elem
@@ -146,6 +142,10 @@ var Message = function(elem){
 										}
 	return this
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Utility Classes
 
 var Cookie = function(key, value, max_days) {
 	this.key = key
@@ -174,17 +174,6 @@ var Cookie = function(key, value, max_days) {
 	return this
 }
 
-// only create pibb instance for second frame(set) (they all run this script)
-if (window.loaded_once){
-	var the_pibb = Pibb()
-	window.loaded_once = false
-}else
-	window.loaded_once = true
-	
-
-
-	
-	
 ///////////////////////////////////////////////////////////////////////////////
 // Native Extensions
 
@@ -193,8 +182,27 @@ Function.prototype.bind = function(bind, arg) {
 	return function(){ return fun.call(bind, arg) }
 }
 
-// Element.prototype.remove_class = function(class_name) {
-// 	window.console.log('this: '+this)
-// 	this.className = this.className.replace(class_name,'')
-// 	return this
-// }
+///////////////////////////////////////////////////////////////////////////////
+// Chat client wrapper classes
+
+var Pibb = function(){
+	var self = {
+		doc  						: function() { return window.frames[0].document },
+		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
+		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
+		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
+		new_class				: 'NewEntry'
+	}
+	
+	return self
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Initialization 
+
+// only create pibb instance for second frame(set) (they all run this script)
+if (window.loaded_once){
+	var the_pibb = new ChatRoom(new Pibb())
+	window.loaded_once = false
+}else
+	window.loaded_once = true
