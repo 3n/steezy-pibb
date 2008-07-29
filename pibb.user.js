@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name          Steezy Pibb
-// @namespace     http://www.geocities.com/ian3n
-// @description   Makes Pibb+Fluid one hell of a steez
+// @namespace     http://www.iancollins.me
+// @description   Makes Pibb + Fluid/Firefox one hell of a steez
 // @author        Ian Collins
-// @homepage      http://www.geocities.com/ian3n
+// @homepage      http://www.iancollins.me
 // @include       *pibb.com*
 // ==/UserScript==
 
