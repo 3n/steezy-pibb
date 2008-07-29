@@ -212,7 +212,6 @@ function init(){
 		var browser = Other
 	
 	if (document.title == "Janrain PIBB")
-	// if (window.frames.length == 1)
 		window.chat_room = new ChatRoom(new client(), new browser())
 }
 init()
