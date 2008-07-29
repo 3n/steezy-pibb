@@ -7,11 +7,12 @@
 // @include       *pibb.com*
 // ==/UserScript==
 
-var ChatRoom = function(client) {
+var ChatRoom = function(client, browser) {
 	
 	// private	
 	var self = {
 		client							: client,
+		browser							: browser,
 		
 		period 							: 1000,		
 		my_bg_color 				: '#eee',
@@ -55,25 +56,12 @@ var ChatRoom = function(client) {
 			
 			// if message has one of the words from the alias input in it
 			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
-				self.new_message_growl_alert(message)
+				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background-color'] = self.important_bg_color
 			}
 
 			self.new_messages.push(message)
-			self.set_dock_alert(self.new_messages.length)
-		},
-		
-		new_message_growl_alert : function(message){
-			window.fluid.showGrowlNotification({
-		    title				: message.author + " said",
-		    description	: message.body, 
-		    priority		: 1,
-		    sticky			: true,
-				icon				: message.icon
-			})
-		},		
-		set_dock_alert : function(to){
-			window.fluid.dockBadge = to
+			self.browser.set_counter(self.new_messages.length)
 		},
 		
 		setup_message_window_events: function(){
@@ -87,7 +75,7 @@ var ChatRoom = function(client) {
 		mark_all_read : function() {
 			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class) })
 			self.new_messages = []
-			self.set_dock_alert('')
+			self.browser.set_counter('')
 		},
 		
 		insert_aliases_input: function(){			
@@ -132,7 +120,7 @@ var Cookie = function(key, value, max_days) {
 		var tmp_date = new Date();
 		tmp_date.setTime(tmp_date.getTime() + (max_days * 24 * 60 * 60 * 1000));
 		this.expiry = '; expires=' + tmp_date.toGMTString()
-	}	
+	}
 	
 	this.set_value = function(val) {
 		document.cookie = this.key + '=' + val + (this.expiry || '')
@@ -171,11 +159,6 @@ var Pibb = function(){
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',
 		
-		// tabz : self.client.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
-		// tab : function(num) {
-		// 	return self.tabz[num]
-		// },
-		
 		message : function(elem){
 			var self = {}
 			self.elem				= elem
@@ -195,11 +178,37 @@ var Pibb = function(){
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// Browser wrapper classes
+
+var Fluid = function(){
+	return {
+		alert : function(title, description, icon) {
+			window.fluid.showGrowlNotification({
+		    title				: title,
+		    description	: description, 
+		    priority		: 1,
+		    sticky			: true,
+				icon				: icon
+			})
+		},
+		set_counter : function(to){
+			window.fluid.dockBadge = to
+		}
+	}
+}
+
+var Other = function(){
+	return {
+		alert : function(){},
+		set_counter : function(){}
+	}
+}
+///////////////////////////////////////////////////////////////////////////////
 // Initialization 
 
 // only create pibb instance for second frame(set) (they all run this script)
 if (window.loaded_once){
-	var the_pibb = new ChatRoom(new Pibb())
+	var the_pibb = new ChatRoom(new Pibb(), new Fluid())
 	window.loaded_once = false
 }else
 	window.loaded_once = true
