@@ -15,14 +15,9 @@ var ChatRoom = function(client) {
 		
 		period 							: 1000,		
 		my_bg_color 				: '#eee',
-		important_bg_color 	: '#FFC670',		
+		important_bg_color 	: '#FFC670',	
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
-		
-		// tabz : self.client.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
-		// tab : function(num) {
-		// 	return self.tabz[num]
-		// },
 		
 		new_messages : [],
 		check_for_new_messages : function(){
@@ -47,7 +42,7 @@ var ChatRoom = function(client) {
 			return lame
 		},
 		handle_new_message: function(elem) {
-			var message = new Message(elem)
+			var message = new self.client.message(elem)
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -128,23 +123,6 @@ var ChatRoom = function(client) {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// Models
-
-var Message = function(elem){
-	this.elem				= elem
-	this.body 			= this.elem.childNodes[0].innerHTML
-	this.author 		= this.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
-	this.icon				= this.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
-	this.by_current_user = false
-	this.mark_read 	= function(class_name) {
-											this.elem.className = this.elem.className.replace(class_name,'')
-											// elem.remove_class(class_name)
-										}
-	return this
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
 // Utility Classes
 
 var Cookie = function(key, value, max_days) {
@@ -191,7 +169,26 @@ var Pibb = function(){
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
-		new_class				: 'NewEntry'
+		new_class				: 'NewEntry',
+		
+		// tabz : self.client.doc().getElementsByClassName('ChannelTabBar')[0].childNodes[0].getElementsByTagName('li'),
+		// tab : function(num) {
+		// 	return self.tabz[num]
+		// },
+		
+		message : function(elem){
+			var self = {}
+			self.elem				= elem
+			self.body 			= self.elem.childNodes[0].innerHTML
+			self.author 		= self.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
+			self.icon				= self.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
+			self.by_current_user = false
+			self.mark_read 	= function(class_name) {
+													self.elem.className = self.elem.className.replace(class_name,'')
+												}
+			return self
+		}
+		
 	}
 	
 	return self
