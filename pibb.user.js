@@ -218,7 +218,7 @@ function init(){
 	
 	if (window.fluid)
 		var browser = Fluid
-	else if (callout)
+	else if (window.callout)
 		var browser = Callout
 	else
 		var browser = Other
