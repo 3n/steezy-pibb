@@ -207,8 +207,17 @@ var Other = function(){
 // Initialization 
 
 // only create pibb instance for second frame(set) (they all run this script)
-if (window.loaded_once){
-	var the_pibb = new ChatRoom(new Pibb(), new Fluid())
-	window.loaded_once = false
-}else
-	window.loaded_once = true
+function init(){
+	var client = Pibb
+	if (window.fluid)
+		var browser = Fluid
+	else
+		var browser = Other
+	
+	if (window.loaded_once){
+		var the_pibb = new ChatRoom(new client(), new browser())
+		window.loaded_once = false
+	}else
+		window.loaded_once = true	
+}
+init()
