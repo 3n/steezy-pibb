@@ -1,3 +1,18 @@
+BRIEF OVERVIEW
+
+  This script aims to make the experience of using a web-based chat client
+  completely awesome. It is to be used as either a userscript in Fluid or 
+  Firefox (with Greasemonkey). 
+  
+  Currently only Pibb is supported, but more will come later. 
+  
+  It adds things like coloring unread messages, number
+  of unread messages on OSX dock (in Fluid only), Growl alerts for any string
+  in a user-supplied list of strings (Fluid & Firefox + Callout extension), 
+  coloring of messages that contain any of aforementioned strings and a few other
+  niceties.
+
+
 DONE SO FAR
 
   Fluid Specific
