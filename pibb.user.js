@@ -15,7 +15,7 @@ var ChatRoom = function(client, browser) {
 		browser							: browser,
 		
 		period 							: 1000,		
-		my_bg_color 				: '#eee',
+		my_bg_color 				: '#EEEEEE',
 		important_bg_color 	: '#FFC670',	
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
@@ -82,12 +82,11 @@ var ChatRoom = function(client, browser) {
 			if (!self.client.doc().getElementById('steezy-input')){
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.id = "steezy-input"			
-				self.aliases_input.style.float = "left"
-				
-				self.aliases_input.value = self.aliases_input_cookie.get_value()				
-				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))				
-				
+
 				self.client.footer().appendChild(self.aliases_input)
+				self.aliases_input.value = self.aliases_input_cookie.get_value()				
+				self.aliases_input.style.float = "left"
+				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie))
 			}			
 			
 			window.setTimeout(self.insert_aliases_input, self.period)
@@ -97,7 +96,7 @@ var ChatRoom = function(client, browser) {
 				return self.aliases_input.value.split(',')
 		}
 	};
-	
+
 	// public
 	var that = {}
 	
@@ -105,7 +104,7 @@ var ChatRoom = function(client, browser) {
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
 	self.insert_aliases_input()
-	
+
 	return that
 };
 
@@ -153,7 +152,7 @@ Function.prototype.bind = function(bind, arg) {
 
 var Pibb = function(){
 	var self = {
-		doc  						: function() { return window.frames[0].document },
+		doc  						: function() { return document },
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
@@ -214,10 +213,7 @@ function init(){
 	else
 		var browser = Other
 	
-	if (window.loaded_once){
-		var the_pibb = new ChatRoom(new client(), new browser())
-		window.loaded_once = false
-	}else
-		window.loaded_once = true	
+	if (document.title == "Janrain PIBB")
+		window.chat_room = new ChatRoom(new client(), new browser())
 }
 init()
