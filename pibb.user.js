@@ -8,7 +8,7 @@
 // ==/UserScript==
 
 var ChatRoom = function(client, browser) {
-	
+
 	// private	
 	var self = {
 		client							: client,
@@ -152,7 +152,7 @@ Function.prototype.bind = function(bind, arg) {
 
 var Pibb = function(){
 	var self = {
-		doc  						: function() { return document },
+		doc  						: function() { return document }, // window.frames[0].document
 		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
@@ -172,7 +172,6 @@ var Pibb = function(){
 		}
 		
 	}
-	
 	return self
 }
 
@@ -214,6 +213,7 @@ function init(){
 		var browser = Other
 	
 	if (document.title == "Janrain PIBB")
+	// if (window.frames.length == 1)
 		window.chat_room = new ChatRoom(new client(), new browser())
 }
 init()
