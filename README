@@ -15,6 +15,8 @@ BRIEF OVERVIEW
   in a user-supplied list of strings (Fluid & Firefox + Callout extension), 
   coloring of messages that contain any of aforementioned strings and a few other
   niceties.
+  
+  I also made an icon, here: http://dl.getdropbox.com/u/33956/pibb_icon.png
 
 
 DONE SO FAR
@@ -37,6 +39,8 @@ DONE SO FAR
 
 
 TODO
+
+  - EMOTICONS (Toby's idea)
 
   - Somehow the script makes highlighting message-internals impossible in fluid...
 
