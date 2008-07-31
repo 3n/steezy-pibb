@@ -16,6 +16,7 @@ BRIEF OVERVIEW
   - Growl alerts for any string in a user-supplied list of strings (Fluid & Firefox + Callout extension) 
   - coloring of messages that contain any of aforementioned strings
   - Inserting img tags for messages that contain img urls. 
+  - Inserting images of tweets when a tweet url is in a message.
   
   I also made an icon, here: http://dl.getdropbox.com/u/33956/pibb_icon.png
 
