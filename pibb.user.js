@@ -53,6 +53,8 @@ var ChatRoom = function(client, browser) {
 		handle_new_message: function(elem) {
 			var message = new self.client.message(elem)
 
+			self.add_img_tags(message)
+
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				self.mark_all_read()
@@ -66,10 +68,15 @@ var ChatRoom = function(client, browser) {
 			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
-			}
+			}			
 
 			self.new_messages.push(message)
 			self.browser.set_counter(self.new_messages.length)
+		},
+		
+		add_img_tags: function(message){
+			var the_match = message.body.match(/(http:\/\/.+\.(jpg|png|gif))/)
+			if (the_match) message.elem.innerHTML = message.elem.innerHTML + '<img src="'+ the_match[0] + '" />'
 		},
 		
 		setup_message_window_events: function(){
