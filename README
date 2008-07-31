@@ -21,7 +21,7 @@ WHAT IT DOES
   
   I also made an icon, here: http://dl.getdropbox.com/u/33956/pibb_icon.png
   
-HOW TO MAKE IT WORK
+HOW TO INTALL IT
   
   Fluid
     1.  Make sure you have the latest Fluid
@@ -38,6 +38,14 @@ HOW TO MAKE IT WORK
         https://addons.mozilla.org/en-US/firefox/addon/7458
     3.  Install this script
         http://userscripts.org/scripts/show/30798d
+        
+HOW TO MAKE IT WORK
+
+  There should be a little INPUT box at the bottom right or left of your screen.
+  Fill it in with a list of aliases, comma-separated without spaces (e.g. "ian,3n,titanian,everyone").
+  If any of those strings appear in a message, it will turn orange and you 
+  should get a growl alert. It is saved in a cookie, so you should only have
+  to write it once. 
 
 
 
