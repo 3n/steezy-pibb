@@ -75,7 +75,7 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		add_img_tags: function(message){
-			var the_match = message.body.match(/(http:\/\/.+\.(jpg|png|gif))/)
+			var the_match = message.body.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
 			if (the_match) message.elem.innerHTML = message.elem.innerHTML + '<img src="'+ the_match[0] + '" />'
 		},
 		
