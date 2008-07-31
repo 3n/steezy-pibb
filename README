@@ -10,15 +10,35 @@ BRIEF OVERVIEW
   
   Currently only Pibb is supported, but more will come later. 
   
-  It adds things like:
-  - coloring unread messages
-  - number of unread messages on OSX dock (in Fluid only)
-  - Growl alerts for any string in a user-supplied list of strings (Fluid & Firefox + Callout extension) 
-  - coloring of messages that contain any of aforementioned strings
+WHAT IT DOES
+
+  - Coloring unread messages (click message window to mark as read and give focus to message input).
+  - Number of unread messages on OSX dock (in Fluid only).
+  - Growl alerts for any string in a user-supplied list of strings (Fluid or Firefox + Callout extension) .
+  - Coloring of messages that contain any of aforementioned strings.
   - Inserting img tags for messages that contain img urls. 
   - Inserting images of tweets when a tweet url is in a message.
   
   I also made an icon, here: http://dl.getdropbox.com/u/33956/pibb_icon.png
+  
+HOW TO MAKE IT WORK
+  
+  Fluid
+    1.  Make sure you have the latest Fluid
+        http://www.fluidapp.com/
+    2.  Save the script and put it into your ~/Library/Application\ Support/Fluid/SSB/<app name>/Userscripts/
+        directory. 
+    3.  Set the icon to this
+        http://dl.getdropbox.com/u/33956/pibb_icon.png
+  
+  Firefox
+    1.  Install Greasemonkey 
+        https://addons.mozilla.org/en-US/firefox/addon/748
+    2.  Install Callout plugin (currently requires Mozilla login) 
+        https://addons.mozilla.org/en-US/firefox/addon/7458
+    3.  Install this script
+        http://userscripts.org/scripts/show/30798d
+
 
 
 DONE SO FAR
