@@ -54,6 +54,7 @@ var ChatRoom = function(client, browser) {
 			var message = new self.client.message(elem)
 
 			self.add_img_tags(message)
+			self.add_twitter_img_tags(message)
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -77,6 +78,10 @@ var ChatRoom = function(client, browser) {
 		add_img_tags: function(message){
 			var the_match = message.body.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
 			if (the_match) message.elem.innerHTML = message.elem.innerHTML + '<img src="'+ the_match[0] + '" />'
+		},
+		add_twitter_img_tags: function(message){
+			var the_match = message.body.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
+			if (the_match && the_match.length > 1) message.elem.innerHTML = message.elem.innerHTML + '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
 		},
 		
 		setup_message_window_events: function(){
