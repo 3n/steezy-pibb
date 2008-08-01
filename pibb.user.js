@@ -90,10 +90,10 @@ var ChatRoom = function(client, browser) {
         msg += self.add_haha(msg)
 			}
 			
-      message.elem.innerHTML = msg
-      
-      if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
+			if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
   			var at_bottom = true
+			
+      message.elem.innerHTML = msg      
 
 			if (at_bottom) {
 			  var time = msg.match(/twitctur/) ? 1200 : 650
