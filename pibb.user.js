@@ -92,7 +92,7 @@ var ChatRoom = function(client, browser) {
 			
 			// if message has one of the words from the alias input in it
 			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
-				self.browser.alert(message.author + " said", message.body, message.icon)
+				self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
 				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
 			}
@@ -367,12 +367,12 @@ var Pibb = function(){
 
 var Fluid = function(){
 	return {
-		alert : function(title, description, icon) {
+		alert : function(title, description, icon, sticky) {
 			window.fluid.showGrowlNotification({
 		    title				: title,
 		    description	: description, 
 		    priority		: 1,
-		    sticky			: true,
+		    sticky			: sticky,
 				icon				: icon
 			})
 		},
