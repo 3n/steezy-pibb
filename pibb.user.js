@@ -85,7 +85,8 @@ var ChatRoom = function(client, browser) {
 			if (the_match && the_match.length > 1) message.elem.innerHTML = message.elem.innerHTML + '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
 		},
 		highlight_aliases: function(message){
-			self.get_aliases().forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
+			var aliases = self.get_aliases()
+			if (aliases) aliases.forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
 		},
 		
 		setup_message_window_events: function(){
