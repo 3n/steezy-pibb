@@ -28,6 +28,10 @@ var ChatRoom = function(client, browser) {
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		
+		add_css_rules: function(){
+			add_css_rule('#steezy-input', 'color:red;', self.client.doc())
+		},
+		
 		new_messages : [],
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
@@ -106,7 +110,8 @@ var ChatRoom = function(client, browser) {
 		insert_aliases_input: function(){			
 			if (!self.client.doc().getElementById('steezy-input')){
 				self.aliases_input = document.createElement("input")
-				self.aliases_input.id = "steezy-input"			
+				self.aliases_input.id = "steezy-input"
+				self.aliases_input['class'] = "steezy-input"			
 
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
@@ -126,6 +131,7 @@ var ChatRoom = function(client, browser) {
 	var that = {}
 	
 	// initialize
+	self.add_css_rules()
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
 	self.insert_aliases_input()
@@ -190,14 +196,12 @@ function wrap_in_span_tags(element, what, class_name) {
 	return true
 }
 
-function add_css_rule(selector, rule) {
+function add_css_rule(selector, rule, doc) {
 	var style_node = document.createElement("style");
 	style_node.setAttribute("type", "text/css");
 	style_node.setAttribute("media", "screen");
-
 	style_node.appendChild(document.createTextNode(selector + " {" + rule + "}"));
-
-	document.getElementsByTagName("head")[0].appendChild(style_node);
+	doc.getElementsByTagName("head")[0].appendChild(style_node);
 }
 
 
