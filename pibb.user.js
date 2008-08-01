@@ -29,7 +29,12 @@ var ChatRoom = function(client, browser) {
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-input', 'color:red;', self.client.doc())
+			add_css_rule('#steezy-input', 'float:left;', self.client.doc())			
+			add_css_rule('#steezy-input', 'width:300px;', self.client.doc())
+			add_css_rule('#steezy-input', 'margin:5px;', self.client.doc())			
+			add_css_rule('#steezy-input', 'padding:4px;', self.client.doc())			
+			add_css_rule('.steezy-tag',   'color:white;', self.client.doc())			
+			add_css_rule('.steezy-tag',  	'background:yellow;', self.client.doc())
 		},
 		
 		new_messages : [],
@@ -115,7 +120,6 @@ var ChatRoom = function(client, browser) {
 
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
-				self.aliases_input.style['float'] = "left"
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
 			}
 			
@@ -183,7 +187,7 @@ function wrap_in_span_tags(element, what, class_name) {
 				var the_match = chunk.match(re);
 				if (the_match && the_match.length > 0) {
 					replaced.push(the_match);
-					return chunk.replace(re,'<span class="' + class_name + '" style="background-color:yellow;">$1</span>');
+					return chunk.replace(re,'<span class="' + class_name + '">$1</span>');
 				} else return chunk;
 			} else return chunk;
 		}).join('');
