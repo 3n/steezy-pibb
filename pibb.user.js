@@ -28,16 +28,13 @@ var ChatRoom = function(client, browser) {
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		temp_cookie : new Cookie('temp_cookie', null, 1000),
+		preferences_cookie: new Cookie('steezy-preferences', null, 1000),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())			
-			
-			add_css_rule('.steezy-input', 'width:300px; margin:5px; padding:2px;', self.client.doc())
-			
-			add_css_rule('.steezy-checkbox', 'float:left; margin:5px;', self.client.doc())	
-					
-			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())			
-			
+			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())						
+			add_css_rule('.steezy-input', 'width:300px; margin:5px; padding:2px;', self.client.doc())			
+			add_css_rule('.steezy-checkbox', 'float:left; margin:5px;', self.client.doc())						
+			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
 			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
 			add_css_rule('.important-message', 'background:' + self.important_bg_color + ';', self.client.doc())								
 		},
@@ -282,6 +279,14 @@ var Cookie = function(key, value, max_days) {
 	}
 	
 	if (value) this.set_value(value)
+	
+	return this
+}
+
+var CookieHash = function(key) {
+	this.coookie = new Cookie(key, null, 1000)
+	
+
 	
 	return this
 }
