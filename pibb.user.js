@@ -71,19 +71,19 @@ var ChatRoom = function(client, browser) {
       msg += self.add_twitter_img_tags(msg)
       msg = self.add_emoticons(msg)
       msg += self.add_sad_trombone(msg)
+      
+      var current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
 
 			// if message was written by current user
-			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
+      if (current_user) {
 				self.mark_all_read()
 				message.mark_read(self.client.new_class)
 				message.by_current_user = true
 				message.elem.style['background'] = self.my_bg_color				
-        message.elem.innerHTML = msg
-				return
 			}
 			
 			// if message has one of the words from the alias input in it
-			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
+			if (!current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
 				self.highlight_aliases(message)
@@ -91,8 +91,28 @@ var ChatRoom = function(client, browser) {
 			}
 			
       message.elem.innerHTML = msg
-			self.new_messages.push(message)
-			self.browser.set_counter(self.new_messages.length)
+      
+      if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
+  			var at_bottom = true
+
+			if (at_bottom) {
+			  var time = msg.match(/twitctur/) ? 1200 : 650
+			  setTimeout(self.scroll_message_window_to_bottom, time)
+		  }
+      
+			if (!current_user) {
+  			self.new_messages.push(message)
+  			self.browser.set_counter(self.new_messages.length)
+			}
+		},
+		
+		scroll_message_window_to_bottom: function(){
+			self.client.message_window().scrollTop = self.client.message_window().scrollHeight
+		},
+		
+		highlight_aliases: function(message){
+			var aliases = self.get_aliases()
+			if (aliases) aliases.forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
 		},
 		
 		add_img_tags: function(message){
@@ -109,10 +129,6 @@ var ChatRoom = function(client, browser) {
 		  else
 		    return ''
 		},
-		highlight_aliases: function(message){
-			var aliases = self.get_aliases()
-			if (aliases) aliases.forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
-		},
 		
 		add_sad_trombone: function(message) {
 		  var the_match = message.match(/sadtrombone|wah/)
@@ -127,8 +143,7 @@ var ChatRoom = function(client, browser) {
 	    } else {
 	      return ''
 	    }
-		},
-		
+		},		
 		add_haha: function(message) {
 		  var the_match = message.match(/HAHA/)
 		  if (the_match) {
@@ -142,7 +157,7 @@ var ChatRoom = function(client, browser) {
 		  } else {
 		    return ''
 		  }
-		},
+		},		
 		
 		add_emoticons: function(message) {
 		  var base = '<img src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/'
@@ -273,7 +288,16 @@ function add_css_rule(selector, rule, doc) {
 var Pibb = function(){
 	var self = {
 		doc  						: function() { return document }, // window.frames[0].document
-		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
+		message_window 	: function() {
+			var tmp = self.doc().getElementsByClassName('EntriesView-Entries')[0]
+			if (tmp){
+				if (navigator.userAgent.match(/webkit/i))
+					return tmp.getElementsByClassName('OuterContainer')[0].childNodes[0]
+				else
+					return tmp.getElementsByClassName('OuterContainer')[0] 
+			} 
+			else return null
+		},
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',

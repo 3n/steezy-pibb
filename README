@@ -21,6 +21,9 @@ WHAT IT DOES
   Usability
   - Clicking in message window clears unread messages and focuses message input.
   - If you type message it is marked as unread, as well as all others above it.
+  - When elements are injected by this script the message window will scroll
+    to fit them, unless the user is currently scrolled upwards in the conversation
+    (because that would get annoying).
   
   Message Styling
   - Unread messages are colored. 
@@ -35,7 +38,7 @@ WHAT IT DOES
   
   I also made an icon, here: http://dl.getdropbox.com/u/33956/pibb_icon.png
   
-HOW TO INTALL IT
+HOW TO INSTALL IT
   
   Fluid
     1.  Make sure you have the latest Fluid
@@ -65,16 +68,15 @@ HOW TO MAKE IT WORK
 
 TODO
 
+  Preferences form (injected on bottom)
+  - to growl or not to growl
+  - growl stickiness
+  - colors for messages
+
+  - take out all .style calls, make rules for them instead.
   - clean up the dynamic css shit. make it parse one big string of rules.
 
-  - scroll message window to bottom after insert of image.
-
-  - EMOTICONS (Toby's idea)
-
   - Somehow the script makes highlighting message-internals impossible in fluid...
-  
-  - setting away message: any message with one of your aliases in it will be replied to 
-    automatically with a message. (Requires server communication - could be hell of painful)
   
   Hawt-keys
   - tab switching
@@ -83,7 +85,7 @@ TODO
     
   - handle tab switching (detect if tab is switched and do the right thing)
     
-  Preferences form (injected on bottom)
-  - to growl or not to growl
-  - growl stickiness
-  - colors for messages
+
+  
+  - setting away message: any message with one of your aliases in it will be replied to 
+    automatically with a message. (Requires server communication - could be hell of painful)
