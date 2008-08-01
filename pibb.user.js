@@ -39,6 +39,7 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('.steezy-tag',  	'background:#f0e600;', self.client.doc())
 			add_css_rule('.steezy-tag',  	'-webkit-border-radius:5px;', self.client.doc())
 			add_css_rule('.steezy-tag',  	'padding:2px;', self.client.doc())			
+			add_css_rule('.steezy-tag',  	'-webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())	
 		},
 		
 		new_messages : [],
