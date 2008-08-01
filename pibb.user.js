@@ -29,10 +29,11 @@ var ChatRoom = function(client, browser) {
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-input', 'float:left;', self.client.doc())			
-			add_css_rule('#steezy-input', 'width:300px;', self.client.doc())
-			add_css_rule('#steezy-input', 'margin:5px;', self.client.doc())			
-			add_css_rule('#steezy-input', 'padding:2px;', self.client.doc())	
+			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())			
+			
+			add_css_rule('.steezy-input', 'width:300px;', self.client.doc())
+			add_css_rule('.steezy-input', 'margin:5px;', self.client.doc())			
+			add_css_rule('.steezy-input', 'padding:2px;', self.client.doc())	
 					
 			add_css_rule('.steezy-tag',   'color:#222222;', self.client.doc())			
 			add_css_rule('.steezy-tag',   'font-weight:bold;', self.client.doc())			
@@ -224,8 +225,7 @@ var ChatRoom = function(client, browser) {
 				self.client.footer().appendChild(self.preferences_element)
 				
 				self.aliases_input = document.createElement("input")
-				self.aliases_input.id = "steezy-input"
-				self.aliases_input.className = "steezy-input"			
+				self.aliases_input.className = "steezy-input"
 
 				self.preferences_element.appendChild(self.aliases_input)
 
