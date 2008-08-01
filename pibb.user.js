@@ -120,14 +120,14 @@ var ChatRoom = function(client, browser) {
 		add_img_tags: function(message){
 			var the_match = message.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
 			if (the_match)
-			  return '<img src="'+ the_match[0] + '" />'
+			  return '<br /><img src="'+ the_match[0] + '" />'
 		  else
 		    return ''
 		},
 		add_twitter_img_tags: function(message){
 			var the_match = message.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
 			if (the_match && the_match.length > 1)
-			  return '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
+			  return '<br /><img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
 		  else
 		    return ''
 		},
@@ -159,8 +159,7 @@ var ChatRoom = function(client, browser) {
 		  } else {
 		    return ''
 		  }
-		},		
-		
+		},				
 		add_emoticons: function(message) {
 		  var base = '<img src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/'
 		  var end = '" />'
@@ -172,8 +171,7 @@ var ChatRoom = function(client, browser) {
 		    .replace(/8=+(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
             .replace(/DERP\!/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="DERP!"/>')
 		  return emoticonned
-		},
-		
+		},		
 		add_youtube_embeds: function(message){
 		  var the_match = message.match(/http:\/\/(www.|)youtube\.com\/watch\?v=([^&]+)/);
 		  if (the_match) {
