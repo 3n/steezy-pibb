@@ -294,8 +294,15 @@ var Cookie = function(key, value, max_days) {
 
 var CookieHash = function(key) {
 	this.coookie = new Cookie(key, null, 1000)
-	this.obj = {}
-	// init obj from prev cookie
+	var obj = this.obj = {}
+
+	var prev = this.coookie.get_value()
+	if (prev){
+		prev.split(',').forEach(function(x){
+			var kv = x.split(':')
+			obj[kv[0]] = kv[1]
+		})
+	}
 	
 	this.set = function(key, value){
 		this.obj[key] = value
