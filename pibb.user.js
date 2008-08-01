@@ -69,6 +69,7 @@ var ChatRoom = function(client, browser) {
 			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
+				wrap_in_span_tags()
 			}			
 
 			self.new_messages.push(message)
@@ -82,6 +83,9 @@ var ChatRoom = function(client, browser) {
 		add_twitter_img_tags: function(message){
 			var the_match = message.body.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
 			if (the_match && the_match.length > 1) message.elem.innerHTML = message.elem.innerHTML + '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
+		},
+		highlight_aliases: function(message){
+			self.get_aliases().forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
 		},
 		
 		setup_message_window_events: function(){
@@ -130,7 +134,7 @@ var ChatRoom = function(client, browser) {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// Utility Classes
+// Utility Classes and Functions
 
 var Cookie = function(key, value, max_days) {
 	this.key = key
@@ -158,6 +162,33 @@ var Cookie = function(key, value, max_days) {
 	
 	return this
 }
+
+
+function wrap_in_span_tags(element, what, class_name) {
+	var re        	= new RegExp('\\b(' + what + ')\\b','ig');
+	var text       	= element.innerHTML;
+	var replaced   	= [];
+	var result     	= '';
+
+	if (text.match(re)) {
+		result = text.split(/(<[^<>]*>)/).map(function(chunk,i){
+			if (chunk[0] && chunk.match(/\w/) && (chunk.length > 0) && (chunk[0] != '<')){
+				var the_match = chunk.match(re);
+				if (the_match && the_match.length > 0) {
+					replaced.push(the_match);
+					return chunk.replace(re,'<span class="' + class_name + '" style="background-color:yellow;">$1</span>');
+				} else return chunk;
+			} else return chunk;
+		}).join('');
+
+		if (replaced.length > 0)
+			element.innerHTML = result;
+		else
+			return null
+	}
+	return true
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Chat client wrapper classes
