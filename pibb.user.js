@@ -55,6 +55,7 @@ var ChatRoom = function(client, browser) {
 
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
+			self.add_sad_trombone(message)
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -82,6 +83,18 @@ var ChatRoom = function(client, browser) {
 		add_twitter_img_tags: function(message){
 			var the_match = message.body.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
 			if (the_match && the_match.length > 1) message.elem.innerHTML = message.elem.innerHTML + '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
+		},
+		
+		add_sad_trombone: function(message) {
+		  var the_match = message.body.match(/sadtrombone|wah/)
+		  if (the_match) {
+		    var embed = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="244" height="152">'
+        embed += '<param name="movie" value="http://sadtrombone.com/sad_trombone.swf" />'
+        embed += '<param name="quality" value="high" />'
+        embed += '<param name="autoplay" value="true" />'
+        embed += '</object>'
+		    message.elem.innerHTML = message.elem.innerHTML + embed
+	    }
 		},
 		
 		setup_message_window_events: function(){
