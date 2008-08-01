@@ -193,7 +193,6 @@ var ChatRoom = function(client, browser) {
 		  if (the_match) {
 		    embed = "<br />"
 		    embed += '<iframe width="100%" frameborder="0" src="' + the_match[0] + '.txt" />'
-		    console.log(embed)
 		    return embed
 		  } else {
 		    return ''
