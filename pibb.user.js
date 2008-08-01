@@ -68,6 +68,8 @@ var ChatRoom = function(client, browser) {
 
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
+			self.add_sad_trombone(message)
+			self.add_haha(message)
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -100,6 +102,30 @@ var ChatRoom = function(client, browser) {
 		highlight_aliases: function(message){
 			var aliases = self.get_aliases()
 			if (aliases) aliases.forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
+		},
+		
+		add_sad_trombone: function(message) {
+		  var the_match = message.body.match(/sadtrombone|wah/)
+		  if (the_match) {
+		    var embed = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="244" height="152">'
+        embed += '<param name="movie" value="http://sadtrombone.com/sad_trombone.swf" />'
+        embed += '<param name="quality" value="high" />'
+        embed += '<param name="autoplay" value="true" />'
+        embed += '</object>'
+		    message.elem.innerHTML = message.elem.innerHTML + embed
+	    }
+		},
+		
+		add_haha: function(message) {
+		  var the_match = message.body.match(/HAHA/)
+		  if (the_match) {
+		    var embed = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="400" height="373">'
+        embed += '<param name="movie" value="http://crossgrain.com/haha/haha.swf" />'
+        embed += '<param name="quality" value="high" />'
+        embed += '<embed src="http://crossgrain.com/haha/haha.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="400" height="373"></embed>'
+        embed += '</object>'
+        message.elem.innerHTML = message.elem.innerHTML + embed
+		  }
 		},
 		
 		setup_message_window_events: function(){
