@@ -216,20 +216,25 @@ var ChatRoom = function(client, browser) {
 			self.new_messages = []
 			self.browser.set_counter('')
 		},
-		
-		insert_aliases_input: function(){			
-			if (!self.client.doc().getElementById('steezy-input')){
+ 
+		insert_preferences_element: function(){
+			if (!self.client.doc().getElementById('steezy-preferences')){
+				self.preferences_element = document.createElement("div")
+				self.preferences_element.id = "steezy-preferences"
+				self.client.footer().appendChild(self.preferences_element)
+				
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.id = "steezy-input"
 				self.aliases_input.className = "steezy-input"			
 
-				self.client.footer().appendChild(self.aliases_input)
+				self.preferences_element.appendChild(self.aliases_input)
+
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
 			}
-			
-			window.setTimeout(self.insert_aliases_input, self.period)
+			window.setTimeout(self.insert_preferences_element, self.period)
 		},
+		
 		get_aliases: function(){
 			if (self.aliases_input)
 				return self.aliases_input.value.split(',')
@@ -243,7 +248,7 @@ var ChatRoom = function(client, browser) {
 	self.add_css_rules()
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
-	self.insert_aliases_input()
+	self.insert_preferences_element()
 
 	return that
 };
