@@ -6,7 +6,7 @@ BRIEF OVERVIEW
 
   This script aims to make the experience of using a web-based chat client
   completely awesome. It is to be used as either a userscript in Fluid or 
-  Firefox (with Greasemonkey). 
+  Firefox 3 (with Greasemonkey). 
   
   Currently only Pibb is supported, but more will come later. 
   
@@ -14,7 +14,8 @@ WHAT IT DOES
 
   - Coloring unread messages (click message window to mark as read and give focus to message input).
   - Number of unread messages on OSX dock (in Fluid only).
-  - Growl alerts for any string in a user-supplied list of strings (Fluid or Firefox + Callout extension) .
+  - Growl alerts for any string in a user-supplied list of strings (Fluid or Firefox + Callout extension).
+    Also highlights the alias(es) it found in the message. 
   - Coloring of messages that contain any of aforementioned strings.
   - Inserting img tags for messages that contain img urls. 
   - Inserting images of tweets when a tweet url is in a message.
@@ -70,11 +71,13 @@ DONE SO FAR
 
 TODO
 
+  - clean up the dynamic css shit. make it parse one big string of rules.
+
+  - scroll message window to bottom after insert of image.
+
   - EMOTICONS (Toby's idea)
 
   - Somehow the script makes highlighting message-internals impossible in fluid...
-
-  - highlight matched name (in message window and growl alert)
   
   - setting away message: any message with one of your aliases in it will be replied to 
     automatically with a message. (Requires server communication - could be hell of painful)
