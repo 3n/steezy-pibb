@@ -91,6 +91,11 @@ var ChatRoom = function(client, browser) {
 			self.browser.set_counter(self.new_messages.length)
 		},
 		
+		highlight_aliases: function(message){
+			var aliases = self.get_aliases()
+			if (aliases) aliases.forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
+		},
+		
 		add_img_tags: function(message){
 			var the_match = message.body.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
 			if (the_match) message.elem.innerHTML = message.elem.innerHTML + '<img src="'+ the_match[0] + '" />'
@@ -98,10 +103,6 @@ var ChatRoom = function(client, browser) {
 		add_twitter_img_tags: function(message){
 			var the_match = message.body.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
 			if (the_match && the_match.length > 1) message.elem.innerHTML = message.elem.innerHTML + '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
-		},
-		highlight_aliases: function(message){
-			var aliases = self.get_aliases()
-			if (aliases) aliases.forEach(function(a){ wrap_in_span_tags(message.elem, a, 'steezy-tag') })
 		},
 		
 		add_sad_trombone: function(message) {
@@ -114,8 +115,7 @@ var ChatRoom = function(client, browser) {
         embed += '</object>'
 		    message.elem.innerHTML = message.elem.innerHTML + embed
 	    }
-		},
-		
+		},		
 		add_haha: function(message) {
 		  var the_match = message.body.match(/HAHA/)
 		  if (the_match) {
@@ -126,7 +126,7 @@ var ChatRoom = function(client, browser) {
         embed += '</object>'
         message.elem.innerHTML = message.elem.innerHTML + embed
 		  }
-		},
+		},		
 		
 		setup_message_window_events: function(){
 			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked, true)
