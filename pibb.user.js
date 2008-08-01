@@ -72,10 +72,10 @@ var ChatRoom = function(client, browser) {
       msg = self.add_emoticons(msg)
       msg += self.add_sad_trombone(msg)
       
-      var current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
+      var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
 
 			// if message was written by current user
-      if (current_user) {
+      if (from_current_user) {
 				self.mark_all_read()
 				message.mark_read(self.client.new_class)
 				message.by_current_user = true
@@ -83,24 +83,25 @@ var ChatRoom = function(client, browser) {
 			}
 			
 			// if message has one of the words from the alias input in it
-			if (!current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
+			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
-				self.highlight_aliases(message)
+				// self.highlight_aliases(message)
         msg += self.add_haha(msg)
 			}
 			
 			if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
   			var at_bottom = true
 			
-      message.elem.innerHTML = msg      
+      message.elem.innerHTML = msg 
+			self.highlight_aliases(message) 
 
 			if (at_bottom) {
 			  var time = msg.match(/twitctur/) ? 1200 : 650
 			  setTimeout(self.scroll_message_window_to_bottom, time)
 		  }
       
-			if (!current_user) {
+			if (!from_current_user) {
   			self.new_messages.push(message)
   			self.browser.set_counter(self.new_messages.length)
 			}
