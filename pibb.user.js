@@ -65,17 +65,20 @@ var ChatRoom = function(client, browser) {
 		},
 		handle_new_message: function(elem) {
 			var message = new self.client.message(elem)
-
-			self.add_img_tags(message)
-			self.add_twitter_img_tags(message)
-			self.add_sad_trombone(message)
+      var msg = message.body
+      
+      msg += self.add_img_tags(msg)
+      msg += self.add_twitter_img_tags(msg)
+      msg = self.add_emoticons(msg)
+      msg += self.add_sad_trombone(msg)
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				self.mark_all_read()
 				message.mark_read(self.client.new_class)
 				message.by_current_user = true
-				message.elem.style['background'] = self.my_bg_color
+				message.elem.style['background'] = self.my_bg_color				
+        message.elem.innerHTML = msg
 				return
 			}
 			
@@ -84,20 +87,27 @@ var ChatRoom = function(client, browser) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
 				self.highlight_aliases(message)
-				self.add_haha(message)
-			}			
-
+        msg += self.add_haha(msg)
+			}
+			
+      message.elem.innerHTML = msg
 			self.new_messages.push(message)
 			self.browser.set_counter(self.new_messages.length)
 		},
 		
 		add_img_tags: function(message){
-			var the_match = message.body.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
-			if (the_match) message.elem.innerHTML = message.elem.innerHTML + '<img src="'+ the_match[0] + '" />'
+			var the_match = message.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
+			if (the_match)
+			  return '<img src="'+ the_match[0] + '" />'
+		  else
+		    return ''
 		},
 		add_twitter_img_tags: function(message){
-			var the_match = message.body.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
-			if (the_match && the_match.length > 1) message.elem.innerHTML = message.elem.innerHTML + '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
+			var the_match = message.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
+			if (the_match && the_match.length > 1)
+			  return '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
+		  else
+		    return ''
 		},
 		highlight_aliases: function(message){
 			var aliases = self.get_aliases()
@@ -105,27 +115,45 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		add_sad_trombone: function(message) {
-		  var the_match = message.body.match(/sadtrombone|wah/)
+		  var the_match = message.match(/sadtrombone|wah/)
 		  if (the_match) {
-		    var embed = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="244" height="152">'
+		    var embed = ' '
+		    embed += '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="244" height="152">'
         embed += '<param name="movie" value="http://sadtrombone.com/sad_trombone.swf" />'
         embed += '<param name="quality" value="high" />'
         embed += '<param name="autoplay" value="true" />'
         embed += '</object>'
-		    message.elem.innerHTML = message.elem.innerHTML + embed
+		    return embed
+	    } else {
+	      return ''
 	    }
 		},
 		
 		add_haha: function(message) {
-		  var the_match = message.body.match(/HAHA/)
+		  var the_match = message.match(/HAHA/)
 		  if (the_match) {
-		    var embed = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="400" height="373">'
+		    var embed = ' '
+		    embed += '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="400" height="373">'
         embed += '<param name="movie" value="http://crossgrain.com/haha/haha.swf" />'
         embed += '<param name="quality" value="high" />'
         embed += '<embed src="http://crossgrain.com/haha/haha.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="400" height="373"></embed>'
         embed += '</object>'
-        message.elem.innerHTML = message.elem.innerHTML + embed
+        return embed
+		  } else {
+		    return ''
 		  }
+		},
+		
+		add_emoticons: function(message) {
+		  var base = '<img src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/'
+		  var end = '" />'
+		  var emoticonned = message
+		    .replace(/:-?\)/, base + '1.gif' + end)
+		    .replace(/:-?\(/, base + '2.gif' + end)
+		    .replace(/:-?D/, base + '4.gif' + end)
+		    .replace(/8-?\)/, base + '16.gif' + end)
+		    .replace(/8==(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
+		  return emoticonned
 		},
 		
 		setup_message_window_events: function(){
