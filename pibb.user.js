@@ -32,9 +32,13 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('#steezy-input', 'float:left;', self.client.doc())			
 			add_css_rule('#steezy-input', 'width:300px;', self.client.doc())
 			add_css_rule('#steezy-input', 'margin:5px;', self.client.doc())			
-			add_css_rule('#steezy-input', 'padding:4px;', self.client.doc())			
-			add_css_rule('.steezy-tag',   'color:white;', self.client.doc())			
-			add_css_rule('.steezy-tag',  	'background:yellow;', self.client.doc())
+			add_css_rule('#steezy-input', 'padding:4px;', self.client.doc())	
+					
+			add_css_rule('.steezy-tag',   'color:#222222;', self.client.doc())			
+			add_css_rule('.steezy-tag',   'font-weight:bold;', self.client.doc())			
+			add_css_rule('.steezy-tag',  	'background:#f0e600;', self.client.doc())
+			add_css_rule('.steezy-tag',  	'-webkit-border-radius:5px;', self.client.doc())
+			add_css_rule('.steezy-tag',  	'padding:2px;', self.client.doc())			
 		},
 		
 		new_messages : [],
@@ -64,7 +68,7 @@ var ChatRoom = function(client, browser) {
 
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
-
+self.highlight_aliases(message)
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
 				self.mark_all_read()
