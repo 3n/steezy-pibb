@@ -19,9 +19,20 @@ Object.prototype.to_s = function() {
 	var s = ""
 	var x
 	for (x in this){
-		if (typeof this[x] !== 'function') s += (x + ":" + this[x] + ',') 
+		if (typeof this[x] !== 'function') s += (x + "::" + this[x] + ',,') 
 	}
-	return s.slice(0,-1)
+	return s.slice(0,-2)
+}
+
+String.prototype.to_o = function() {
+	var obj = {}
+
+	this.split(',,').forEach(function(x){
+		var kv = x.split('::')
+		obj[kv[0]] = kv[1]
+	})
+
+	return obj
 }
 
 var ChatRoom = function(client, browser) {
@@ -237,8 +248,8 @@ var ChatRoom = function(client, browser) {
 				self.growl_sticky_checkbox.setAttribute("type", "checkbox");				
 				self.preferences_element.appendChild(self.growl_sticky_checkbox)				
 				self.growl_sticky_checkbox.className = "steezy-checkbox"			
-				self.growl_sticky_checkbox.checked = (self.temp_cookie.get_value() == 'true')
-				self.growl_sticky_checkbox.addEventListener('click', (function(cookie){ cookie.set_value(this.checked) }).bind(self.growl_sticky_checkbox, self.temp_cookie), true)
+				self.growl_sticky_checkbox.checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
+				self.growl_sticky_checkbox.addEventListener('click', (function(cookie){ cookie.set_value('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
@@ -294,16 +305,11 @@ var Cookie = function(key, value, max_days) {
 
 var CookieHash = function(key) {
 	this.coookie = new Cookie(key, null, 1000)
-	var obj = this.obj = {}
+	this.obj = {}
 
 	var prev = this.coookie.get_value()
-	if (prev){
-		prev.split(',').forEach(function(x){
-			var kv = x.split(':')
-			obj[kv[0]] = kv[1]
-		})
-	}
-	
+	if (prev) this.obj = prev.to_o()
+
 	this.set = function(key, value){
 		this.obj[key] = value
 		this.coookie.set_value(this.obj.to_s())
