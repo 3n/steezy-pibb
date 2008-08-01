@@ -169,7 +169,7 @@ var ChatRoom = function(client, browser) {
 		    .replace(/:-?\(/, base + '2.gif' + end)
 		    .replace(/:-?D/, base + '4.gif' + end)
 		    .replace(/8-?\)/, base + '16.gif' + end)
-		    .replace(/8==(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
+		    .replace(/8=+(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
 		  return emoticonned
 		},
 		
