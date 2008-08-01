@@ -66,10 +66,13 @@ var ChatRoom = function(client, browser) {
 		handle_new_message: function(elem) {
 			var message = new self.client.message(elem)
 
+			if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
+				var at_bottom = true
+
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
 			self.add_sad_trombone(message)			
-			self.scroll_message_window_to_bottom()
+			if (at_bottom) self.scroll_message_window_to_bottom()
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -93,9 +96,7 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		scroll_message_window_to_bottom: function(){
-			console.log(self.client.message_window().scrollTop)
 			self.client.message_window().scrollTop = self.client.message_window().scrollHeight
-						console.log(self.client.message_window().scrollTop)
 		},
 		
 		highlight_aliases: function(message){
@@ -254,7 +255,12 @@ var Pibb = function(){
 		doc  						: function() { return document }, // window.frames[0].document
 		message_window 	: function() {
 			var tmp = self.doc().getElementsByClassName('EntriesView-Entries')[0]
-			if (tmp) return tmp.getElementsByClassName('OuterContainer')[0] 
+			if (tmp){
+				if (navigator.userAgent.match(/webkit/i))
+					return tmp.getElementsByClassName('OuterContainer')[0].childNodes[0]
+				else
+					return tmp.getElementsByClassName('OuterContainer')[0] 
+			} 
 			else return null
 		},
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
