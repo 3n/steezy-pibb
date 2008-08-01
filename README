@@ -12,13 +12,26 @@ BRIEF OVERVIEW
   
 WHAT IT DOES
 
-  - Coloring unread messages (click message window to mark as read and give focus to message input).
-  - Number of unread messages on OSX dock (in Fluid only).
-  - Growl alerts for any string in a user-supplied list of strings (Fluid or Firefox + Callout extension).
-    Also highlights the alias(es) it found in the message. 
-  - Coloring of messages that contain any of aforementioned strings.
-  - Inserting img tags for messages that contain img urls. 
-  - Inserting images of tweets when a tweet url is in a message.
+  Fluid Specific
+  - # of new messages on dock, for currently focused tab.
+  
+  Fluid or Firefox + Callout plugin https://addons.mozilla.org/en-US/firefox/addon/7458
+  - Inserts input on page for comma-delineated list of strings to growl alert on.
+  
+  Usability
+  - Clicking in message window clears unread messages and focuses message input.
+  - If you type message it is marked as unread, as well as all others above it.
+  
+  Message Styling
+  - Unread messages are colored. 
+  - Message with aliases from alias list highlighted.
+  - Messages you wrote are colored for scanning other's messages.  
+  
+  FUN
+  - Inserting of img tags for messages that contain img urls. 
+  - Inserting of images of tweets when a tweet url is in a message.
+  - Put someone's alias and the string "HAHA" in a message if they did some stupid shit.
+  - "sadtrombone" or "wah" in a message to bring up a sadtrombone button.
   
   I also made an icon, here: http://dl.getdropbox.com/u/33956/pibb_icon.png
   
@@ -48,25 +61,6 @@ HOW TO MAKE IT WORK
   should get a growl alert. It is saved in a cookie, so you should only have
   to write it once. 
 
-
-
-DONE SO FAR
-
-  Fluid Specific
-  - # of new messages on dock, for currently focused tab.
-  - Inserts input on page for comma-delineated list of strings to growl alert on.  
-  
-  Firefox + Callout plugin https://addons.mozilla.org/en-US/firefox/addon/7458
-  - Inserts input on page for comma-delineated list of strings to growl alert on.
-  
-  Usability
-  - Clicking in message window clears unread messages and focuses message input.
-  - If you type message it is marked as unread.
-  - When you enter a message, all previous messages are marked as read.
-  
-  Message Styling
-  - Messages with one of your alert strings in it.
-  - Messages you wrote.
 
 
 TODO
