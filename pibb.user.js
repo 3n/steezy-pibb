@@ -32,16 +32,11 @@ var ChatRoom = function(client, browser) {
 		add_css_rules: function(){
 			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())			
 			
-			add_css_rule('.steezy-input', 'width:300px;', self.client.doc())
-			add_css_rule('.steezy-input', 'margin:5px;', self.client.doc())			
-			add_css_rule('.steezy-input', 'padding:2px;', self.client.doc())	
+			add_css_rule('.steezy-input', 'width:300px; margin:5px; padding:2px;', self.client.doc())
+			
+			add_css_rule('.steezy-checkbox', 'float:left; margin:5px;', self.client.doc())	
 					
-			add_css_rule('.steezy-tag',   'color:#222222;', self.client.doc())			
-			add_css_rule('.steezy-tag',   'font-weight:bold;', self.client.doc())			
-			add_css_rule('.steezy-tag',  	'background:#f0e600;', self.client.doc())
-			add_css_rule('.steezy-tag',  	'-webkit-border-radius:5px;', self.client.doc())
-			add_css_rule('.steezy-tag',  	'padding:2px;', self.client.doc())			
-			add_css_rule('.steezy-tag',  	'-webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())	
+			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())			
 			
 			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
 			add_css_rule('.important-message', 'background:' + self.important_bg_color + ';', self.client.doc())								
