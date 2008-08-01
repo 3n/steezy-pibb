@@ -37,7 +37,7 @@ var ChatRoom = function(client, browser) {
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
 		temp_cookie : new Cookie('temp_cookie', null, 1000),
-		preferences_cookie: new Cookie('steezy-preferences', null, 1000),
+		preferences_cookie: new CookieHash('steezy-preferences'),
 		
 		add_css_rules: function(){
 			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())						
@@ -229,9 +229,9 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.setAttribute("type", "text");				
 				self.preferences_element.appendChild(self.aliases_input)				
-				self.aliases_input.className = "steezy-input"				
-				self.aliases_input.value = self.aliases_input_cookie.get_value()				
-				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
+				self.aliases_input.className = "steezy-input"
+				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
+				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 				
 				self.growl_sticky_checkbox = document.createElement("input")
 				self.growl_sticky_checkbox.setAttribute("type", "checkbox");				
