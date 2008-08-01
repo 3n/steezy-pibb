@@ -69,7 +69,7 @@ var ChatRoom = function(client, browser) {
 			if (self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
-				wrap_in_span_tags()
+				self.highlight_aliases(message)
 			}			
 
 			self.new_messages.push(message)
