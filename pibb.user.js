@@ -190,6 +190,16 @@ function wrap_in_span_tags(element, what, class_name) {
 	return true
 }
 
+function add_css_rule(selector, rule) {
+	var style_node = document.createElement("style");
+	style_node.setAttribute("type", "text/css");
+	style_node.setAttribute("media", "screen");
+
+	style_node.appendChild(document.createTextNode(selector + " {" + rule + "}"));
+
+	document.getElementsByTagName("head")[0].appendChild(style_node);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Chat client wrapper classes
