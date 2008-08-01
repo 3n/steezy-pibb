@@ -15,6 +15,15 @@ Function.prototype.bind = function(bind, arg) {
 	return function(){ return fun.call(bind, arg) }
 }
 
+Object.prototype.to_s = function() {
+	var s = ""
+	var x
+	for (x in this){
+		if (typeof this[x] !== 'function') s += (x + ":" + this[x] + ',') 
+	}
+	return s.slice(0,-1)
+}
+
 var ChatRoom = function(client, browser) {
 
 	// private	
@@ -285,8 +294,16 @@ var Cookie = function(key, value, max_days) {
 
 var CookieHash = function(key) {
 	this.coookie = new Cookie(key, null, 1000)
+	this.obj = {}
+	// init obj from prev cookie
 	
-
+	this.set = function(key, value){
+		this.obj[key] = value
+		this.coookie.set_value(this.obj.to_s())
+	}
+	this.get = function(key){		
+		return this.obj[key]
+	}
 	
 	return this
 }
