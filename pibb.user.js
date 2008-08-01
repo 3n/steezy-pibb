@@ -71,6 +71,7 @@ var ChatRoom = function(client, browser) {
       msg += self.add_twitter_img_tags(msg)
       msg = self.add_emoticons(msg)
       msg += self.add_sad_trombone(msg)
+      msg += self.add_youtube_embeds(msg)
       
       var current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
 
@@ -170,6 +171,21 @@ var ChatRoom = function(client, browser) {
 		    .replace(/8==(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
 		  return emoticonned
 		},
+		
+		add_youtube_embeds: function(message){
+		  var the_match = message.match(/http:\/\/(www.|)youtube\.com\/watch\?v=([^&]+)/);
+		  if (the_match) {
+		    embed  = '<br />'
+		    embed += '<object width="425" height="344">'
+		    embed += '<param name="movie" value="http://www.youtube.com/v/' + the_match[2] + '&hl=pt-br&fs=1">'
+		    embed += '</param><param name="allowFullScreen" value="true"></param>'
+		    embed += '<embed src="http://www.youtube.com/v/' + the_match[2] + '&hl=pt-br&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
+		    embed += '</object>'
+			  return embed
+	    } else {
+	      return ''
+	    }
+		},		
 		
 		setup_message_window_events: function(){
 			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked, true)
