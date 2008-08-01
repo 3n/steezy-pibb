@@ -69,6 +69,7 @@ var ChatRoom = function(client, browser) {
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
 			self.add_sad_trombone(message)
+			self.scroll_message_window_to_bottom()
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -89,6 +90,10 @@ var ChatRoom = function(client, browser) {
 
 			self.new_messages.push(message)
 			self.browser.set_counter(self.new_messages.length)
+		},
+		
+		scroll_message_window_to_bottom: function(){
+			self.client.message_window().scrollTop = self.client.message_window().scrollHeight + 1000
 		},
 		
 		highlight_aliases: function(message){
@@ -245,7 +250,11 @@ function add_css_rule(selector, rule, doc) {
 var Pibb = function(){
 	var self = {
 		doc  						: function() { return document }, // window.frames[0].document
-		message_window 	: function() { return self.doc().getElementsByClassName('EntriesView-Entries')[0] },
+		message_window 	: function() {
+			var tmp = self.doc().getElementsByClassName('EntriesView-Entries')[0]
+			if (tmp) return tmp.getElementsByClassName('OuterContainer')[0] 
+			else return null
+		},
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',
