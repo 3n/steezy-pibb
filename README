@@ -75,7 +75,8 @@ TODO
   - growl stickiness
   - colors for messages
 
-  - take out all .style calls, make rules for them instead.
+  - Make an Element wrapper class for add_class and remove_class kinda things.
+
   - clean up the dynamic css shit. make it parse one big string of rules.
 
   - Somehow the script makes highlighting message-internals impossible in fluid...
