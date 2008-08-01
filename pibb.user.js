@@ -120,14 +120,14 @@ var ChatRoom = function(client, browser) {
 		add_img_tags: function(message){
 			var the_match = message.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
 			if (the_match)
-			  return '<img src="'+ the_match[0] + '" />'
+			  return '<br /><img src="'+ the_match[0] + '" />'
 		  else
 		    return ''
 		},
 		add_twitter_img_tags: function(message){
 			var the_match = message.match(/http:\/\/twitter\.com\/[^<>/]+\/statuses\/([0-9]+)/)
 			if (the_match && the_match.length > 1)
-			  return '<img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
+			  return '<br /><img src="http://twictur.es/i/' + the_match[1] + '.gif" />'
 		  else
 		    return ''
 		},
