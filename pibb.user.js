@@ -249,7 +249,7 @@ var ChatRoom = function(client, browser) {
 				self.preferences_element.appendChild(self.growl_sticky_checkbox)				
 				self.growl_sticky_checkbox.className = "steezy-checkbox"			
 				self.growl_sticky_checkbox.checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
-				self.growl_sticky_checkbox.addEventListener('click', (function(cookie){ cookie.set_value('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
+				self.growl_sticky_checkbox.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
