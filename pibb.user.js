@@ -40,6 +40,9 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('.steezy-tag',  	'-webkit-border-radius:5px;', self.client.doc())
 			add_css_rule('.steezy-tag',  	'padding:2px;', self.client.doc())			
 			add_css_rule('.steezy-tag',  	'-webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())	
+			
+			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
+			add_css_rule('.important-message', 'background:' + self.important_bg_color + ';', self.client.doc())								
 		},
 		
 		new_messages : [],
@@ -81,13 +84,13 @@ var ChatRoom = function(client, browser) {
 				self.mark_all_read()
 				message.mark_read(self.client.new_class)
 				message.by_current_user = true
-				message.elem.style['background'] = self.my_bg_color				
+				message.elem.className = message.elem.className + ' by-current-user'		
 			}
 			
 			// if message has one of the words from the alias input in it
 			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
-				message.elem.style['background'] = self.important_bg_color
+				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
 			}
 			
@@ -205,7 +208,7 @@ var ChatRoom = function(client, browser) {
 			if (!self.client.doc().getElementById('steezy-input')){
 				self.aliases_input = document.createElement("input")
 				self.aliases_input.id = "steezy-input"
-				self.aliases_input['class'] = "steezy-input"			
+				self.aliases_input.className = "steezy-input"			
 
 				self.client.footer().appendChild(self.aliases_input)
 				self.aliases_input.value = self.aliases_input_cookie.get_value()				
