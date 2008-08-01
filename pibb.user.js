@@ -73,6 +73,7 @@ var ChatRoom = function(client, browser) {
       msg = self.add_emoticons(msg)
       msg += self.add_sad_trombone(msg)
       msg += self.add_youtube_embeds(msg)
+      msg += self.add_gists(msg)
       
       var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
 
@@ -185,7 +186,19 @@ var ChatRoom = function(client, browser) {
 	    } else {
 	      return ''
 	    }
-		},		
+		},
+		
+		add_gists: function(message) {
+		  var the_match = message.match(/https?:\/\/gist\.github\.com\/\w{1,}/);
+		  if (the_match) {
+		    embed = "<br />"
+		    embed += '<iframe width="100%" border="0" src="' + the_match[0] + '.txt" />'
+		    console.log(embed)
+		    return embed
+		  } else {
+		    return ''
+		  }
+		},
 		
 		setup_message_window_events: function(){
 			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked, true)
