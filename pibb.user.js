@@ -68,7 +68,7 @@ var ChatRoom = function(client, browser) {
 
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
-			self.add_sad_trombone(message)
+			self.add_sad_trombone(message)			
 			self.scroll_message_window_to_bottom()
 
 			// if message was written by current user
@@ -86,14 +86,16 @@ var ChatRoom = function(client, browser) {
 				message.elem.style['background'] = self.important_bg_color
 				self.highlight_aliases(message)
 				self.add_haha(message)
-			}			
-
+			}
+			
 			self.new_messages.push(message)
 			self.browser.set_counter(self.new_messages.length)
 		},
 		
 		scroll_message_window_to_bottom: function(){
-			self.client.message_window().scrollTop = self.client.message_window().scrollHeight + 1000
+			console.log(self.client.message_window().scrollTop)
+			self.client.message_window().scrollTop = self.client.message_window().scrollHeight
+						console.log(self.client.message_window().scrollTop)
 		},
 		
 		highlight_aliases: function(message){
