@@ -69,7 +69,6 @@ var ChatRoom = function(client, browser) {
 			self.add_img_tags(message)
 			self.add_twitter_img_tags(message)
 			self.add_sad_trombone(message)
-			self.add_haha(message)
 
 			// if message was written by current user
 			if (self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })){
@@ -85,6 +84,7 @@ var ChatRoom = function(client, browser) {
 				self.browser.alert(message.author + " said", message.body, message.icon)
 				message.elem.style['background'] = self.important_bg_color
 				self.highlight_aliases(message)
+				self.add_haha(message)
 			}			
 
 			self.new_messages.push(message)
