@@ -159,8 +159,7 @@ var ChatRoom = function(client, browser) {
 		  } else {
 		    return ''
 		  }
-		},		
-		
+		},				
 		add_emoticons: function(message) {
 		  var base = '<img src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/'
 		  var end = '" />'
@@ -171,8 +170,7 @@ var ChatRoom = function(client, browser) {
 		    .replace(/8-?\)/, base + '16.gif' + end)
 		    .replace(/8=+(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
 		  return emoticonned
-		},
-		
+		},		
 		add_youtube_embeds: function(message){
 		  var the_match = message.match(/http:\/\/(www.|)youtube\.com\/watch\?v=([^&]+)/);
 		  if (the_match) {
