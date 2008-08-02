@@ -254,8 +254,8 @@ var ChatRoom = function(client, browser) {
 				label.appendChild(self.growl_sticky_checkbox)	
 				label.innerHTML += "sticky growls"			
 				self.growl_sticky_checkbox.className = "steezy-checkbox"			
-				self.growl_sticky_checkbox.checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
-				label.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
+				label.childNodes[0].checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
+				label.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.childNodes[0].checked) }).bind(label, self.preferences_cookie), true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
@@ -320,8 +320,8 @@ var CookieHash = function(key) {
 		this.obj[key] = value
 		this.coookie.set_value(this.obj.to_s())
 	}
-	this.get = function(key){		
-		return this.obj[key]
+	this.get = function(key){
+		return this.obj[key].toString()
 	}
 	
 	return this
