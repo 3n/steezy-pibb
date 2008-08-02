@@ -57,6 +57,7 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
 			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
 			add_css_rule('.important-message', 'background:' + self.important_bg_color + ';', self.client.doc())								
+			add_css_rule('.steezy-label', 'float:left; padding:2px;', self.client.doc())
 		},
 		
 		new_messages : [],
@@ -245,11 +246,13 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 				
 				var label = document.createElement("label")
-				label.innerHTML = "test"
+				label.className = 'steezy-label'
+				
  				self.growl_sticky_checkbox = document.createElement("input")
 				self.growl_sticky_checkbox.setAttribute("type", "checkbox");				
 				self.preferences_element.appendChild(label)
-				label.appendChild(self.growl_sticky_checkbox)				
+				label.appendChild(self.growl_sticky_checkbox)	
+				label.innerHTML += "sticky growls"			
 				self.growl_sticky_checkbox.className = "steezy-checkbox"			
 				self.growl_sticky_checkbox.checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
 				label.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
