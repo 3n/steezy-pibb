@@ -244,12 +244,15 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 				
-				self.growl_sticky_checkbox = document.createElement("input")
+				var label = document.createElement("label")
+				label.innerHTML = "test"
+ 				self.growl_sticky_checkbox = document.createElement("input")
 				self.growl_sticky_checkbox.setAttribute("type", "checkbox");				
-				self.preferences_element.appendChild(self.growl_sticky_checkbox)				
+				self.preferences_element.appendChild(label)
+				label.appendChild(self.growl_sticky_checkbox)				
 				self.growl_sticky_checkbox.className = "steezy-checkbox"			
 				self.growl_sticky_checkbox.checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
-				self.growl_sticky_checkbox.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
+				label.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.checked) }).bind(self.growl_sticky_checkbox, self.preferences_cookie), true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
