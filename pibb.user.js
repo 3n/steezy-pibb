@@ -15,6 +15,26 @@ Function.prototype.bind = function(bind, arg) {
 	return function(){ return fun.call(bind, arg) }
 }
 
+Object.prototype.to_s = function() {
+	var s = ""
+	var x
+	for (x in this){
+		if (typeof this[x] !== 'function') s += (x + "::" + this[x] + ',,') 
+	}
+	return s.slice(0,-2)
+}
+
+String.prototype.to_o = function() {
+	var obj = {}
+
+	this.split(',,').forEach(function(x){
+		var kv = x.split('::')
+		obj[kv[0]] = kv[1]
+	})
+
+	return obj
+}
+
 var ChatRoom = function(client, browser) {
 
 	// private	
@@ -27,19 +47,17 @@ var ChatRoom = function(client, browser) {
 		important_bg_color 	: '#FFC670',	
 		
 		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
+		temp_cookie : new Cookie('temp_cookie', null, 1000),
+		preferences_cookie: new CookieHash('steezy-preferences'),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-input', 'float:left;', self.client.doc())			
-			add_css_rule('#steezy-input', 'width:300px;', self.client.doc())
-			add_css_rule('#steezy-input', 'margin:5px;', self.client.doc())			
-			add_css_rule('#steezy-input', 'padding:2px;', self.client.doc())	
-					
-			add_css_rule('.steezy-tag',   'color:#222222;', self.client.doc())			
-			add_css_rule('.steezy-tag',   'font-weight:bold;', self.client.doc())			
-			add_css_rule('.steezy-tag',  	'background:#f0e600;', self.client.doc())
-			add_css_rule('.steezy-tag',  	'-webkit-border-radius:5px;', self.client.doc())
-			add_css_rule('.steezy-tag',  	'padding:2px;', self.client.doc())			
-			add_css_rule('.steezy-tag',  	'-webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())	
+			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())						
+			add_css_rule('.steezy-input', 'width:300px; margin:5px; padding:2px;', self.client.doc())			
+			add_css_rule('.steezy-label input', 'vertical-align:bottom; margin-right:5px;', self.client.doc())						
+			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
+			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
+			add_css_rule('.important-message', 'background:' + self.important_bg_color + ';', self.client.doc())								
+			add_css_rule('.steezy-label', 'float:left; padding:4px;', self.client.doc())
 		},
 		
 		new_messages : [],
@@ -82,13 +100,13 @@ var ChatRoom = function(client, browser) {
 				self.mark_all_read()
 				message.mark_read(self.client.new_class)
 				message.by_current_user = true
-				message.elem.style['background'] = self.my_bg_color				
+				message.elem.className = message.elem.className + ' by-current-user'		
 			}
 			
 			// if message has one of the words from the alias input in it
 			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
-				self.browser.alert(message.author + " said", message.body, message.icon)
-				message.elem.style['background'] = self.important_bg_color
+				self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
+				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
 			}
 			
@@ -212,20 +230,35 @@ var ChatRoom = function(client, browser) {
 			self.new_messages = []
 			self.browser.set_counter('')
 		},
-		
-		insert_aliases_input: function(){			
-			if (!self.client.doc().getElementById('steezy-input')){
+ 
+		insert_preferences_element: function(){
+			if (!self.client.doc().getElementById('steezy-preferences')){
+				self.preferences_element = document.createElement("div")
+				self.preferences_element.id = "steezy-preferences"
+				self.client.footer().appendChild(self.preferences_element)
+				
 				self.aliases_input = document.createElement("input")
-				self.aliases_input.id = "steezy-input"
-				self.aliases_input['class'] = "steezy-input"			
-
-				self.client.footer().appendChild(self.aliases_input)
-				self.aliases_input.value = self.aliases_input_cookie.get_value()				
-				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set_value(this.value) }).bind(self.aliases_input, self.aliases_input_cookie), true)
+				self.aliases_input.setAttribute("type", "text");				
+				self.preferences_element.appendChild(self.aliases_input)				
+				self.aliases_input.className = "steezy-input"
+				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
+				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
+				
+				var label = document.createElement("label")
+				label.className = 'steezy-label'
+				
+ 				self.growl_sticky_checkbox = document.createElement("input")
+				self.growl_sticky_checkbox.setAttribute("type", "checkbox");				
+				self.preferences_element.appendChild(label)
+				label.appendChild(self.growl_sticky_checkbox)	
+				label.innerHTML += "sticky growls"			
+				self.growl_sticky_checkbox.className = "steezy-checkbox"			
+				label.childNodes[0].checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
+				label.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.childNodes[0].checked) }).bind(label, self.preferences_cookie), true)
 			}
-			
-			window.setTimeout(self.insert_aliases_input, self.period)
+			window.setTimeout(self.insert_preferences_element, self.period)
 		},
+		
 		get_aliases: function(){
 			if (self.aliases_input)
 				return self.aliases_input.value.split(',')
@@ -239,7 +272,7 @@ var ChatRoom = function(client, browser) {
 	self.add_css_rules()
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
-	self.insert_aliases_input()
+	self.insert_preferences_element()
 
 	return that
 };
@@ -258,7 +291,7 @@ var Cookie = function(key, value, max_days) {
 	}
 	
 	this.set_value = function(val) {
-		document.cookie = this.key + '=' + val + (this.expiry || '')
+		document.cookie = this.key + '=' + val.toString() + (this.expiry || '')
 		return this
 	}
 	this.get_value = function() {
@@ -271,6 +304,24 @@ var Cookie = function(key, value, max_days) {
 	}
 	
 	if (value) this.set_value(value)
+	
+	return this
+}
+
+var CookieHash = function(key) {
+	this.coookie = new Cookie(key, null, 1000)
+	this.obj = {}
+
+	var prev = this.coookie.get_value()
+	if (prev) this.obj = prev.to_o()
+
+	this.set = function(key, value){
+		this.obj[key] = value
+		this.coookie.set_value(this.obj.to_s())
+	}
+	this.get = function(key){
+		return this.obj[key].toString()
+	}
 	
 	return this
 }
@@ -351,12 +402,12 @@ var Pibb = function(){
 
 var Fluid = function(){
 	return {
-		alert : function(title, description, icon) {
+		alert : function(title, description, icon, sticky) {
 			window.fluid.showGrowlNotification({
 		    title				: title,
 		    description	: description, 
 		    priority		: 1,
-		    sticky			: true,
+		    sticky			: sticky,
 				icon				: icon
 			})
 		},
