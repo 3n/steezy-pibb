@@ -238,15 +238,15 @@ var ChatRoom = function(client, browser) {
 				self.preferences_element.id = "steezy-preferences"
 				self.client.footer().appendChild(self.preferences_element)
 				
-				self.aliases_input 					= self.preference_checkbox('aliases input', 'text')		
-				self.growl_checkbox 				= self.preference_checkbox('growls', 'checkbox', true)
-				self.growl_sticky_checkbox 	= self.preference_checkbox('sticky growls', 'checkbox')		
+				self.aliases_input 					= self.create_preference_element('aliases input', 'text')		
+				self.growl_checkbox 				= self.create_preference_element('growls', 'checkbox', true)
+				self.growl_sticky_checkbox 	= self.create_preference_element('sticky growls', 'checkbox')		
 				self.preferences_element.appendChild(document.createElement('br'))				
-				self.inline_images_checkbox = self.preference_checkbox('inline images', 'checkbox', true)
+				self.inline_images_checkbox = self.create_preference_element('inline images', 'checkbox', true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
-		preference_checkbox: function(label_text, type, def){
+		create_preference_element: function(label_text, type, def){
 			var cookie_name = label_text.replace(/\s/,'_') + '_' + type				
 			
 			var elem = document.createElement("input")			
