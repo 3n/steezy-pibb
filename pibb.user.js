@@ -105,7 +105,7 @@ var ChatRoom = function(client, browser) {
 			
 			// if message has one of the words from the alias input in it
 			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
-				self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
+				if (self.growl_checkbox.checked) self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
 				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
 			}
@@ -244,25 +244,32 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 		
-				self.growl_sticky_checkbox 	= self.preference_checkbox('sticky growls')
-				self.growl_checkbox 				= self.preference_checkbox('growls')
+				self.growl_checkbox 				= self.preference_checkbox('growls', true)
+				self.growl_sticky_checkbox 	= self.preference_checkbox('sticky growls')									
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
-		preference_checkbox: function(label_text){
+		preference_checkbox: function(label_text, def){
 			var label = document.createElement("label")
 			label.className = 'steezy-label'			
 			self.preferences_element.appendChild(label)
 			
 			var elem = document.createElement("input")			
 			elem.className = "steezy-checkbox"						
-			elem.setAttribute("type", "checkbox");				
+			elem.setAttribute("type", "checkbox");
 			label.appendChild(elem)	
 			
 			var cookie_name = label_text.replace(/\s/,'_') + '_checkbox'
 			
-			label.innerHTML += label_text			
-			label.childNodes[0].checked = (self.preferences_cookie.get(cookie_name) == 'true')
+			label.innerHTML += label_text		
+			
+			if (self.preferences_cookie.get(cookie_name) == 'true')
+				label.childNodes[0].checked = true
+			else if (!self.preferences_cookie.get(cookie_name) && def)
+				label.childNodes[0].checked = true
+			else 
+				label.childNodes[0].checked = false
+			
 			label.addEventListener('click', (function(cookie){ cookie.set(cookie_name,this.childNodes[0].checked) }).bind(label, self.preferences_cookie), true)
 			return elem
 		},
@@ -278,9 +285,9 @@ var ChatRoom = function(client, browser) {
 	
 	// initialize
 	self.add_css_rules()
+	self.insert_preferences_element()	
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
-	self.insert_preferences_element()
 
 	return that
 };
