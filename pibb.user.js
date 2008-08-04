@@ -46,13 +46,12 @@ var ChatRoom = function(client, browser) {
 		my_bg_color 				: '#EEEEEE',
 		important_bg_color 	: '#FFC670',	
 		
-		// aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
-		// temp_cookie : new Cookie('temp_cookie', null, 1000),
 		preferences_cookie: new CookieHash('steezy-preferences'),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())						
-			add_css_rule('.steezy-text', 'width:300px; margin:5px; padding:2px;', self.client.doc())			
+			add_css_rule('#steezy-preferences', 'float:left;width:300px;', self.client.doc())						
+			add_css_rule('#alias_list_text', 'width:200px !important;', self.client.doc())									
+			add_css_rule('.steezy-text', 'margin:5px; padding:2px;', self.client.doc())			
 			add_css_rule('.steezy-label input', 'vertical-align:bottom; margin-right:5px;', self.client.doc())						
 			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
 			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
@@ -238,7 +237,8 @@ var ChatRoom = function(client, browser) {
 				self.preferences_element.id = "steezy-preferences"
 				self.client.footer().appendChild(self.preferences_element)
 				
-				self.aliases_input 					= self.create_preference_element('aliases input', 'text')		
+				self.aliases_input 					= self.create_preference_element('alias list', 'text')		
+				self.preferences_element.appendChild(document.createElement('br'))				
 				self.growl_checkbox 				= self.create_preference_element('growls', 'checkbox', true)
 				self.growl_sticky_checkbox 	= self.create_preference_element('sticky growls', 'checkbox')		
 				self.preferences_element.appendChild(document.createElement('br'))				
