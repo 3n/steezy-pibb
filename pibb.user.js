@@ -249,7 +249,7 @@ var ChatRoom = function(client, browser) {
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
-		preference_checkbox: function(label_text, def){
+		preference_checkbox: function(label_text, def){			
 			var label = document.createElement("label")
 			label.className = 'steezy-label'			
 			self.preferences_element.appendChild(label)
