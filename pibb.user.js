@@ -46,13 +46,13 @@ var ChatRoom = function(client, browser) {
 		my_bg_color 				: '#EEEEEE',
 		important_bg_color 	: '#FFC670',	
 		
-		aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
-		temp_cookie : new Cookie('temp_cookie', null, 1000),
+		// aliases_input_cookie : new Cookie('aliases_input_value', null, 1000),
+		// temp_cookie : new Cookie('temp_cookie', null, 1000),
 		preferences_cookie: new CookieHash('steezy-preferences'),
 		
 		add_css_rules: function(){
 			add_css_rule('#steezy-preferences', 'float:left;', self.client.doc())						
-			add_css_rule('.steezy-input', 'width:300px; margin:5px; padding:2px;', self.client.doc())			
+			add_css_rule('.steezy-text', 'width:300px; margin:5px; padding:2px;', self.client.doc())			
 			add_css_rule('.steezy-label input', 'vertical-align:bottom; margin-right:5px;', self.client.doc())						
 			add_css_rule('.steezy-tag', 'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
 			add_css_rule('.by-current-user', 'background:' + self.my_bg_color + ';', self.client.doc())
@@ -238,45 +238,45 @@ var ChatRoom = function(client, browser) {
 				self.preferences_element.id = "steezy-preferences"
 				self.client.footer().appendChild(self.preferences_element)
 				
-				self.aliases_input = document.createElement("input")
-				self.aliases_input.setAttribute("type", "text");				
-				self.preferences_element.appendChild(self.aliases_input)				
-				self.aliases_input.className = "steezy-input"
-				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
-				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
-		
-				self.growl_checkbox 				= self.preference_checkbox('growls', true)
-				self.growl_sticky_checkbox 	= self.preference_checkbox('sticky growls')
-				
-				self.preferences_element.appendChild(document.createElement('br'))
-				
-				self.inline_images_checkbox = self.preference_checkbox('inline images', true)
+				self.aliases_input 					= self.preference_checkbox('aliases input', 'text')		
+				self.growl_checkbox 				= self.preference_checkbox('growls', 'checkbox', true)
+				self.growl_sticky_checkbox 	= self.preference_checkbox('sticky growls', 'checkbox')		
+				self.preferences_element.appendChild(document.createElement('br'))				
+				self.inline_images_checkbox = self.preference_checkbox('inline images', 'checkbox', true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
-		preference_checkbox: function(label_text, def){
-			var cookie_name = label_text.replace(/\s/,'_') + '_checkbox'				
+		preference_checkbox: function(label_text, type, def){
+			var cookie_name = label_text.replace(/\s/,'_') + '_' + type				
 			
 			var elem = document.createElement("input")			
-			elem.className = "steezy-checkbox"		
+			elem.className = "steezy-" + type		
 			elem.id = cookie_name				
-			elem.setAttribute("type", "checkbox");
+			elem.setAttribute("type", type);
 			self.preferences_element.appendChild(elem)
-			
+
 			var label = document.createElement("label")
 			label.className = 'steezy-label'			
 			label.setAttribute('for', cookie_name)
 			self.preferences_element.appendChild(label)
 			label.innerHTML = label_text		
-			
-			if (self.preferences_cookie.get(cookie_name) == 'true')
-				elem.checked = true
-			else if (!self.preferences_cookie.get(cookie_name) && def)
-				elem.checked = true
-			else
-				elem.checked = false
-			
-			elem.addEventListener('click', (function(cookie){ cookie.set(cookie_name, this.checked) }).bind(elem, self.preferences_cookie), true)
+
+			switch(type){
+				case 'checkbox': 
+					if (self.preferences_cookie.get(cookie_name) == 'true')
+						elem.checked = true
+					else if (!self.preferences_cookie.get(cookie_name) && def)
+						elem.checked = true
+					else
+						elem.checked = false
+					elem.addEventListener('click', (function(cookie){ cookie.set(cookie_name, this.checked) }).bind(elem, self.preferences_cookie), true)
+					break;
+				case 'text':
+					elem.value = self.preferences_cookie.get(cookie_name) || ''
+					elem.addEventListener('keyup', (function(cookie){ cookie.set(cookie_name,this.value) }).bind(elem, self.preferences_cookie), true)
+					break;
+			}
+
 			return elem
 		},
 		
