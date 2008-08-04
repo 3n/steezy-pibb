@@ -50,7 +50,7 @@ var ChatRoom = function(client, browser) {
 		
 		add_css_rules: function(){
 			add_css_rule('#steezy-preferences', 'width:300px;text-align:left;', self.client.doc())						
-			add_css_rule('#alias_list_text', 		'padding:2px; width:200px !important;', self.client.doc())									
+			add_css_rule('#alias_list_text,#away_message_text', 		'padding:2px; width:200px !important;', self.client.doc())									
 			add_css_rule('#steezy-preferences input', 'margin:5px', self.client.doc())									
 			
 			add_css_rule('.steezy-tag', 				'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
@@ -110,6 +110,13 @@ var ChatRoom = function(client, browser) {
 				if (self.growl_checkbox.checked) self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
 				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
+				if (self.away_checkbox.checked && self.away_message && self.away_message.value.length > 0) {
+					self.client.message_input().value = "Auto Reply: " + self.away_message.value					
+					var evt = document.createEvent("MouseEvents");
+					evt.initMouseEvent("click", true, true, window,0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					self.client.post_button().dispatchEvent(evt);
+				}
+					
 			}
 			
 			if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
@@ -249,6 +256,9 @@ var ChatRoom = function(client, browser) {
 				self.videos_checkbox = self.create_preference_element('inline videos', 'checkbox', true)				
 				self.preferences_element.appendChild(document.createElement('br'))				
 				self.emoticons_checkbox = self.create_preference_element('emoticons', 'checkbox', true)
+				self.preferences_element.appendChild(document.createElement('br'))
+				self.away_message 					= self.create_preference_element('away message', 'text')		
+				self.away_checkbox					= self.create_preference_element('away', 'checkbox')
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
@@ -406,6 +416,7 @@ var Pibb = function(){
 			else return null
 		},
 		message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
+		post_button			: function() { return self.doc().getElementsByClassName('PostOptions')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',
 		

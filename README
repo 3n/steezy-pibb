@@ -24,11 +24,16 @@ WHAT IT DOES
   - When elements are injected by this script the message window will scroll
     to fit them, unless the user is currently scrolled upwards in the conversation
     (because that would get annoying).
+    
+  Away status auto-reply
+  - Enter a string into the provided "away message" text box and check "away" - now
+    anytime someone mentions one of your aliases it will submit that string you
+    provided as a message automatically. 
   
   Message Styling
   - Unread messages are colored. 
   - Message with aliases from alias list highlighted.
-  - Messages you wrote are colored for scanning other's messages.  
+  - Messages you wrote are colored for quick-scanning chat history.
   
   FUN
   - Inserting of img tags for messages that contain img urls. 
