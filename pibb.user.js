@@ -244,8 +244,8 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 		
-				self.growl_sticky_checkbox = self.preference_checkbox('sticky growls')
-				self.growl_checkbox = self.preference_checkbox('growls')
+				self.growl_sticky_checkbox 	= self.preference_checkbox('sticky growls')
+				self.growl_checkbox 				= self.preference_checkbox('growls')
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
