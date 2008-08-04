@@ -91,4 +91,5 @@ TODO
 
   
   - setting away message: any message with one of your aliases in it will be replied to 
-    automatically with a message. (Requires server communication - could be hell of painful)
+    automatically with a message. Just transfer the contents of some input into the message
+    input and submit that shit. Maybe also have an "away" checkbox. 
