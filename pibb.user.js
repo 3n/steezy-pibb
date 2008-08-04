@@ -86,10 +86,13 @@ var ChatRoom = function(client, browser) {
 
       if (self.inline_images_checkbox.checked) 
 				msg += self.add_img_tags(msg)
-      msg += self.add_twitter_img_tags(msg)
-      msg =  self.add_emoticons(msg)
-      msg += self.add_sad_trombone(msg)
-      msg += self.add_youtube_embeds(msg)
+			if (self.inline_tweets_checkbox.checked) 				
+      	msg += self.add_twitter_img_tags(msg)
+			if (self.emoticons_checkbox.checked)
+      	msg =  self.add_emoticons(msg)
+      if (self.videos_checkbox.checked)
+				msg += self.add_youtube_embeds(msg)
+			msg += self.add_sad_trombone(msg)
       msg += self.add_gists(msg)
       
       var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
@@ -242,6 +245,10 @@ var ChatRoom = function(client, browser) {
 				self.growl_sticky_checkbox 	= self.create_preference_element('sticky growls', 'checkbox')		
 				self.preferences_element.appendChild(document.createElement('br'))				
 				self.inline_images_checkbox = self.create_preference_element('inline images', 'checkbox', true)
+				self.inline_tweets_checkbox = self.create_preference_element('inline tweets', 'checkbox', true)				
+				self.videos_checkbox = self.create_preference_element('inline videos', 'checkbox', true)				
+				self.preferences_element.appendChild(document.createElement('br'))				
+				self.emoticons_checkbox = self.create_preference_element('emoticons', 'checkbox', true)
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
