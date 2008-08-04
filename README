@@ -72,12 +72,15 @@ TODO
 
   Preferences form (injected on bottom)
   - to growl or not to growl
-  - growl stickiness
   - colors for messages
+  
+  - setting away message: any message with one of your aliases in it will be replied to 
+    automatically with a message. Just transfer the contents of some input into the message
+    input and submit that shit. Maybe also have an "away" checkbox.
+    
+  MAYBE
 
-  - Make an Element wrapper class for add_class and remove_class kinda things.
-
-  - clean up the dynamic css shit. make it parse one big string of rules.
+  - Make an Element wrapper class for add_class and remove_class kinda things?
 
   - Somehow the script makes highlighting message-internals impossible in fluid...
   
@@ -87,9 +90,3 @@ TODO
   - focus input bar
     
   - handle tab switching (detect if tab is switched and do the right thing)
-    
-
-  
-  - setting away message: any message with one of your aliases in it will be replied to 
-    automatically with a message. Just transfer the contents of some input into the message
-    input and submit that shit. Maybe also have an "away" checkbox. 
