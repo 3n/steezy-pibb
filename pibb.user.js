@@ -105,7 +105,7 @@ var ChatRoom = function(client, browser) {
 			
 			// if message has one of the words from the alias input in it
 			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
-				self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
+				self.browser.alert(message.author + " said", message.body, message.icon, true)
 				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
 			}
@@ -244,18 +244,6 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 		
-				
-				// var label = document.createElement("label")
-				// label.className = 'steezy-label'
-				// 
-				//  				self.growl_sticky_checkbox = document.createElement("input")
-				// self.growl_sticky_checkbox.setAttribute("type", "checkbox");				
-				// self.preferences_element.appendChild(label)
-				// label.appendChild(self.growl_sticky_checkbox)	
-				// label.innerHTML += "sticky growls"			
-				// self.growl_sticky_checkbox.className = "steezy-checkbox"			
-				// label.childNodes[0].checked = (self.preferences_cookie.get('growl_sticky_checkbox') == 'true')
-				// label.addEventListener('click', (function(cookie){ cookie.set('growl_sticky_checkbox',this.childNodes[0].checked) }).bind(label, self.preferences_cookie), true)
 				self.growl_sticky_checkbox = self.preference_checkbox('sticky growls', 'growl_sticky_checkbox')
 				self.growl_checkbox = self.preference_checkbox('growls', 'growl_checkbox')
 			}
@@ -264,16 +252,16 @@ var ChatRoom = function(client, browser) {
 		preference_checkbox: function(label_text, cookie_name){
 			var label = document.createElement("label")
 			label.className = 'steezy-label'			
-			var elem = document.createElement("input")
-			elem.setAttribute("type", "checkbox");				
 			self.preferences_element.appendChild(label)
+			
+			var elem = document.createElement("input")			
+			elem.className = "steezy-checkbox"						
+			elem.setAttribute("type", "checkbox");				
 			label.appendChild(elem)	
+			
 			label.innerHTML += label_text			
-			elem.className = "steezy-checkbox"			
 			label.childNodes[0].checked = (self.preferences_cookie.get(cookie_name) == 'true')
 			label.addEventListener('click', (function(cookie){ cookie.set(cookie_name,this.childNodes[0].checked) }).bind(label, self.preferences_cookie), true)
-label.addEventListener('click', function(){alert('label')}, true)
-elem.addEventListener('click', function(){alert('elem')}, true)
 			return elem
 		},
 		
@@ -338,7 +326,8 @@ var CookieHash = function(key) {
 		this.coookie.set_value(this.obj.to_s())
 	}
 	this.get = function(key){
-		return this.obj[key].toString()
+		if (this.obj[key])
+			return this.obj[key].toString()
 	}
 	
 	return this
