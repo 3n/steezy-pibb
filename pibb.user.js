@@ -50,7 +50,7 @@ var ChatRoom = function(client, browser) {
 		
 		add_css_rules: function(){
 			add_css_rule('#steezy-preferences', 'width:300px;text-align:left;', self.client.doc())						
-			add_css_rule('#alias_list_text', 		'width:200px !important;', self.client.doc())									
+			add_css_rule('#alias_list_text', 		'padding:2px; width:200px !important;', self.client.doc())									
 			add_css_rule('#steezy-preferences input', 'margin:5px', self.client.doc())									
 			
 			add_css_rule('.steezy-tag', 				'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
