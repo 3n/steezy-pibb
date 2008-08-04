@@ -244,12 +244,12 @@ var ChatRoom = function(client, browser) {
 				self.aliases_input.value = self.preferences_cookie.get('aliases_input')
 				self.aliases_input.addEventListener('keyup', (function(cookie){ cookie.set('aliases_input',this.value) }).bind(self.aliases_input, self.preferences_cookie), true)
 		
-				self.growl_sticky_checkbox = self.preference_checkbox('sticky growls', 'growl_sticky_checkbox')
-				self.growl_checkbox = self.preference_checkbox('growls', 'growl_checkbox')
+				self.growl_sticky_checkbox = self.preference_checkbox('sticky growls')
+				self.growl_checkbox = self.preference_checkbox('growls')
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
 		},
-		preference_checkbox: function(label_text, cookie_name){
+		preference_checkbox: function(label_text){
 			var label = document.createElement("label")
 			label.className = 'steezy-label'			
 			self.preferences_element.appendChild(label)
@@ -258,6 +258,8 @@ var ChatRoom = function(client, browser) {
 			elem.className = "steezy-checkbox"						
 			elem.setAttribute("type", "checkbox");				
 			label.appendChild(elem)	
+			
+			var cookie_name = label_text.replace(/\s/,'_') + '_checkbox'
 			
 			label.innerHTML += label_text			
 			label.childNodes[0].checked = (self.preferences_cookie.get(cookie_name) == 'true')
