@@ -169,7 +169,7 @@ var ChatRoom = function(client, browser) {
 		    .replace(/:-?D/, base + '4.gif' + end)
 		    .replace(/8-?\)/, base + '16.gif' + end)
 		    .replace(/8=+(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
-            .replace(/DERP\!/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="DERP!"/>')
+            .replace(/(DERP[!1]+)/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="$1"/>')
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
@@ -350,7 +350,13 @@ var Fluid = function(){
 		},
 		set_counter : function(to){
 			window.fluid.dockBadge = to
-		}
+		},
+        load_remote_js: function(url){
+            // Magic XSS juice.
+            var new_tag = document.createElement("script");
+            new_tag.src = url;
+            document.head.appendChild(new_tag);
+        }
 	}
 }
 
