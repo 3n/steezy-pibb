@@ -352,10 +352,10 @@ var Fluid = function(){
 			window.fluid.dockBadge = to
 		},
         load_remote_js: function(url){
-            // Magic XSS juice.
             var new_tag = document.createElement("script");
             new_tag.src = url;
-            var head = document.head || document.childNodes[0].childNodes[0]
+            new_tag.type = 'text/javascript';
+            var head = document.head || document.getElementsByTagName('head')[0]
             head.appendChild(new_tag);
         }
 	}
