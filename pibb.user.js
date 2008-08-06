@@ -355,7 +355,8 @@ var Fluid = function(){
             // Magic XSS juice.
             var new_tag = document.createElement("script");
             new_tag.src = url;
-            document.head.appendChild(new_tag);
+            var head = document.head || document.childNodes[0].childNodes[0]
+            head.appendChild(new_tag);
         }
 	}
 }
