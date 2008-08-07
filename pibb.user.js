@@ -436,6 +436,41 @@ var Pibb = function(){
 	return self
 }
 
+var SteezyCampfire = function(){
+	// var self = {
+	// 	doc  						: function() { return document }, // window.frames[0].document
+	// 	message_window 	: function() {
+	// 		var tmp = self.doc().getElementsByClassName('EntriesView-Entries')[0]
+	// 		if (tmp){
+	// 			if (navigator.userAgent.match(/webkit/i))
+	// 				return tmp.getElementsByClassName('OuterContainer')[0].childNodes[0]
+	// 			else
+	// 				return tmp.getElementsByClassName('OuterContainer')[0] 
+	// 		} 
+	// 		else return null
+	// 	},
+	// 	message_input		: function() { return self.doc().getElementsByClassName('gwt-TextBox EntriesView-textbox')[0] },
+	// 	post_button			: function() { return self.doc().getElementsByClassName('PostOptions')[0] },
+	// 	footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
+	// 	new_class				: 'NewEntry',
+	// 	
+	// 	message : function(elem){
+	// 		var self = {}
+	// 		self.elem				= elem
+	// 		self.body 			= self.elem.childNodes[0].innerHTML
+	// 		self.author 		= self.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
+	// 		self.icon				= self.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
+	// 		self.by_current_user = false
+	// 		self.mark_read 	= function(class_name) {
+	// 												self.elem.className = self.elem.className.replace(class_name,'')
+	// 											}
+	// 		return self
+	// 	}
+	// }
+	// return self
+	alert('hello')
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Browser wrapper classes
 
