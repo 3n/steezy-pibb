@@ -38,26 +38,6 @@ function steezy_deserialize(s) {
 	return obj
 }
 
-// Object.prototype.steezy_serialize = function() {
-// 	var s = ""
-// 	var x
-// 	for (x in this){
-// 		if (typeof this[x] !== 'function') s += (x + "::" + this[x] + ',,') 
-// 	}
-// 	return s.slice(0,-2)
-// }
-// 
-// String.prototype.steezy_deserialize = function() {
-// 	var obj = {}
-// 
-// 	this.split(',,').forEach(function(x){
-// 		var kv = x.split('::')
-// 		obj[kv[0]] = kv[1]
-// 	})
-// 
-// 	return obj
-// }
-
 var ChatRoom = function(client, browser) {
 
 	// private	
@@ -65,7 +45,7 @@ var ChatRoom = function(client, browser) {
 		client							: client,
 		browser							: browser,
 		
-		period 							: 1000,		
+		period 							: 3000,		
 		my_bg_color 				: '#EEEEEE',
 		important_bg_color 	: '#FFC670',	
 		
@@ -85,7 +65,6 @@ var ChatRoom = function(client, browser) {
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
-				console.log(elems.length)
 				
 				if (elems.length < self.new_messages.length)
 					self.new_messages = []
@@ -487,15 +466,15 @@ var SteezyCampfire = function(){
 		},
 		get_new_message_elems : function(){
 			var tmp = []			
-			var id
-			
-			for ( var last = self.message_window().lastChild; (last && last.id != self.last_id); last = last.previousSibling ){
+			var id = ''
+
+			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
+				if (last.id == self.last_id) break
 				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) continue
-				if (!id) id = last.id				
+				if (id == '')	id = last.id
 				tmp.push(last)
 			}
-			self.last_id = id
-			
+			if (id.length > 0) self.last_id = id
 			return tmp
 		},
 		last_id : ""
