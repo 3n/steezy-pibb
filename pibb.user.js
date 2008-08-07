@@ -18,25 +18,45 @@ if (!Function.bind){
 	}
 }
 
-Object.prototype.to_s = function() {
+function steezy_serialize(o) {
 	var s = ""
 	var x
-	for (x in this){
-		if (typeof this[x] !== 'function') s += (x + "::" + this[x] + ',,') 
+	for (x in o){
+		if (typeof o[x] !== 'function') s += (x + "::" + o[x] + ',,') 
 	}
 	return s.slice(0,-2)
 }
 
-String.prototype.to_o = function() {
+function steezy_deserialize(s) {
 	var obj = {}
 
-	this.split(',,').forEach(function(x){
+	s.split(',,').forEach(function(x){
 		var kv = x.split('::')
 		obj[kv[0]] = kv[1]
 	})
 
 	return obj
 }
+
+// Object.prototype.steezy_serialize = function() {
+// 	var s = ""
+// 	var x
+// 	for (x in this){
+// 		if (typeof this[x] !== 'function') s += (x + "::" + this[x] + ',,') 
+// 	}
+// 	return s.slice(0,-2)
+// }
+// 
+// String.prototype.steezy_deserialize = function() {
+// 	var obj = {}
+// 
+// 	this.split(',,').forEach(function(x){
+// 		var kv = x.split('::')
+// 		obj[kv[0]] = kv[1]
+// 	})
+// 
+// 	return obj
+// }
 
 var ChatRoom = function(client, browser) {
 
@@ -347,11 +367,11 @@ var CookieHash = function(key) {
 	this.obj = {}
 
 	var prev = this.coookie.get_value()
-	if (prev) this.obj = prev.to_o()
+	if (prev) this.obj = steezy_deserialize(prev)
 
 	this.set = function(key, value){
 		this.obj[key] = value
-		this.coookie.set_value(this.obj.to_s())
+		this.coookie.set_value(steezy_serialize(this.obj))
 	}
 	this.get = function(key){
 		if (this.obj[key])
