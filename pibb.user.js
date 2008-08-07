@@ -52,7 +52,7 @@ var ChatRoom = function(client, browser) {
 		preferences_cookie: new CookieHash('steezy-preferences'),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-preferences', 'width:300px;text-align:left;', self.client.doc())						
+			add_css_rule('#steezy-preferences', 'width:300px;text-align:left;font-size:10px;', self.client.doc())						
 			add_css_rule('#alias_list_text,#away_message_text', 		'padding:2px; width:200px !important;', self.client.doc())									
 			add_css_rule('#steezy-preferences input', 'margin:5px', self.client.doc())									
 			
@@ -64,7 +64,7 @@ var ChatRoom = function(client, browser) {
 		new_messages : [],
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
-				var elems = self.get_new_message_elems()
+				var elems = self.client.get_new_message_elems()
 				
 				if (elems.length < self.new_messages.length)
 					self.new_messages = []
@@ -73,15 +73,6 @@ var ChatRoom = function(client, browser) {
 					if (elems[i]) self.handle_new_message(elems[i])
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
-		},
-		get_new_message_elems : function(){
-			var elems = self.client.message_window().getElementsByClassName(self.client.new_class)
-			var lame = []
-			
-			for (var i=0; i < elems.length; i++)
-				if (elems[i] && elems[i].className && elems[i].className.match(self.client.new_class)) lame.push(elems[i])
-				
-			return lame
 		},
 		handle_new_message: function(elem) {
 			var message = new self.client.message(elem)
@@ -436,6 +427,15 @@ var Pibb = function(){
 													self.elem.className = self.elem.className.replace(class_name,'')
 												}
 			return self
+		},
+		get_new_message_elems : function(){
+			var elems = self.message_window().getElementsByClassName(self.new_class)
+			var lame = []
+			
+			for (var i=0; i < elems.length; i++)
+				if (elems[i] && elems[i].className && elems[i].className.match(self.new_class)) lame.push(elems[i])
+				
+			return lame
 		}
 	}
 	return self
@@ -463,7 +463,22 @@ var SteezyCampfire = function(){
 													self.elem.className = self.elem.className.replace(class_name,'')
 												}
 			return self
-		}
+		},
+		get_new_message_elems : function(){
+			var tmp = []
+			var last = self.message_window().lastChild
+			var id
+			
+			for ( ; last.id != self.last_id; last = last.previousSibling ){
+				if (last.nodeType != 1 || !last.id) continue
+				else id = last.id
+				tmp.push = last
+			}
+			self.last_id = id
+			
+			return tmp
+		},
+		last_id : ""
 	}
 	console.log('SteezyCampfire done')
 	return self
