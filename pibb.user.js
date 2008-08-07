@@ -1,18 +1,21 @@
 // ==UserScript==
-// @name          Steezy Pibb
+// @name          Steezy Chat
 // @namespace     http://www.iancollins.me
-// @description   Makes Pibb + Fluid/Firefox one hell of a steez
+// @description   Makes Pibb/Campfire + Fluid/Firefox one hell of a steez
 // @author        Ian Collins
 // @homepage      http://www.iancollins.me
 // @include       *pibb.com*
+// @include       *campfirenow.com*
 // ==/UserScript==
 
 ///////////////////////////////////////////////////////////////////////////////
 // Native Extensions
 
-Function.prototype.bind = function(bind, arg) {
-	var fun = this
-	return function(){ return fun.call(bind, arg) }
+if (!Function.bind){
+	Function.prototype.bind = function(bind, arg) {
+		var fun = this
+		return function(){ return fun.call(bind, arg) }
+	}
 }
 
 Object.prototype.to_s = function() {
@@ -311,6 +314,8 @@ var ChatRoom = function(client, browser) {
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
 
+	console.log('finished ChatRoom init')
+
 	return that
 };
 
@@ -468,7 +473,7 @@ var SteezyCampfire = function(){
 	// 	}
 	// }
 	// return self
-	alert('hello')
+	console.log('hello')
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -511,8 +516,6 @@ var Other = function(){
 
 // only create pibb instance for second frame(set) (they all run this script)
 function init(){
-	var client = Pibb
-	
 	if (window.fluid)
 		var browser = Fluid
 	else if (window.callout)
@@ -521,6 +524,8 @@ function init(){
 		var browser = Other
 	
 	if (document.title == "Janrain PIBB")
-		window.chat_room = new ChatRoom(new client(), new browser())
+		window.chat_room = new ChatRoom(new Pibb(), new browser())
+	if (document.title.match('Campfire'))
+		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
 }
-init()
+// init()
