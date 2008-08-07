@@ -478,30 +478,38 @@ var SteezyCampfire = function(){
 			var id = ''			
 
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
+				// console.log('================================')
 				if (last.id == self.last_id){
+					// console.log('BREAK')
 					break
 				} 
-				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) 
+				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) {
+					// console.log('CONTINUE')
 					continue
+				}
+					
 					
 				if (!last.className.match(self.new_class)) {
+					// console.log('no class here')
 					last.className += ' ' + self.new_class
-					if (id == '')	id = last.id
-				}					
+					if (id == '')	id = last.id // problem here: don't always set
+				}
 				
 				tmp.push(last)
 			}
-			if (id.length > 0) self.last_id = id
+			if (id.length > 0) {
+				console.log('RESET THE LAST ID TO ' + id)
+				self.last_id = id
+			} 
 			
-			console.log('get_new_message_elems length ' + tmp.length)
+			console.log("FOUND THIS MANY " + tmp.length)
 			
 			return tmp
 		}
 	}
 	
 	self.last_id = self.message_window().lastChild.previousSibling.id
-	
-	console.log('SteezyCampfire done')
+
 	return self
 }
 
