@@ -515,7 +515,7 @@ var Other = function(){
 // Initialization 
 
 // only create pibb instance for second frame(set) (they all run this script)
-function init(){
+function steezy_init(){
 	if (window.fluid)
 		var browser = Fluid
 	else if (window.callout)
@@ -528,4 +528,4 @@ function init(){
 	if (document.title.match('Campfire'))
 		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
 }
-// init()
+steezy_init()
