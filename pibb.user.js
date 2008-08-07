@@ -59,12 +59,18 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('.steezy-tag', 				'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
 			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ';', self.client.doc())
 			add_css_rule('.important-message', 	'background:' + self.important_bg_color + ';', self.client.doc())								
+			
+			add_css_rule('.steezy-new', 	'color:red;', self.client.doc())								
 		},
 		
 		new_messages : [],
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
+				
+				console.log('=====')
+				console.log('elems.length ' + elems.length)
+				console.log('self.new_messages.length ' + self.new_messages.length)
 				
 				if (elems.length < self.new_messages.length)
 					self.new_messages = []
@@ -460,21 +466,25 @@ var SteezyCampfire = function(){
 			self.icon				= "FAKE ICON"
 			self.by_current_user = false
 			self.mark_read 	= function(class_name) {
-													self.elem.className = self.elem.className.replace(class_name,'')
+													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(class_name,'')
 												}
 			return self
 		},
 		get_new_message_elems : function(){
-			var tmp = []			
+			var tmp = []
 			var id = ''
 
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
 				if (last.id == self.last_id) break
 				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) continue
 				if (id == '')	id = last.id
+				last.className += ' ' + self.new_class
 				tmp.push(last)
 			}
 			if (id.length > 0) self.last_id = id
+			
+			// console.log(tmp.length)
+			
 			return tmp
 		},
 		last_id : ""
