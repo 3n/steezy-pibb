@@ -65,6 +65,7 @@ var ChatRoom = function(client, browser) {
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
+				console.log(elems.length)
 				
 				if (elems.length < self.new_messages.length)
 					self.new_messages = []
@@ -454,8 +455,8 @@ var SteezyCampfire = function(){
 		
 		message : function(elem){
 			var self = {}
-			self.elem				= elem
-			self.body 			= self.elem.getElementsByClassName('body')[0].childNodes[0]
+			self.elem				= elem.getElementsByClassName('body')[0].childNodes[0]
+			self.body 			= self.elem.innerHTML
 			self.author 		= "FAKE AUTHOR"
 			self.icon				= "FAKE ICON"
 			self.by_current_user = false
@@ -465,14 +466,13 @@ var SteezyCampfire = function(){
 			return self
 		},
 		get_new_message_elems : function(){
-			var tmp = []
-			var last = self.message_window().lastChild
+			var tmp = []			
 			var id
 			
-			for ( ; last.id != self.last_id; last = last.previousSibling ){
-				if (last.nodeType != 1 || !last.id) continue
-				else id = last.id
-				tmp.push = last
+			for ( var last = self.message_window().lastChild; (last && last.id != self.last_id); last = last.previousSibling ){
+				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) continue
+				if (!id) id = last.id				
+				tmp.push(last)
 			}
 			self.last_id = id
 			
