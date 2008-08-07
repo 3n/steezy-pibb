@@ -68,12 +68,14 @@ var ChatRoom = function(client, browser) {
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
 				
-				console.log('=====')
-				console.log('elems.length ' + elems.length)
-				console.log('self.new_messages.length ' + self.new_messages.length)
+				// console.log('=====')
+				// console.log('elems.length ' + elems.length)
+				// console.log('self.new_messages.length ' + self.new_messages.length)
 				
-				if (elems.length < self.new_messages.length)
+				if (elems.length < self.new_messages.length){
 					self.new_messages = []
+					console.log('CLEARED')
+				}					
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
@@ -237,6 +239,7 @@ var ChatRoom = function(client, browser) {
 		mark_all_read : function() {
 			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class) })
 			self.new_messages = []
+			console.log('CLEARED 2')
 			self.browser.set_counter('')
 		},
  
@@ -472,23 +475,32 @@ var SteezyCampfire = function(){
 		},
 		get_new_message_elems : function(){
 			var tmp = []
-			var id = ''
+			var id = ''			
 
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
-				if (last.id == self.last_id) break
-				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) continue
-				if (id == '')	id = last.id
-				last.className += ' ' + self.new_class
+				if (last.id == self.last_id){
+					break
+				} 
+				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) 
+					continue
+					
+				if (!last.className.match(self.new_class)) {
+					last.className += ' ' + self.new_class
+					if (id == '')	id = last.id
+				}					
+				
 				tmp.push(last)
 			}
 			if (id.length > 0) self.last_id = id
 			
-			// console.log(tmp.length)
+			console.log('get_new_message_elems length ' + tmp.length)
 			
 			return tmp
-		},
-		last_id : ""
+		}
 	}
+	
+	self.last_id = self.message_window().lastChild.previousSibling.id
+	
 	console.log('SteezyCampfire done')
 	return self
 }
