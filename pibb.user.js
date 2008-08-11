@@ -453,14 +453,7 @@ var Fluid = function(){
 		},
 		set_counter : function(to){
 			window.fluid.dockBadge = to
-		},
-        load_remote_js: function(url){
-            var new_tag = document.createElement("script");
-            new_tag.src = url;
-            new_tag.type = 'text/javascript';
-            var head = document.head || document.getElementsByTagName('head')[0]
-            head.appendChild(new_tag);
-        }
+		}
 	}
 }
 
