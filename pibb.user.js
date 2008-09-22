@@ -146,7 +146,7 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		add_img_tags: function(message){
-			var the_match = message.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/)
+			var the_match = message.match(/(http:\/\/[^<>]+\.(jpg|png|gif))/i)
 			if (the_match)
 			  return '<br /><img src="'+ the_match[0] + '" />'
 		  else
