@@ -78,6 +78,10 @@ HOW TO MAKE IT WORK
 
 TODO
 
+	use setInterval
+
+  don't mark all read on auto-replies
+
   Preferences form (injected on bottom)
   - colors for messages
   
