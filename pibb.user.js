@@ -179,9 +179,9 @@ var ChatRoom = function(client, browser) {
 		  if (the_match) {
 		    var embed = ' '
 		    embed += '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="400" height="373">'
-        embed += '<param name="movie" value="http://crossgrain.com/haha/haha.swf" />'
+        embed += '<param name="movie" value="http://crossgrain.info/haha/haha.swf" />'
         embed += '<param name="quality" value="high" />'
-        embed += '<embed src="http://crossgrain.com/haha/haha.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="400" height="373"></embed>'
+        embed += '<embed src="http://crossgrain.info/haha/haha.swf" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="400" height="373"></embed>'
         embed += '</object>'
         return embed
 		  } else {
@@ -197,7 +197,7 @@ var ChatRoom = function(client, browser) {
 		    .replace(/:-?D/, base + '4.gif' + end)
 		    .replace(/8-?\)/, base + '16.gif' + end)
 		    .replace(/8=+(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
-            .replace(/DERP\!/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="DERP!"/>')
+        .replace(/DERP\!/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="DERP!"/>')
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
