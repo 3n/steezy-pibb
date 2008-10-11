@@ -86,12 +86,11 @@ var ChatRoom = function(client, browser) {
 				logg('length of stored new (self.new_messages): ' + self.new_messages.length, 'selfnewmessages', 	self.client.doc(),self.client.footer())
 				
 				
-				// this was breaking campfire to shit, but might be needed in pibb
-				
-				// if (elems.length < self.new_messages.length){
-				// 	self.new_messages = []
-				// 	console.log('CLEARED 77')
-				// }					
+				// this was breaking campfire to shit, but might be needed in pibb				
+				if (elems.length < self.new_messages.length){
+					self.new_messages = []
+					console.log('CLEARED 77')
+				}
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
@@ -490,7 +489,7 @@ var SteezyCampfire = function(){
 			return self
 		},
 		get_new_message_elems : function(){
-			console.log('get_new_message_elems')
+			console.log('x')
 			var tmp = []
 			var id = ''		
 			var reached_new = false	
@@ -499,19 +498,23 @@ var SteezyCampfire = function(){
 				logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
 				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())
 				logg('var id: ' + id, 'varid', self.doc(),self.footer())
+
+
+				// problem: see a message, mark it as new, click clears the class out, next cycle it's returned as new
+				// pointer is initialized. new messages come in. pointer stays good. message marked read. 
+				// 	first pass pointer is good. 2nd pass pointer fucks up. 
 				
-				// on new message:
-				// get new, continue, neither, continue, break, reset selfid
 				
+				// this block just skips over non-message elems and breaks when we hit the last_id
 				if (last.id == self.last_id){
-					console.log('BREAK') // this is triggering when it shouldn't
+					// console.log('BREAK') // this is triggering when it shouldn't
 					break
 				}else
 				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) {
-					console.log('CONTINUE')
+					// console.log('CONTINUE')
 					continue
 				}else{
-					console.log('NEITHER')
+					// console.log('NEITHER')
 				}
 					
 					
@@ -535,7 +538,7 @@ var SteezyCampfire = function(){
 			
 			if (!reached_new){ // not quite right yet			
 				self.last_id = self.message_window().lastChild.previousSibling.id
-				console.log('reset self.last_id')
+				// console.log('reset self.last_id')
 			}
 			
 			// set self.last_id to id, if it was set
