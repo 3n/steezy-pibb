@@ -486,6 +486,7 @@ var SteezyCampfire = function(){
 			return self
 		},
 		get_new_message_elems : function(){
+			console.log('get_new_message_elems')
 			var tmp = []
 			var id = ''		
 			var reached_new = false	
@@ -493,21 +494,24 @@ var SteezyCampfire = function(){
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
 				logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
 				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())
+				logg('var id: ' + id, 'varid', self.doc(),self.footer())
 				
 				if (last.id == self.last_id){
-					// console.log('BREAK') // this is triggering when it shouldn't
+					console.log('BREAK') // this is triggering when it shouldn't
 					break
-				}
+				}else
 				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) {
-					// console.log('CONTINUE')
+					console.log('CONTINUE')
 					continue
+				}else{
+					console.log('NEITHER')
 				}
 					
 					
 				if (!last.className.match(self.new_class)) {
 					// console.log('no class here')
 					last.className += ' ' + self.new_class
-					if (id == '' && reached_new)	
+					if (id === '' && reached_new)	
 						id = last.id   // problem here: don't always set
 				}else {					
 					reached_new = true
@@ -517,8 +521,10 @@ var SteezyCampfire = function(){
 				tmp.push(last)
 			}
 			
-			if (!reached_new) // not quite right yet			
+			if (!reached_new){ // not quite right yet			
 				self.last_id = self.message_window().lastChild.previousSibling.id
+				console.log('reset self.last_id')
+			}
 			
 			if (id.length > 0) {
 				console.log('RESET THE LAST ID TO ' + id)
