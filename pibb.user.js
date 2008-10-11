@@ -85,10 +85,13 @@ var ChatRoom = function(client, browser) {
 				logg('length of elems (result of get_new): ' + elems.length, 									'elemslength', 			self.client.doc(),self.client.footer())
 				logg('length of stored new (self.new_messages): ' + self.new_messages.length, 'selfnewmessages', 	self.client.doc(),self.client.footer())
 				
-				if (elems.length < self.new_messages.length){
-					self.new_messages = []
-					console.log('CLEARED 77')
-				}					
+				
+				// this was breaking campfire to shit, but might be needed in pibb
+				
+				// if (elems.length < self.new_messages.length){
+				// 	self.new_messages = []
+				// 	console.log('CLEARED 77')
+				// }					
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
