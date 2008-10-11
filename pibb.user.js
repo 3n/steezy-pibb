@@ -8,6 +8,18 @@
 // @include       *campfirenow.com*
 // ==/UserScript==
 
+function logg(message, id, doc, e){
+	var elem = doc.getElementById(id)
+	if (elem)
+		elem.innerHTML = message
+	else {
+		var tmp = doc.createElement('div')
+		tmp.innerHTML = message
+		tmp.id = id
+		e.appendChild(tmp)
+	}		
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Native Extensions
 
@@ -45,7 +57,7 @@ var ChatRoom = function(client, browser) {
 		client							: client,
 		browser							: browser,
 		
-		period 							: 3000,		
+		period 							: 5000,		
 		my_bg_color 				: '#EEEEEE',
 		important_bg_color 	: '#FFC670',	
 		
@@ -74,7 +86,7 @@ var ChatRoom = function(client, browser) {
 				
 				if (elems.length < self.new_messages.length){
 					self.new_messages = []
-					console.log('CLEARED')
+					console.log('CLEARED 77')
 				}					
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
@@ -479,13 +491,15 @@ var SteezyCampfire = function(){
 			var reached_new = false	
 
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
-				// console.log('================================')
+				logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
+				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())
+				
 				if (last.id == self.last_id){
-					console.log('BREAK') // this is triggering when it shouldn't
+					// console.log('BREAK') // this is triggering when it shouldn't
 					break
-				} 
+				}
 				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) {
-					console.log('CONTINUE')
+					// console.log('CONTINUE')
 					continue
 				}
 					
@@ -493,11 +507,12 @@ var SteezyCampfire = function(){
 				if (!last.className.match(self.new_class)) {
 					// console.log('no class here')
 					last.className += ' ' + self.new_class
-					if (id == '' && reached_new)	id = last.id   // problem here: don't always set
-				}else {
-					console.log('REACHED NEW')
+					if (id == '' && reached_new)	
+						id = last.id   // problem here: don't always set
+				}else {					
 					reached_new = true
 				}
+				logg('reached new: ' + reached_new, 'reached_new', self.doc(),self.footer())
 				
 				tmp.push(last)
 			}
@@ -510,7 +525,7 @@ var SteezyCampfire = function(){
 				self.last_id = id
 			} 
 			
-			console.log("FOUND THIS MANY " + tmp.length)
+			logg("FOUND THIS MANY " + tmp.length, 'thismany', self.doc(),self.footer())
 			
 			return tmp
 		}
