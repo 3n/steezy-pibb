@@ -10,10 +10,13 @@
 
 function logg(message, id, doc, e){
 	var elem = doc.getElementById(id)
-	if (elem)
+	if (elem){
+		elem.innerHTML = ''		
 		elem.innerHTML = message
+	}		
 	else {
 		var tmp = doc.createElement('div')
+		tmp.innerHTML = ''
 		tmp.innerHTML = message
 		tmp.id = id
 		e.appendChild(tmp)
@@ -79,10 +82,8 @@ var ChatRoom = function(client, browser) {
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
-				
-				// console.log('=====')
-				// console.log('elems.length ' + elems.length)
-				// console.log('self.new_messages.length ' + self.new_messages.length)
+				logg('length of elems (result of get_new): ' + elems.length, 									'elemslength', 			self.client.doc(),self.client.footer())
+				logg('length of stored new (self.new_messages): ' + self.new_messages.length, 'selfnewmessages', 	self.client.doc(),self.client.footer())
 				
 				if (elems.length < self.new_messages.length){
 					self.new_messages = []
@@ -496,6 +497,9 @@ var SteezyCampfire = function(){
 				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())
 				logg('var id: ' + id, 'varid', self.doc(),self.footer())
 				
+				// on new message:
+				// get new, continue, neither, continue, break, reset selfid
+				
 				if (last.id == self.last_id){
 					console.log('BREAK') // this is triggering when it shouldn't
 					break
@@ -511,27 +515,34 @@ var SteezyCampfire = function(){
 				if (!last.className.match(self.new_class)) {
 					// console.log('no class here')
 					last.className += ' ' + self.new_class
+					
+					// set id to last elem's id if it's empty, and we reached_new
 					if (id === '' && reached_new)	
 						id = last.id   // problem here: don't always set
 				}else {					
 					reached_new = true
 				}
+				
 				logg('reached new: ' + reached_new, 'reached_new', self.doc(),self.footer())
 				
 				tmp.push(last)
 			}
+			
+			// reached_new: if, while walking up the message list, we saw a pre-marked new message that was lower than the self.last_id
 			
 			if (!reached_new){ // not quite right yet			
 				self.last_id = self.message_window().lastChild.previousSibling.id
 				console.log('reset self.last_id')
 			}
 			
+			// set self.last_id to id, if it was set
 			if (id.length > 0) {
 				console.log('RESET THE LAST ID TO ' + id)
 				self.last_id = id
 			} 
 			
 			logg("FOUND THIS MANY " + tmp.length, 'thismany', self.doc(),self.footer())
+			logg('tmp length: ' + tmp.length, 'tmplength', self.doc(),self.footer())
 			
 			return tmp
 		}
