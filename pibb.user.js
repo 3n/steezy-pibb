@@ -75,7 +75,8 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ';', self.client.doc())
 			add_css_rule('.important-message', 	'background:' + self.important_bg_color + ';', self.client.doc())								
 			
-			add_css_rule('.steezy-new', 	'color:red;', self.client.doc())								
+			add_css_rule('.steezy-new', 	'color:red;', self.client.doc())
+			add_css_rule('.steezy-read', 	'color:blue;', self.client.doc())
 		},
 		
 		new_messages : [],
@@ -117,7 +118,7 @@ var ChatRoom = function(client, browser) {
 			// if message was written by current user
       if (from_current_user) {
 				self.mark_all_read()
-				message.mark_read(self.client.new_class)
+				message.mark_read(self.client.new_class, self.client.read_class)
 				message.by_current_user = true
 				message.elem.className = message.elem.className + ' by-current-user'		
 			}
@@ -252,7 +253,7 @@ var ChatRoom = function(client, browser) {
 			self.mark_all_read()
 		}, 
 		mark_all_read : function() {
-			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class) })
+			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class, self.client.read_class) })
 			self.new_messages = []
 			console.log('CLEARED 2')
 			self.browser.set_counter('')
@@ -439,6 +440,7 @@ var Pibb = function(){
 		post_button			: function() { return self.doc().getElementsByClassName('PostOptions')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',
+		new_class				: 'steezy-read',		
 		
 		message : function(elem){
 			var self = {}
@@ -447,8 +449,8 @@ var Pibb = function(){
 			self.author 		= self.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
 			self.icon				= self.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
 			self.by_current_user = false
-			self.mark_read 	= function(class_name) {
-													self.elem.className = self.elem.className.replace(class_name,'')
+			self.mark_read 	= function(new_class, read_class) {
+													self.elem.className = self.elem.className.replace(new_class, read_class)
 												}
 			return self
 		},
@@ -475,6 +477,7 @@ var SteezyCampfire = function(){
 		post_button			: function() { return document.getElementById('send') },
 		footer					: function() { return document.getElementById('Sidebar') },
 		new_class				: 'steezy-new',
+		read_class			: 'steezy-read',
 		
 		message : function(elem){
 			var self = {}
@@ -483,74 +486,89 @@ var SteezyCampfire = function(){
 			self.author 		= "FAKE AUTHOR"
 			self.icon				= "FAKE ICON"
 			self.by_current_user = false
-			self.mark_read 	= function(class_name) {
-													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(class_name,'')
+			self.mark_read 	= function(new_class, read_class) {
+													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
 												}
 			return self
 		},
 		get_new_message_elems : function(){
 			console.log('x')
 			var tmp = []
-			var id = ''		
-			var reached_new = false	
+			// var id = ''		
+			// var reached_new = false	
 
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
-				logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
-				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())				
+				// logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
+				// logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())				
 
 				// problem: pointer is set. new message. first pass, pointer stays (RN false). 2nd pass, pointer jumps (RN false). no clicks. 
 			  	  
 				// this block just skips over non-message elems and breaks when we hit the last_id
-				if (last.id == self.last_id){
-					// console.log('BREAK') // this is triggering when it shouldn't
-					break
-				}else
-				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message'))) {
-					// console.log('CONTINUE')
-					continue
-				}else{
-					"console.log('NEITHER')"
-				}
+				// if (last.id == self.last_id) 
+				// 	break
+				// else if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
+				// 	continue
 					
-				if (!last.className.match(self.new_class)) {
+				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
+					continue					
+				
+				if (last.className.match(self.read_class))
+					break 
+
+					
+				if (!last.className.match(self.new_class))
 					last.className += ' ' + self.new_class
 					
-					// set id to last elem's id if it's empty, and we reached_new
-					if (id === '' && reached_new){
-						id = last.id   // problem here: don't always set
-					}
-									
-				}else {					
-					"reached_new = true"
-					// id = last.id // can't do this - class is set after this code
-				}
+				// if (!last.className.match(self.new_class)) {
+				// 	last.className += ' ' + self.new_class
+				// 	
+				// 	// set id to last elem's id if it's empty, and we reached_new
+				// 	if (id === '' && reached_new){
+				// 		id = last.id   // problem here: don't always set
+				// 	}
+				// 					
+				// }else if (last.className.match(self.read_class)){			
+				// 	"reached_new = true"
+				// 	// id = last.id // can't do this - class is set after this code
+				// }
 				
-				logg('reached new: ' + reached_new, 'reached_new', self.doc(),self.footer())
-				logg('var id: ' + id, 'varid', self.doc(),self.footer())
+				// logg('reached new: ' + reached_new, 'reached_new', self.doc(),self.footer())
+				// logg('var id: ' + id, 'varid', self.doc(),self.footer())
 				
 				tmp.push(last)
 			}
 			
 			// reached_new: if, while walking up the message list, we saw a pre-marked new message that was lower than the self.last_id
 			
-			if (!reached_new){ // not quite right yet			
+			// if (!reached_new){ // not quite right yet			
 				// self.last_id = self.message_window().lastChild.previousSibling.id // wrong
-			}
+			// }
 			
 			// set self.last_id to id, if it was set
-			if (id.length > 0) {
-				console.log('RESET THE LAST ID TO ' + id)
-				self.last_id = id
-			} 
+			// if (id.length > 0) {
+			// 	console.log('RESET THE LAST ID TO ' + id)
+			// 	self.last_id = id
+			// } 
 			
 			logg("FOUND THIS MANY " + tmp.length, 'thismany', self.doc(),self.footer())
-			logg('tmp length: ' + tmp.length, 'tmplength', self.doc(),self.footer())
 			
 			return tmp
 		}
 	}
 	
-	self.last_id = self.message_window().lastChild.previousSibling.id
+	// self.last_id = self.message_window().lastChild.previousSibling.id
+	
+	// initialize by setting read class on last txt_message
+	// self.message_window().lastChild.previousSibling.className += (" " + self.read_class)
+	
+	for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
+		if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
+			continue
+		else{
+			last.className += (" " + self.read_class)
+			break
+		}			
+	}
 
 	return self
 }
