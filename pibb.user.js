@@ -76,8 +76,7 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ';', self.client.doc())
 			add_css_rule('.important-message', 	'background:' + self.important_bg_color + ';', self.client.doc())								
 			
-			add_css_rule('.steezy-new', 	'color:red;', self.client.doc())
-			add_css_rule('.steezy-read', 	'color:blue;', self.client.doc())
+			add_css_rule('.steezy-new', 	'font-weight:bold;', self.client.doc())
 		},
 		
 		new_messages : [],
