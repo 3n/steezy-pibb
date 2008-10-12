@@ -8,21 +8,6 @@
 // @include       *campfirenow.com*
 // ==/UserScript==
 
-function logg(message, id, doc, e){
-	var elem = doc.getElementById(id)
-	if (elem){
-		elem.innerHTML = ''		
-		elem.innerHTML = message
-	}		
-	else {
-		var tmp = doc.createElement('div')
-		tmp.innerHTML = ''
-		tmp.innerHTML = message
-		tmp.id = id
-		e.appendChild(tmp)
-	}		
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // Native Extensions
 
@@ -53,6 +38,22 @@ function steezy_deserialize(s) {
 	return obj
 }
 
+// shitty, hacked function for inserting persistant debug comments on the page
+function logg(message, id, doc, e){
+	var elem = doc.getElementById(id)
+	if (elem){
+		elem.innerHTML = ''		
+		elem.innerHTML = message
+	}		
+	else {
+		var tmp = doc.createElement('div')
+		tmp.innerHTML = ''
+		tmp.innerHTML = message
+		tmp.id = id
+		e.appendChild(tmp)
+	}		
+}
+
 var ChatRoom = function(client, browser) {
 
 	// private	
@@ -60,7 +61,7 @@ var ChatRoom = function(client, browser) {
 		client							: client,
 		browser							: browser,
 		
-		period 							: 5000,		
+		period 							: 1000,		
 		my_bg_color 				: '#EEEEEE',
 		important_bg_color 	: '#FFC670',	
 		
@@ -106,7 +107,7 @@ var ChatRoom = function(client, browser) {
 				msg += self.add_youtube_embeds(msg)
 			msg += self.add_sad_trombone(msg)
       msg += self.add_gists(msg)
-      
+
       var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
 
 			// if message was written by current user
@@ -323,8 +324,6 @@ var ChatRoom = function(client, browser) {
 	self.check_for_new_messages()	
 	self.setup_message_window_events()
 
-	console.log('finished ChatRoom init')
-
 	return that
 };
 
@@ -476,7 +475,7 @@ var SteezyCampfire = function(){
 			var self = {}
 			self.elem				= elem.getElementsByClassName('body')[0].childNodes[0]
 			self.body 			= self.elem.innerHTML
-			self.author 		= "FAKE AUTHOR"
+			self.author 		= elem.getElementsByClassName('person')[0].childNodes[0].innerHTML
 			self.icon				= "FAKE ICON"
 			self.by_current_user = false
 			self.mark_read 	= function(new_class, read_class) {
