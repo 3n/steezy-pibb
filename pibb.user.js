@@ -83,11 +83,9 @@ var ChatRoom = function(client, browser) {
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
-				logg('length of elems (result of get_new): ' + elems.length, 									'elemslength', 			self.client.doc(),self.client.footer())
-				logg('length of stored new (self.new_messages): ' + self.new_messages.length, 'selfnewmessages', 	self.client.doc(),self.client.footer())
+				// logg('length of elems (result of get_new): ' + elems.length, 									'elemslength', 			self.client.doc(),self.client.footer())
+				// logg('length of stored new (self.new_messages): ' + self.new_messages.length, 'selfnewmessages', 	self.client.doc(),self.client.footer())
 				
-				
-				// this was breaking campfire to shit, but might be needed in pibb				
 				if (elems.length < self.new_messages.length){
 					self.new_messages = []
 					console.log('CLEARED 77')
@@ -95,6 +93,22 @@ var ChatRoom = function(client, browser) {
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
+				
+				// logg(
+				// 	"elems contains: " +
+				// 	elems.map(function(t){
+				// 		return t.getElementsByClassName('body')[0].childNodes[0].innerHTML
+				// 	}),
+				// 	'tmpcontents', self.client.doc(),self.client.footer()				
+				// )
+				// 
+				// logg(
+				// 	"self.new_messages contains: " +
+				// 	self.new_messages.map(function(t){
+				// 		return t.body
+				// 	}),
+				// 	'xxiixisi', self.client.doc(),self.client.footer()				
+				// )
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
@@ -487,7 +501,10 @@ var SteezyCampfire = function(){
 			self.icon				= "FAKE ICON"
 			self.by_current_user = false
 			self.mark_read 	= function(new_class, read_class) {
+													console.log(self.body)
+													// console.log(self.elem.parentNode.parentNode.className)
 													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
+													// console.log(self.elem.parentNode.parentNode.className)													
 												}
 			return self
 		},
@@ -550,9 +567,9 @@ var SteezyCampfire = function(){
 			// 	self.last_id = id
 			// } 
 			
-			logg("FOUND THIS MANY " + tmp.length, 'thismany', self.doc(),self.footer())
+			logg("FOUND THIS MANY " + tmp.length, 'thismany', self.doc(),self.footer())			
 			
-			return tmp
+			return tmp.reverse()
 		}
 	}
 	
