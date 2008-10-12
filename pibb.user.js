@@ -496,15 +496,10 @@ var SteezyCampfire = function(){
 
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
 				logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
-				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())
-				logg('var id: ' + id, 'varid', self.doc(),self.footer())
+				logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())				
 
-
-				// problem: see a message, mark it as new, click clears the class out, next cycle it's returned as new
-				// pointer is initialized. new messages come in. pointer stays good. message marked read. 
-				// 	first pass pointer is good. 2nd pass pointer fucks up. 
-				
-				
+				// problem: pointer is set. new message. first pass, pointer stays (RN false). 2nd pass, pointer jumps (RN false). no clicks. 
+			  	  
 				// this block just skips over non-message elems and breaks when we hit the last_id
 				if (last.id == self.last_id){
 					// console.log('BREAK') // this is triggering when it shouldn't
@@ -514,22 +509,24 @@ var SteezyCampfire = function(){
 					// console.log('CONTINUE')
 					continue
 				}else{
-					// console.log('NEITHER')
+					"console.log('NEITHER')"
 				}
 					
-					
 				if (!last.className.match(self.new_class)) {
-					// console.log('no class here')
 					last.className += ' ' + self.new_class
 					
 					// set id to last elem's id if it's empty, and we reached_new
-					if (id === '' && reached_new)	
+					if (id === '' && reached_new){
 						id = last.id   // problem here: don't always set
+					}
+									
 				}else {					
-					reached_new = true
+					"reached_new = true"
+					// id = last.id // can't do this - class is set after this code
 				}
 				
 				logg('reached new: ' + reached_new, 'reached_new', self.doc(),self.footer())
+				logg('var id: ' + id, 'varid', self.doc(),self.footer())
 				
 				tmp.push(last)
 			}
@@ -537,8 +534,7 @@ var SteezyCampfire = function(){
 			// reached_new: if, while walking up the message list, we saw a pre-marked new message that was lower than the self.last_id
 			
 			if (!reached_new){ // not quite right yet			
-				self.last_id = self.message_window().lastChild.previousSibling.id
-				// console.log('reset self.last_id')
+				// self.last_id = self.message_window().lastChild.previousSibling.id // wrong
 			}
 			
 			// set self.last_id to id, if it was set
