@@ -83,32 +83,12 @@ var ChatRoom = function(client, browser) {
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
 				var elems = self.client.get_new_message_elems()
-				// logg('length of elems (result of get_new): ' + elems.length, 									'elemslength', 			self.client.doc(),self.client.footer())
-				// logg('length of stored new (self.new_messages): ' + self.new_messages.length, 'selfnewmessages', 	self.client.doc(),self.client.footer())
 				
-				if (elems.length < self.new_messages.length){
+				if (elems.length < self.new_messages.length)
 					self.new_messages = []
-					console.log('CLEARED 77')
-				}
 				
 				for (var i = self.new_messages.length; i < elems.length; i++)
 					if (elems[i]) self.handle_new_message(elems[i])
-				
-				// logg(
-				// 	"elems contains: " +
-				// 	elems.map(function(t){
-				// 		return t.getElementsByClassName('body')[0].childNodes[0].innerHTML
-				// 	}),
-				// 	'tmpcontents', self.client.doc(),self.client.footer()				
-				// )
-				// 
-				// logg(
-				// 	"self.new_messages contains: " +
-				// 	self.new_messages.map(function(t){
-				// 		return t.body
-				// 	}),
-				// 	'xxiixisi', self.client.doc(),self.client.footer()				
-				// )
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
 		},
@@ -269,7 +249,6 @@ var ChatRoom = function(client, browser) {
 		mark_all_read : function() {
 			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class, self.client.read_class) })
 			self.new_messages = []
-			console.log('CLEARED 2')
 			self.browser.set_counter('')
 		},
  
@@ -501,83 +480,31 @@ var SteezyCampfire = function(){
 			self.icon				= "FAKE ICON"
 			self.by_current_user = false
 			self.mark_read 	= function(new_class, read_class) {
-													console.log(self.body)
-													// console.log(self.elem.parentNode.parentNode.className)
 													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
-													// console.log(self.elem.parentNode.parentNode.className)													
 												}
 			return self
 		},
 		get_new_message_elems : function(){
-			console.log('x')
 			var tmp = []
-			// var id = ''		
-			// var reached_new = false	
-
-			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
-				// logg('real last id: ' + last.id, 'lastid', self.doc(),self.footer())
-				// logg('stored last id: ' + self.last_id, 'selflastid', self.doc(),self.footer())				
-
-				// problem: pointer is set. new message. first pass, pointer stays (RN false). 2nd pass, pointer jumps (RN false). no clicks. 
-			  	  
-				// this block just skips over non-message elems and breaks when we hit the last_id
-				// if (last.id == self.last_id) 
-				// 	break
-				// else if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
-				// 	continue
-					
+			
+			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){			
 				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
 					continue					
 				
 				if (last.className.match(self.read_class))
 					break 
-
 					
 				if (!last.className.match(self.new_class))
 					last.className += ' ' + self.new_class
-					
-				// if (!last.className.match(self.new_class)) {
-				// 	last.className += ' ' + self.new_class
-				// 	
-				// 	// set id to last elem's id if it's empty, and we reached_new
-				// 	if (id === '' && reached_new){
-				// 		id = last.id   // problem here: don't always set
-				// 	}
-				// 					
-				// }else if (last.className.match(self.read_class)){			
-				// 	"reached_new = true"
-				// 	// id = last.id // can't do this - class is set after this code
-				// }
-				
-				// logg('reached new: ' + reached_new, 'reached_new', self.doc(),self.footer())
-				// logg('var id: ' + id, 'varid', self.doc(),self.footer())
 				
 				tmp.push(last)
 			}
 			
-			// reached_new: if, while walking up the message list, we saw a pre-marked new message that was lower than the self.last_id
-			
-			// if (!reached_new){ // not quite right yet			
-				// self.last_id = self.message_window().lastChild.previousSibling.id // wrong
-			// }
-			
-			// set self.last_id to id, if it was set
-			// if (id.length > 0) {
-			// 	console.log('RESET THE LAST ID TO ' + id)
-			// 	self.last_id = id
-			// } 
-			
-			logg("FOUND THIS MANY " + tmp.length, 'thismany', self.doc(),self.footer())			
-			
 			return tmp.reverse()
 		}
 	}
-	
-	// self.last_id = self.message_window().lastChild.previousSibling.id
-	
-	// initialize by setting read class on last txt_message
-	// self.message_window().lastChild.previousSibling.className += (" " + self.read_class)
-	
+
+	// todo: make simpler, maybe w/ css
 	for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
 		if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
 			continue
