@@ -73,10 +73,10 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('#steezy-preferences input', 'margin:5px', self.client.doc())									
 			
 			add_css_rule('.steezy-tag', 				'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
-			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ';', self.client.doc())
+			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ' !important;', self.client.doc())
 			add_css_rule('.important-message', 	'background:' + self.important_bg_color + ';', self.client.doc())								
 			
-			add_css_rule('.steezy-new', 	'font-weight:bold;', self.client.doc())
+			add_css_rule('.steezy-new td', 	'background-color:#FFFFA0 !important;', self.client.doc())
 		},
 		
 		new_messages : [],
@@ -113,8 +113,8 @@ var ChatRoom = function(client, browser) {
       if (from_current_user) {
 				self.mark_all_read()
 				message.mark_read(self.client.new_class, self.client.read_class)
-				message.by_current_user = true
-				message.elem.className = message.elem.className + ' by-current-user'		
+				message.by_current_user = true		
+				message.mark_by_current_user()
 			}
 			
 			// if message has one of the words from the alias input in it
@@ -444,6 +444,9 @@ var Pibb = function(){
 			self.mark_read 	= function(new_class, read_class) {
 													self.elem.className = self.elem.className.replace(new_class, read_class)
 												}
+			self.mark_by_current_user = function() {
+													self.elem.className += ' by-current-user'
+												}
 			return self
 		},
 		get_new_message_elems : function(){
@@ -481,6 +484,9 @@ var SteezyCampfire = function(){
 			self.mark_read 	= function(new_class, read_class) {
 													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
 												}
+			self.mark_by_current_user = function() {
+												elem.getElementsByClassName('body')[0].className += ' by-current-user'
+												}												
 			return self
 		},
 		get_new_message_elems : function(){
