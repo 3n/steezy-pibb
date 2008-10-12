@@ -6,9 +6,10 @@ BRIEF OVERVIEW
 
   This script aims to make the experience of using a web-based chat client
   completely awesome. It is to be used as either a userscript in Fluid or 
-  Firefox 3 (with Greasemonkey). 
+  Firefox 3 (with Greasemonkey).
   
-  Currently only Pibb is supported, but more will come later. 
+  Currently Pibb and Campfire are supported and more can be added easily by request, 
+	or you could fork this on github.com and HAAAACK. 
   
 WHAT IT DOES
 
@@ -55,7 +56,7 @@ HOW TO INSTALL IT
         http://www.fluidapp.com/
     2.  Save the script and put it into your ~/Library/Application\ Support/Fluid/SSB/<app name>/Userscripts/
         directory. 
-    3.  Set the icon to this
+    3.  Set the icon to this (if Pibb)
         http://dl.getdropbox.com/u/33956/pibb_icon.png
   
   Firefox
@@ -78,7 +79,7 @@ HOW TO MAKE IT WORK
 
 TODO
 
-	use setInterval
+	use setInterval?
 
   don't mark all read on auto-replies
 

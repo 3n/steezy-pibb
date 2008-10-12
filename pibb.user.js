@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 ///////////////////////////////////////////////////////////////////////////////
-// Native Extensions
+// Utility Functions
 
 if (!Function.bind){
 	Function.prototype.bind = function(bind, arg) {
