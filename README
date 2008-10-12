@@ -89,6 +89,8 @@ TODO
     automatically with a message. Just transfer the contents of some input into the message
     input and submit that shit. Maybe also have an "away" checkbox.
     
+	- give the message class a reference to the client class that it belongs to
+
   MAYBE
 
   - Make an Element wrapper class for add_class and remove_class kinda things?
