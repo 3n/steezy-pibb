@@ -432,7 +432,7 @@ var Pibb = function(){
 		post_button			: function() { return self.doc().getElementsByClassName('PostOptions')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',
-		new_class				: 'steezy-read',		
+		read_class			: 'steezy-read',		
 		
 		message : function(elem){
 			var self = {}
@@ -452,7 +452,7 @@ var Pibb = function(){
 			
 			for (var i=0; i < elems.length; i++)
 				if (elems[i] && elems[i].className && elems[i].className.match(self.new_class)) lame.push(elems[i])
-				
+
 			return lame
 		}
 	}
