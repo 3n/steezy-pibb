@@ -10,6 +10,7 @@ BRIEF OVERVIEW
   
   Currently Pibb and Campfire are supported and more can be added easily by request, 
 	or you could fork this on github.com and HAAAACK. 
+	http://github.com/3n/steezy-pibb/tree/master
   
 WHAT IT DOES
 
@@ -79,6 +80,8 @@ HOW TO MAKE IT WORK
 
 TODO
 
+	move css stuff to client class
+	
 	use setInterval?
 
   don't mark all read on auto-replies
