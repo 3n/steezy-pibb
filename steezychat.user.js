@@ -556,12 +556,12 @@ var Other = function(){
 		alert : function(){},
 		set_counter : function(){}
 	}
-}
+};
 ///////////////////////////////////////////////////////////////////////////////
 // Initialization 
 
 // only create pibb instance for second frame(set) (they all run this script)
-function steezy_init(){
+(function steezy_init(){
 	if (window.fluid)
 		var browser = Fluid
 	else if (window.callout)
@@ -573,5 +573,4 @@ function steezy_init(){
 		window.chat_room = new ChatRoom(new Pibb(), new browser())
 	if (document.title.match('Campfire'))
 		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
-}
-steezy_init()
+})()
