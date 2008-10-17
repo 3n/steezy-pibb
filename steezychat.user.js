@@ -73,7 +73,7 @@ var ChatRoom = function(client, browser) {
 			add_css_rule('#steezy-preferences input', 'margin:5px', self.client.doc())									
 			
 			add_css_rule('.steezy-tag', 				'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
-			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ' !important;color:#777;', self.client.doc())
+			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ' !important;color:#888;', self.client.doc())
 			add_css_rule('.important-message', 	'background:' + self.important_bg_color + ';', self.client.doc())								
 			
 			add_css_rule('.steezy-new td', 	'background-color:#FFFFA0 !important;', self.client.doc())
