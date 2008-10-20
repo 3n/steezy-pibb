@@ -1,4 +1,4 @@
-Steezy Pibb
+Steezy Chat
 by Ian Collins and Toby Sterret,
 Grade 3
 
@@ -6,9 +6,13 @@ BRIEF OVERVIEW
 
   This script aims to make the experience of using a web-based chat client
   completely awesome. It is to be used as either a userscript in Fluid or 
-  Firefox 3 (with Greasemonkey). 
+  Firefox 3 (with Greasemonkey).
   
-  Currently only Pibb is supported, but more will come later. 
+  Currently Pibb and Campfire are supported and more can be added easily by request, 
+	or you could fork this on github.com and HAAAACK. 
+	http://github.com/3n/steezy-pibb/tree/master
+	
+	<img src="http://img.skitch.com/20081013-dudy64iaqfpj9mijeuwaym5akq.jpg" />
   
 WHAT IT DOES
 
@@ -53,9 +57,9 @@ HOW TO INSTALL IT
   Fluid
     1.  Make sure you have the latest Fluid
         http://www.fluidapp.com/
-    2.  Save the script and put it into your ~/Library/Application\ Support/Fluid/SSB/<app name>/Userscripts/
+    2.  Save the script and put it into your ~/Library/Application\ Support/Fluid/SSB/(app name)/Userscripts/
         directory. 
-    3.  Set the icon to this
+    3.  Set the icon to this (if Pibb)
         http://dl.getdropbox.com/u/33956/pibb_icon.png
   
   Firefox
@@ -69,16 +73,29 @@ HOW TO INSTALL IT
 HOW TO MAKE IT WORK
 
   There should be a little INPUT box at the bottom right or left of your screen.
-  Fill it in with a list of aliases, comma-separated without spaces (e.g. "ian,3n,titanian,everyone").
+  Fill it in with a list of aliases, comma-separated without spaces (e.g. "ian,Ian C.,3n,titanian,everyone").
   If any of those strings appear in a message, it will turn orange and you 
   should get a growl alert. It is saved in a cookie, so you should only have
   to write it once. 
 
+SCREENSHOTS
 
+	Inline Images
+	<img src="http://img.skitch.com/20081013-nkx3m7rrgaj8qhxxciuiqp3yrb.jpg" />
+	Highlighting/Alerting on multiple user-supplied strings
+	<img src="http://img.skitch.com/20081013-k74s79f1kxm8t969m4cbejurjw.jpg" />
+	Inline Tweets
+	<img src="http://img.skitch.com/20081013-tjqq2sb52p2xtk2gi4sqjrargp.jpg" />
+	Inline Youtube
+	<img src="http://img.skitch.com/20081013-1qqqetudp1a4f2kk9xwuhqgxip.jpg" />
 
 TODO
 
-	use setInterval
+	move css stuff to client class
+	
+	use setInterval?
+
+	Keep a running list of all links posted and who posted them in the DOM
 
   don't mark all read on auto-replies
 
@@ -89,6 +106,8 @@ TODO
     automatically with a message. Just transfer the contents of some input into the message
     input and submit that shit. Maybe also have an "away" checkbox.
     
+	- give the message class a reference to the client class that it belongs to
+
   MAYBE
 
   - Make an Element wrapper class for add_class and remove_class kinda things?

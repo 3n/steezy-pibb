@@ -1,38 +1,57 @@
 // ==UserScript==
-// @name          Steezy Pibb
+// @name          Steezy Chat
 // @namespace     http://www.iancollins.me
-// @description   Makes Pibb + Fluid/Firefox one hell of a steez
+// @description   Makes Pibb/Campfire + Fluid/Firefox one hell of a steez
 // @author        Ian Collins
 // @homepage      http://www.iancollins.me
 // @include       *pibb.com*
+// @include       *campfirenow.com*
 // ==/UserScript==
 
 ///////////////////////////////////////////////////////////////////////////////
-// Native Extensions
+// Utility Functions
 
-Function.prototype.bind = function(bind, arg) {
-	var fun = this
-	return function(){ return fun.call(bind, arg) }
+if (!Function.bind){
+	Function.prototype.bind = function(bind, arg) {
+		var fun = this
+		return function(){ return fun.call(bind, arg) }
+	}
 }
 
-Object.prototype.to_s = function() {
+function steezy_serialize(o) {
 	var s = ""
 	var x
-	for (x in this){
-		if (typeof this[x] !== 'function') s += (x + "::" + this[x] + ',,') 
+	for (x in o){
+		if (typeof o[x] !== 'function') s += (x + "::" + o[x] + ',,') 
 	}
 	return s.slice(0,-2)
 }
 
-String.prototype.to_o = function() {
+function steezy_deserialize(s) {
 	var obj = {}
 
-	this.split(',,').forEach(function(x){
+	s.split(',,').forEach(function(x){
 		var kv = x.split('::')
 		obj[kv[0]] = kv[1]
 	})
 
 	return obj
+}
+
+// shitty, hacked function for inserting persistant debug comments on the page
+function logg(message, id, doc, e){
+	var elem = doc.getElementById(id)
+	if (elem){
+		elem.innerHTML = ''		
+		elem.innerHTML = message
+	}		
+	else {
+		var tmp = doc.createElement('div')
+		tmp.innerHTML = ''
+		tmp.innerHTML = message
+		tmp.id = id
+		e.appendChild(tmp)
+	}		
 }
 
 var ChatRoom = function(client, browser) {
@@ -49,19 +68,21 @@ var ChatRoom = function(client, browser) {
 		preferences_cookie: new CookieHash('steezy-preferences'),
 		
 		add_css_rules: function(){
-			add_css_rule('#steezy-preferences', 'width:300px;text-align:left;', self.client.doc())						
-			add_css_rule('#alias_list_text,#away_message_text', 		'padding:2px; width:200px !important;', self.client.doc())									
+			add_css_rule('#steezy-preferences', 'width:300px;text-align:left;font-size:10px;', self.client.doc())						
+			add_css_rule('#aliases_text,#message_text', 		'padding:2px; width:200px !important;', self.client.doc())									
 			add_css_rule('#steezy-preferences input', 'margin:5px', self.client.doc())									
 			
 			add_css_rule('.steezy-tag', 				'color:#222222; font-weight:bold; background:#f0e600; -webkit-border-radius:5px; padding:2px; -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.5);', self.client.doc())						
-			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ';', self.client.doc())
+			add_css_rule('.by-current-user', 		'background:' + self.my_bg_color + ' !important;color:#666;', self.client.doc())
 			add_css_rule('.important-message', 	'background:' + self.important_bg_color + ';', self.client.doc())								
+			
+			add_css_rule('.steezy-new td', 	'background-color:#FFFFA0 !important;', self.client.doc())
 		},
 		
 		new_messages : [],
 		check_for_new_messages : function(){
 			if (self.client.message_window()){
-				var elems = self.get_new_message_elems()
+				var elems = self.client.get_new_message_elems()
 				
 				if (elems.length < self.new_messages.length)
 					self.new_messages = []
@@ -70,15 +91,6 @@ var ChatRoom = function(client, browser) {
 					if (elems[i]) self.handle_new_message(elems[i])
 			}
 			window.setTimeout(self.check_for_new_messages, self.period)
-		},
-		get_new_message_elems : function(){
-			var elems = self.client.message_window().getElementsByClassName(self.client.new_class)
-			var lame = []
-			
-			for (var i=0; i < elems.length; i++)
-				if (elems[i] && elems[i].className && elems[i].className.match(self.client.new_class)) lame.push(elems[i])
-				
-			return lame
 		},
 		handle_new_message: function(elem) {
 			var message = new self.client.message(elem)
@@ -94,15 +106,15 @@ var ChatRoom = function(client, browser) {
 				msg += self.add_youtube_embeds(msg)
 			msg += self.add_sad_trombone(msg)
       msg += self.add_gists(msg)
-      
+
       var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
 
 			// if message was written by current user
       if (from_current_user) {
 				self.mark_all_read()
-				message.mark_read(self.client.new_class)
-				message.by_current_user = true
-				message.elem.className = message.elem.className + ' by-current-user'		
+				message.mark_read(self.client.new_class, self.client.read_class)
+				message.by_current_user = true		
+				message.mark_by_current_user()
 			}
 			
 			// if message has one of the words from the alias input in it
@@ -196,6 +208,7 @@ var ChatRoom = function(client, browser) {
 		    .replace(/:-?\(/, base + '2.gif' + end)
 		    .replace(/:-?D/, base + '4.gif' + end)
 		    .replace(/8-?\)/, base + '16.gif' + end)
+		    .replace(/\*facepalm\*/, '<img src="http://img.skitch.com/20081020-kqf6ar41tdrwiqp2k6ejhr3q3t.jpg" alt="facepalm">')
 		    .replace(/8=+(>|D)/, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
         .replace(/(DERP[!1]+)/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="$1"/>')
         .replace(/^\*?ba+r+f+s*\*?/, '<img src="http://img.skitch.com/20080808-t8shmyktk66i65rx425jgrrwae.jpg" alt="Achewood - October 3, 2006"/>')
@@ -236,7 +249,7 @@ var ChatRoom = function(client, browser) {
 			self.mark_all_read()
 		}, 
 		mark_all_read : function() {
-			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class) })
+			self.new_messages.forEach(function(nm){ nm.mark_read(self.client.new_class, self.client.read_class) })
 			self.new_messages = []
 			self.browser.set_counter('')
 		},
@@ -247,18 +260,18 @@ var ChatRoom = function(client, browser) {
 				self.preferences_element.id = "steezy-preferences"
 				self.client.footer().appendChild(self.preferences_element)
 				
-				self.aliases_input 					= self.create_preference_element('alias list', 'text')		
+				self.aliases_input 					= self.create_preference_element('aliases', 'text')		
 				self.preferences_element.appendChild(document.createElement('br'))				
 				self.growl_checkbox 				= self.create_preference_element('growls', 'checkbox', true)
-				self.growl_sticky_checkbox 	= self.create_preference_element('sticky growls', 'checkbox')		
+				self.growl_sticky_checkbox 	= self.create_preference_element('sticky', 'checkbox')		
 				self.preferences_element.appendChild(document.createElement('br'))				
-				self.inline_images_checkbox = self.create_preference_element('inline images', 'checkbox', true)
-				self.inline_tweets_checkbox = self.create_preference_element('inline tweets', 'checkbox', true)				
-				self.videos_checkbox = self.create_preference_element('inline videos', 'checkbox', true)				
-				self.preferences_element.appendChild(document.createElement('br'))				
+				self.inline_images_checkbox = self.create_preference_element('images', 'checkbox', true)
+				self.inline_tweets_checkbox = self.create_preference_element('tweets', 'checkbox', true)				
+				self.videos_checkbox = self.create_preference_element('videos', 'checkbox', true)				
 				self.emoticons_checkbox = self.create_preference_element('emoticons', 'checkbox', true)
 				self.preferences_element.appendChild(document.createElement('br'))
-				self.away_message 					= self.create_preference_element('away message', 'text')		
+				self.away_message 					= self.create_preference_element('message', 'text')		
+				self.preferences_element.appendChild(document.createElement('br'))
 				self.away_checkbox					= self.create_preference_element('away', 'checkbox')
 			}
 			window.setTimeout(self.insert_preferences_element, self.period)
@@ -351,11 +364,11 @@ var CookieHash = function(key) {
 	this.obj = {}
 
 	var prev = this.coookie.get_value()
-	if (prev) this.obj = prev.to_o()
+	if (prev) this.obj = steezy_deserialize(prev)
 
 	this.set = function(key, value){
 		this.obj[key] = value
-		this.coookie.set_value(this.obj.to_s())
+		this.coookie.set_value(steezy_serialize(this.obj))
 	}
 	this.get = function(key){
 		if (this.obj[key])
@@ -420,6 +433,7 @@ var Pibb = function(){
 		post_button			: function() { return self.doc().getElementsByClassName('PostOptions')[0] },
 		footer					: function() { return self.doc().getElementsByClassName('Footer')[0] },
 		new_class				: 'NewEntry',
+		read_class			: 'steezy-read',		
 		
 		message : function(elem){
 			var self = {}
@@ -428,12 +442,84 @@ var Pibb = function(){
 			self.author 		= self.elem.parentNode.parentNode.getElementsByClassName('Metadata')[0].getElementsByTagName('h3')[0].getElementsByClassName('Name')[0].innerHTML
 			self.icon				= self.elem.parentNode.parentNode.getElementsByClassName('UserThumb')[0]
 			self.by_current_user = false
-			self.mark_read 	= function(class_name) {
-													self.elem.className = self.elem.className.replace(class_name,'')
+			self.mark_read 	= function(new_class, read_class) {
+													self.elem.className = self.elem.className.replace(new_class, read_class)
+												}
+			self.mark_by_current_user = function() {
+													self.elem.className += ' by-current-user'
 												}
 			return self
+		},
+		get_new_message_elems : function(){
+			var elems = self.message_window().getElementsByClassName(self.new_class)
+			var lame = []
+			
+			for (var i=0; i < elems.length; i++)
+				if (elems[i] && elems[i].className && elems[i].className.match(self.new_class)) lame.push(elems[i])
+
+			return lame
 		}
 	}
+	return self
+}
+
+var SteezyCampfire = function(){
+	var self = {
+		doc  						: function() { return document },
+		message_window 	: function() {
+			return document.getElementById('chat')
+		},
+		message_input		: function() { return document.getElementById('input') },
+		post_button			: function() { return document.getElementById('send') },
+		footer					: function() { return document.getElementById('Sidebar') },
+		new_class				: 'steezy-new',
+		read_class			: 'steezy-read',
+		
+		message : function(elem){
+			var self = {}
+			self.elem				= elem.getElementsByClassName('body')[0].childNodes[0]
+			self.body 			= self.elem.innerHTML
+			self.author 		= elem.getElementsByClassName('person')[0].childNodes[0].innerHTML
+			self.icon				= "FAKE ICON"
+			self.by_current_user = false
+			self.mark_read 	= function(new_class, read_class) {
+													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
+												}
+			self.mark_by_current_user = function() {
+												elem.getElementsByClassName('body')[0].className += ' by-current-user'
+												}												
+			return self
+		},
+		get_new_message_elems : function(){
+			var tmp = []
+			
+			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){			
+				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
+					continue					
+				
+				if (last.className.match(self.read_class))
+					break 
+					
+				if (!last.className.match(self.new_class))
+					last.className += ' ' + self.new_class
+				
+				tmp.push(last)
+			}
+			
+			return tmp.reverse()
+		}
+	}
+
+	// todo: make simpler, maybe w/ css
+	for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){
+		if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
+			continue
+		else{
+			last.className += (" " + self.read_class)
+			break
+		}			
+	}
+
 	return self
 }
 
@@ -471,14 +557,12 @@ var Other = function(){
 		alert : function(){},
 		set_counter : function(){}
 	}
-}
+};
 ///////////////////////////////////////////////////////////////////////////////
 // Initialization 
 
 // only create pibb instance for second frame(set) (they all run this script)
-function init(){
-	var client = Pibb
-	
+(function steezy_init(){
 	if (window.fluid)
 		var browser = Fluid
 	else if (window.callout)
@@ -487,6 +571,7 @@ function init(){
 		var browser = Other
 	
 	if (document.title == "Janrain PIBB")
-		window.chat_room = new ChatRoom(new client(), new browser())
-}
-init()
+		window.chat_room = new ChatRoom(new Pibb(), new browser())
+	if (document.title.match('Campfire'))
+		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
+})()
