@@ -22,6 +22,7 @@ Fluid Specific
 --------------
 
   -  number of new messages on dock, for currently focused tab.
+     ![number of unread messages on dock icon (Fluid)][6]
 
 [Fluid][fluid] or Firefox + [Callout][cp] plugin
 ------------------------------------------------  
@@ -125,3 +126,4 @@ SCREENSHOTS
   [3]: http://img.skitch.com/20081013-k74s79f1kxm8t969m4cbejurjw.jpg
   [4]: http://img.skitch.com/20081013-tjqq2sb52p2xtk2gi4sqjrargp.jpg
   [5]: http://img.skitch.com/20081013-1qqqetudp1a4f2kk9xwuhqgxip.jpg
+  [6]: http://idisk.mac.com/iancollins/Public/Pictures/Skitch/Dock-20081021-210932.jpg
