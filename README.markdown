@@ -7,10 +7,10 @@ BRIEF OVERVIEW
 ==============
 
   This script aims to make the experience of using a web-based chat client    
-  completely awesome. It is to be used as either a userscript in Fluid or 
-  Firefox 3 (with Greasemonkey).
+  completely awesome. It is to be used as either a userscript in [Fluid][fluid] or 
+  Firefox 3 (with [Greasemonkey][gm]).
   
-  Currently Pibb and Campfire are supported and more can be added easily by    
+  Currently [Pibb][pibb] and [Campfire][cf] are supported and more can be added easily by    
   request, or you could fork this on [Github][gh] and HAAAACK.
 
   ![Preferences panel][1]
@@ -21,7 +21,7 @@ WHAT IT DOES
 Fluid Specific
 --------------
 
-  -  \# of new messages on dock, for currently focused tab.
+  -  number of new messages on dock, for currently focused tab.
 
 [Fluid][fluid] or Firefox + [Callout][cp] plugin
 ------------------------------------------------  
@@ -116,6 +116,9 @@ SCREENSHOTS
   [gm]: https://addons.mozilla.org/en-US/firefox/addon/748
   [us]: http://userscripts.org/scripts/show/30798d
   [icon]: http://dl.getdropbox.com/u/33956/pibb_icon.png
+  [cf]: http://www.campfirenow.com/
+  [pibb]: http://www.pibb.com
+
   [cp]:https://addons.mozilla.org/en-US/firefox/addon/7458
   [1]: http://img.skitch.com/20081013-dudy64iaqfpj9mijeuwaym5akq.jpg
   [2]: http://img.skitch.com/20081013-nkx3m7rrgaj8qhxxciuiqp3yrb.jpg
