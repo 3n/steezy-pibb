@@ -57,19 +57,17 @@ Message Styling
   
 Fun
 ---
-  - Inserting of img tags for messages that contain img urls. 
-  - Inserting of images of tweets when a tweet url is in a message.
+  - Inserting of img tags for messages that contain img urls.  
+    ![alt text][2]
+  - Inserting of images of tweets when a tweet url is in a message.  
+    ![alt text][4]
   - Put someone's alias and the string "HAHA" in a message if they did some 
     stupid shit.
   - "sadtrombone" or "wah" in a message to bring up a sadtrombone button.
   - In-lined emoticons.
   - In-lining of YouTube videos.  
+    ![alt text][5]
 
-  ![alt text][2]
-  ![alt text][3]
-  ![alt text][4]
-
-  
 Preferences
 -----------
   - Almost all of the above features can be configured through a cookie-saved, 
