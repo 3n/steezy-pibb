@@ -21,7 +21,7 @@ WHAT IT DOES
 Fluid Specific
 --------------
 
-  -  number of new messages on dock, for currently focused tab.
+  -  number of new messages on dock, for currently focused tab.  
      ![number of unread messages on dock icon (Fluid)][6]
 
 [Fluid][fluid] or Firefox + [Callout][cp] plugin
