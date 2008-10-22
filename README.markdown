@@ -28,7 +28,8 @@ Fluid Specific
 ------------------------------------------------  
 
   - Inserts input on page for comma-delineated list of strings to growl 
-  alert on.
+  alert on.  
+  ![alt text][3]  
 
 Usability
 ---------
@@ -62,7 +63,12 @@ Fun
     stupid shit.
   - "sadtrombone" or "wah" in a message to bring up a sadtrombone button.
   - In-lined emoticons.
-  - In-lining of YouTube videos. 
+  - In-lining of YouTube videos.  
+
+  ![alt text][2]
+  ![alt text][3]
+  ![alt text][4]
+
   
 Preferences
 -----------
@@ -96,21 +102,6 @@ HOW TO MAKE IT WORK
   If any of those strings appear in a message, it will turn orange and you 
   should get a growl alert. It is saved in a cookie, so you should only have
   to write it once. 
-
-SCREENSHOTS
-===========
-
-**Inline Images**  
-  ![alt text][2]  
-
-**Highlighting/Alerting on user-supplied strings**  
-  ![alt text][3]  
-
-**Inline Tweets**  
-  ![alt text][4]  
-
-**Inline Youtube**    
-  ![alt text][5]  
 
   [fluid]: http://www.fluidapp.com
   [gh]: http://github.com/3n/steezy-pibb/tree/master
