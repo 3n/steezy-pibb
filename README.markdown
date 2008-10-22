@@ -108,7 +108,6 @@ HOW TO MAKE IT WORK
   [icon]: http://dl.getdropbox.com/u/33956/pibb_icon.png
   [cf]: http://www.campfirenow.com/
   [pibb]: http://www.pibb.com
-
   [cp]:https://addons.mozilla.org/en-US/firefox/addon/7458
   [1]: http://img.skitch.com/20081013-dudy64iaqfpj9mijeuwaym5akq.jpg
   [2]: http://img.skitch.com/20081013-nkx3m7rrgaj8qhxxciuiqp3yrb.jpg
