@@ -21,26 +21,24 @@ WHAT IT DOES
 Fluid Specific
 --------------
 
-\# of new messages on dock, for currently focused tab.
+  -  \# of new messages on dock, for currently focused tab.
 
 [Fluid][fluid] or Firefox + [Callout][cp] plugin
 ------------------------------------------------  
 
-Inserts input on page for comma-delineated list of strings to growl 
-alert on.
+  - Inserts input on page for comma-delineated list of strings to growl 
+  alert on.
 
 Usability
 ---------
 
-Clicking in message window clears unread messages and focuses message 
-input.
-
-If you type message it is marked as unread, as well as all others above 
-it.
-
-When elements are injected by this script the message window will scroll
-to fit them, unless the user is currently scrolled upwards in the 
-conversation (because that would get annoying).
+  - Clicking in message window clears unread messages and focuses message 
+    input.
+  - If you type message it is marked as unread, as well as all others above 
+    it.
+  - When elements are injected by this script the message window will scroll
+    to fit them, unless the user is currently scrolled upwards in the 
+    conversation (because that would get annoying).
     
 Away status auto-reply
 ----------------------
