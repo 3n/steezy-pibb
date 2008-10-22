@@ -21,15 +21,13 @@ WHAT IT DOES
 Fluid Specific
 --------------
 
-  - \# of new messages on dock, for currently focused tab.
+\# of new messages on dock, for currently focused tab.
 
 [Fluid][fluid] or Firefox + [Callout][cp] plugin
-------------------------------------------------
+------------------------------------------------  
 
-  [cp]:https://addons.mozilla.org/en-US/firefox/addon/7458
-
-  - Inserts input on page for comma-delineated list of strings to growl 
-  alert on.
+Inserts input on page for comma-delineated list of strings to growl 
+alert on.
 
 Usability
 ---------
@@ -118,6 +116,7 @@ SCREENSHOTS
   [gm]: https://addons.mozilla.org/en-US/firefox/addon/748
   [us]: http://userscripts.org/scripts/show/30798d
   [icon]: http://dl.getdropbox.com/u/33956/pibb_icon.png
+  [cp]:https://addons.mozilla.org/en-US/firefox/addon/7458
   [1]: http://img.skitch.com/20081013-dudy64iaqfpj9mijeuwaym5akq.jpg
   [2]: http://img.skitch.com/20081013-nkx3m7rrgaj8qhxxciuiqp3yrb.jpg
   [3]: http://img.skitch.com/20081013-k74s79f1kxm8t969m4cbejurjw.jpg
