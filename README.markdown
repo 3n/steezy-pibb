@@ -64,8 +64,9 @@ Fun
   - Put someone's alias and the string "HAHA" in a message if they did some 
     stupid shit.
   - "sadtrombone" or "wah" in a message to bring up a sadtrombone button.
+  - "dnw" or "do not want" to inline the famous darth vader image.
   - In-lined emoticons.
-  - In-lining of YouTube videos.  
+  - In-lining of YouTube and Vimeo videos.  
     ![alt text][5]
 
 Preferences
