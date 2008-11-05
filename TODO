@@ -6,12 +6,8 @@ Keep a running list of all links posted and who posted them in the DOM
 
 don't mark all read on auto-replies
 
-Preferences form (injected on bottom)
+Preferences form
 - colors for messages
-
-- setting away message: any message with one of your aliases in it will be replied to 
-  automatically with a message. Just transfer the contents of some input into the message
-  input and submit that shit. Maybe also have an "away" checkbox.
   
 - give the message class a reference to the client class that it belongs to
 
