@@ -1,3 +1,5 @@
+convert all the self.xxx bullshit to just using vars (especially for private instance methods)
+
 move css stuff to client class
 
 use setInterval?
