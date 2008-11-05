@@ -8,6 +8,8 @@
 // @include       *campfirenow.com*
 // ==/UserScript==
 
+(function(){
+
 ///////////////////////////////////////////////////////////////////////////////
 // Utility Functions
 
@@ -596,4 +598,6 @@ var Other = function(){
 		window.chat_room = new ChatRoom(new Pibb(), new browser())
 	if (document.title.match('Campfire'))
 		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
+})()
+
 })()
