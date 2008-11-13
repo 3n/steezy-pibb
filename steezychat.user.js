@@ -335,8 +335,10 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		get_aliases: function(){
-			if (self.aliases_input)
+			if (self.aliases_input && self.aliases_input.value.length > 0)
 				return self.aliases_input.value.split(',')
+			else
+				return []
 		}
 	};
 
