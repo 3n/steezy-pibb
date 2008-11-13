@@ -221,7 +221,7 @@ var ChatRoom = function(client, browser) {
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
-		  var the_match = message.match(/http:\/\/(www.|)youtube\.com\/watch\?v=([^&]+)/);
+		  var the_match = message.match(/youtube\.com\/watch\?v=([^&]+)/);
 		  if (the_match) {
 		    embed  = '<br />'
 		    embed += '<object width="425" height="344">'
