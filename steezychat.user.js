@@ -220,6 +220,7 @@ var ChatRoom = function(client, browser) {
         .replace(/(DERP[!1]+)/, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="$1"/>')
         .replace(/^\*?ba+r+f+s*\*?/, '<img src="http://img.skitch.com/20080808-t8shmyktk66i65rx425jgrrwae.jpg" alt="Achewood - October 3, 2006"/>')
         .replace(/do not want|dnw/i, '<img src="http://img.skitch.com/20081031-1tt6dpsq42p85i2472xmc3yped.jpg" />')
+        .replace(/odb|raw/i, '<img src="http://img.skitch.com/20081211-gwjfs9q8gcqjdq3sn6w13bd4at.jpg" alt="oh baby I like it raw"/>')
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
