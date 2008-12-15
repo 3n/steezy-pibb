@@ -525,7 +525,8 @@ var SteezyCampfire = function(){
 			var tmp = []
 			
 			for ( var last = self.message_window().lastChild; last; last = last.previousSibling ){			
-				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')))
+				if ((last.nodeType != 1) || (!last.id) || (!last.className) || (!last.className.match('text_message')) 
+				  || last.className.match('you'))
 					continue					
 				
 				if (last.className.match(self.read_class))
