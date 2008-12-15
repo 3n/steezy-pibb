@@ -562,7 +562,7 @@ var Fluid = function(){
 		alert : function(title, description, icon, sticky) {
 			window.fluid.showGrowlNotification({
 		    title				: title,
-		    description	: description, 
+		    description	: description.replace(/<.*?>/g,''), 
 		    priority		: 1,
 		    sticky			: sticky,
 				icon				: icon
