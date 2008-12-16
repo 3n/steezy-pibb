@@ -8,7 +8,7 @@
 // @include       *campfirenow.com*
 // ==/UserScript==
 
-load in actual JS from GitHub
+// load in actual JS from GitHub
 var script_elem = document.createElement('script')
 script_elem.src = 'http://github.com/3n/steezy-pibb/raw/master/steezychat.js'
 script_elem.type = 'text/javascript'
