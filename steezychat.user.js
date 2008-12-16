@@ -270,11 +270,18 @@ var ChatRoom = function(client, browser) {
 		},
 		
 		setup_message_window_events: function(){
-			if (self.client.message_window()) self.client.message_window().addEventListener('click', self.message_window_clicked, true)
+			if (self.client.message_window()){
+				self.client.message_window().addEventListener('mousedown', self.message_window_mousedown, true)
+				self.client.message_window().addEventListener('mouseup', self.message_window_clicked, true)
+			} 
 			window.setTimeout(self.setup_message_window_events, self.period)
 		},
-		message_window_clicked : function(){
-			self.client.message_input().focus()
+		message_window_mousedown : function(e){
+			self.last_mousedown_x = e.clientX
+		},
+		message_window_clicked : function(e){
+			if (e.clientX == self.last_mousedown_x)
+				self.client.message_input().focus()
 			self.mark_all_read()
 		}, 
 		mark_all_read : function() {
