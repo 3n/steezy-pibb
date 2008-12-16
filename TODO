@@ -17,8 +17,6 @@ MAYBE
 
 - Make an Element wrapper class for add_class and remove_class kinda things?
 
-- Somehow the script makes highlighting message-internals impossible in fluid...
-
 Hawt-keys
 - tab switching
 - mark all as read
