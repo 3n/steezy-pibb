@@ -101,7 +101,7 @@ var ChatRoom = function(client, browser) {
 			msg += self.add_sad_trombone(msg)
       msg += self.add_gists(msg)
 
-      var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() })
+      var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() }) || message.by_current_user
 
 			// if message was written by current user
       if (from_current_user) {
@@ -509,12 +509,12 @@ var SteezyCampfire = function(){
 			self.body 			= self.elem.innerHTML
 			self.author 		= elem.getElementsByClassName('person')[0].childNodes[0].innerHTML
 			self.icon				= "FAKE ICON"
-			self.by_current_user = false
+			self.by_current_user = self.elem.parentNode.parentNode.className.match(/\byou\b/)
 			self.mark_read 	= function(new_class, read_class) {
 													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
 												}
 			self.mark_by_current_user = function() {
-												elem.getElementsByClassName('body')[0].className += ' by-current-user'
+													elem.getElementsByClassName('body')[0].className += ' by-current-user'
 												}												
 			return self
 		},
