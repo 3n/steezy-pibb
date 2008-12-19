@@ -270,7 +270,7 @@ var ChatRoom = function(client, browser) {
 			self.last_mousedown_x = e.clientX
 		},
 		message_window_clicked : function(e){
-			if (e.clientX == self.last_mousedown_x)
+			if (Math.abs(e.clientX - self.last_mousedown_x) < 10)
 				self.client.message_input().focus()
 			self.mark_all_read()
 		}, 

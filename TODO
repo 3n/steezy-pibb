@@ -1,3 +1,5 @@
+resize images to fit, link them to original.
+
 convert all the self.xxx bullshit to just using vars (especially for private instance methods)
 
 move css stuff to client class
