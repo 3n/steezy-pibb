@@ -218,15 +218,17 @@ var ChatRoom = function(client, browser) {
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
-		  var the_match = message.match(/youtube\.com\/watch\?v=([a-bA-B0-9]+)/);
+                  var regex = /.*youtube\.com\/watch\?v=([a-bA-B0-9]+).*/;
+		  var the_match = message.match(regex);
                   console.log(message);
                   console.log(the_match);
 		  if (the_match) {
+                    var vid = message.replace(regex, "$1");
 		    embed  = '<br />'
 		    embed += '<object width="425" height="344">'
-		    embed += '<param name="movie" value="http://www.youtube.com/v/' + the_match[2] + '&fs=1">'
+		    embed += '<param name="movie" value="http://www.youtube.com/v/' + vid + '&fs=1">'
 		    embed += '</param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>'
-		    embed += '<embed src="http://www.youtube.com/v/' + the_match[2] + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
+		    embed += '<embed src="http://www.youtube.com/v/' + vid + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
 		    embed += '</object>'
 			  return embed
 	    } else {
