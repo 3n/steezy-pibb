@@ -88,18 +88,20 @@ var ChatRoom = function(client, browser) {
 			var message = new self.client.message(elem)
       var msg = message.body
 
-      if (self.inline_images_checkbox.checked) 
-				msg += self.add_img_tags(msg)
-			if (self.inline_tweets_checkbox.checked) 				
-      	msg += self.add_twitter_img_tags(msg)
-			if (self.emoticons_checkbox.checked)
-      	msg =  self.add_emoticons(msg)
-      if (self.videos_checkbox.checked) {
-				msg += self.add_youtube_embeds(msg)
-				msg += self.add_vimeo_embeds(msg)
-			}
-			msg += self.add_sad_trombone(msg)
-      msg += self.add_gists(msg)
+      if (msg) {
+        if (self.inline_images_checkbox.checked) 
+  				msg += self.add_img_tags(msg)
+  			if (self.inline_tweets_checkbox.checked) 				
+        	msg += self.add_twitter_img_tags(msg)
+  			if (self.emoticons_checkbox.checked)
+        	msg =  self.add_emoticons(msg)
+        if (self.videos_checkbox.checked) {
+  				msg += self.add_youtube_embeds(msg)
+  				msg += self.add_vimeo_embeds(msg)
+  			}
+  			msg += self.add_sad_trombone(msg)
+        msg += self.add_gists(msg)
+      }
 
       var from_current_user = self.get_aliases().some(function(a){ return message.author.toLowerCase() == a.toLowerCase() }) || message.by_current_user
 
@@ -112,7 +114,7 @@ var ChatRoom = function(client, browser) {
 			}
 			
 			// if message has one of the words from the alias input in it
-			if (!from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
+			if (msg && !from_current_user && self.get_aliases().some(function(a){ return (a.length > 0) && (message.body.match(new RegExp('\\b(' + a + ')\\b','i'))) })) {
 				if (self.growl_checkbox.checked) self.browser.alert(message.author + " said", message.body, message.icon, self.growl_sticky_checkbox.checked)
 				message.elem.className = message.elem.className + ' important-message'
         msg += self.add_haha(msg)
@@ -125,7 +127,7 @@ var ChatRoom = function(client, browser) {
 					
 			}
 			
-			if ( Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
+			if (msg && Math.abs(self.client.message_window().scrollHeight - (self.client.message_window().scrollTop + self.client.message_window().offsetHeight)) < 10 )
   			var at_bottom = true
 			
       message.elem.innerHTML = msg 
@@ -216,13 +218,14 @@ var ChatRoom = function(client, browser) {
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
-		  var the_match = message.match(/youtube\.com\/watch\?v=([^&]+)/);
+                  var regex = /.*youtube\.com\/watch\?v=([a-zA-Z0-9]+).*?/;
+		  var the_match = message.match(regex);
 		  if (the_match) {
 		    embed  = '<br />'
 		    embed += '<object width="425" height="344">'
-		    embed += '<param name="movie" value="http://www.youtube.com/v/' + the_match[2] + '&hl=pt-br&fs=1">'
-		    embed += '</param><param name="allowFullScreen" value="true"></param>'
-		    embed += '<embed src="http://www.youtube.com/v/' + the_match[2] + '&hl=pt-br&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
+		    embed += '<param name="movie" value="http://www.youtube.com/v/' + the_match[1] + '&fs=1">'
+		    embed += '</param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>'
+		    embed += '<embed src="http://www.youtube.com/v/' + the_match[1] + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
 		    embed += '</object>'
 			  return embed
 	    } else {
