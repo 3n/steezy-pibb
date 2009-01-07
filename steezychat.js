@@ -517,7 +517,7 @@ var SteezyCampfire = function(){
 													self.elem.parentNode.parentNode.className = self.elem.parentNode.parentNode.className.replace(new_class, read_class)
 												}
 			self.mark_by_current_user = function() {
-												elem.getElementsByClassName('body')[0].className += ' by-current-user'
+													elem.getElementsByClassName('body')[0].className += ' by-current-user'
 												}												
 			return self
 		},
