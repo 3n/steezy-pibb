@@ -219,6 +219,8 @@ var ChatRoom = function(client, browser) {
 		},		
 		add_youtube_embeds: function(message){
 		  var the_match = message.match(/youtube\.com\/watch\?v=([^&]+)/);
+                  console.log(message);
+                  console.log(the_match);
 		  if (the_match) {
 		    embed  = '<br />'
 		    embed += '<object width="425" height="344">'
