@@ -218,7 +218,7 @@ var ChatRoom = function(client, browser) {
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
-                  var regex = /.*youtube\.com\/watch\?v=([a-bA-B0-9]+).*/;
+                  var regex = /.*youtube\.com\/watch\?v=([a-zA-Z0-9]+).*?/;
 		  var the_match = message.match(regex);
                   console.log(message);
                   console.log(the_match);
