@@ -222,9 +222,9 @@ var ChatRoom = function(client, browser) {
 		  if (the_match) {
 		    embed  = '<br />'
 		    embed += '<object width="425" height="344">'
-		    embed += '<param name="movie" value="http://www.youtube.com/v/' + the_match[2] + '&hl=pt-br&fs=1">'
+		    embed += '<param name="movie" value="http://www.youtube.com/v/' + the_match[2] + '&fs=1">'
 		    embed += '</param><param name="allowFullScreen" value="true"></param>'
-		    embed += '<embed src="http://www.youtube.com/v/' + the_match[2] + '&hl=pt-br&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
+		    embed += '<embed src="http://www.youtube.com/v/' + the_match[2] + '&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed>'
 		    embed += '</object>'
 			  return embed
 	    } else {
