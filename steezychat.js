@@ -208,13 +208,13 @@ var ChatRoom = function(client, browser) {
 		    .replace(/:-?D/g, base + '4.gif' + end)
 		    .replace(/8-?\)/g, base + '16.gif' + end)
 		    .replace(/\*facepalm\*/g, '<img src="http://img.skitch.com/20081020-kqf6ar41tdrwiqp2k6ejhr3q3t.jpg" alt="facepalm">')
-		    .replace(/tmyk/ig, '<img src="http://img.skitch.com/20081202-mfnhnh9nursmcs2fb8smj6w94q.jpg" alt="tmyk">')
+		    .replace(/\dtmyk\d/ig, '<img src="http://img.skitch.com/20081202-mfnhnh9nursmcs2fb8smj6w94q.jpg" alt="tmyk">')
 		    .replace(/the more you know/gi, '<img src="http://img.skitch.com/20081202-nr24rt47pu6d26y3qnmu994cha.jpg" alt="the more you know">')
 		    .replace(/8=+(>|D)/g, '<img src="http://img.skitch.com/20080801-f2k6r13iaw7xsrya39ftamugaa.png" />')
         .replace(/(DERP[!1]+)/g, '<img src="http://img.skitch.com/20080801-ehk4xc8n65xdx2sndc4scckyf2.jpg" alt="$1"/>')
         .replace(/^\*?ba+r+f+s*\*?/g, '<img src="http://img.skitch.com/20080808-t8shmyktk66i65rx425jgrrwae.jpg" alt="Achewood - October 3, 2006"/>')
-        .replace(/do not want|dnw/gi, '<img src="http://img.skitch.com/20081031-1tt6dpsq42p85i2472xmc3yped.jpg" />')
-        .replace(/odb/gi, '<img src="http://img.skitch.com/20081211-gwjfs9q8gcqjdq3sn6w13bd4at.jpg" alt="oh baby I like it raw"/>')
+        .replace(/do not want|\bdnw\b/gi, '<img src="http://img.skitch.com/20081031-1tt6dpsq42p85i2472xmc3yped.jpg" />')
+        .replace(/\bodb\b/gi, '<img src="http://img.skitch.com/20081211-gwjfs9q8gcqjdq3sn6w13bd4at.jpg" alt="oh baby I like it raw"/>')
 		  return emoticonned
 		},		
 		add_youtube_embeds: function(message){
