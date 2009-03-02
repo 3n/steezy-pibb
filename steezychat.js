@@ -1,4 +1,4 @@
-(function(){
+window.setTimeout(function(){ 
 
 ///////////////////////////////////////////////////////////////////////////////
 // Utility Functions
@@ -447,9 +447,9 @@ function add_css_rule(selector, rule, doc) {
 ///////////////////////////////////////////////////////////////////////////////
 // Chat client wrapper classes
 
-var Pibb = function(){
+var Pibb = function(doc){
 	var self = {
-		doc  						: function() { return document }, // window.frames[0].document
+		doc : function() { return doc },
 		message_window 	: function() {
 			var tmp = self.doc().getElementsByClassName('EntriesView-Entries')[0]
 			if (tmp){
@@ -600,11 +600,13 @@ var Other = function(){
 		var browser = Callout
 	else
 		var browser = Other
-	
-	if (document.title == "Janrain PIBB")
-		window.chat_room = new ChatRoom(new Pibb(), new browser())
-	if (document.title.match('Campfire'))
-		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
-})()
 
-})()
+	if (document.title == "Pibb")
+		window.chat_room = new ChatRoom(new Pibb(window.frames[0].document), new browser())
+	else if (document.title == "Janrain Pibb")
+		window.chat_room = new ChatRoom(new Pibb(window.document), new browser())
+	else if (document.title.match('Campfire'))
+		window.chat_room = new ChatRoom(new SteezyCampfire(), new browser())
+})();
+
+}, 4000);
